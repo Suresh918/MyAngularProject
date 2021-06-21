@@ -1,0 +1,37 @@
+<div class="aal--margin-bottom-r1" fxLayout="column" fxLayoutGap="0.5rem">
+  <span fxLayout="row" fxLayoutAlign="start center">
+    <mc-help [message]="filterFormConfiguration?.peopleDetails?.help"></mc-help>
+    <span class="mat-title aal--margin-bottom-r0">{{filterFormConfiguration?.peopleDetails?.label}}</span>
+  </span>
+  <div *ngFor="let formControl of formArray?.controls; let index=index" class="title" fxLayout="{{(layoutType === 'actionColumn')? 'column': 'row'}}"
+       fxLayoutAlign="start center" fxLayoutGap="1.5rem">
+    <mc-auto-complete-user-single *ngIf="!(caseObject === 'readNotification' || caseObject === 'unreadNotification')"
+                                  [controlConfiguration]="filterFormConfiguration?.people"
+                                  [control]="formControl?.get('user')"
+                                  [hideConfirmationToolBar]="true" [hideHelp]="true" [isHistoryEnabled]="true"
+                                  [fieldSaveNotApplicable]="true"
+                                  [lockMode]="'EDIT'"
+                                  [mode]="'EDIT'"
+                                  fxFlex="0 0 35" [ngStyle]="{width:(layoutType === 'actionColumn' ? '100%' : '35%')}"></mc-auto-complete-user-single>
+    <mc-auto-complete-user-multiple fxFlex="0 0 35"
+                                    *ngIf="caseObject === 'readNotification' || caseObject === 'unreadNotification'"
+                                    [controlConfiguration]="filterFormConfiguration?.people"
+                                    [control]="formControl?.get('users')"
+                                    [hideConfirmationToolBar]="true" [hideHelp]="true" [isHistoryEnabled]="true"
+                                    [lockMode]="'EDIT'"
+                                    [mode]="'EDIT'"></mc-auto-complete-user-multiple>
+    <mc-select-single [controlConfiguration]="userRolesControlGroupConfiguration" [selectFormControl]="formControl?.get('role')"
+                      [hideConfirmationToolBar]="true" [hideHelp]="true"
+                      [lockMode]="'EDIT'" [mode]="'EDIT'"
+                      [id]="'filter_user_roles'"
+                      [sectionTag]="'section'" [showSection]="true" fxFlex="0 0 35" [valueAsObject]="true"
+                      *ngIf="!hideRoles"
+                      [defaultSelection]='defaultSelectedOption' [ngStyle]="{width:(layoutType === 'actionColumn' ? '100%' : '35%')}"></mc-select-single>
+    <button (click)="addPeople()" *ngIf="index===0 && caseObject !== 'dashboardWidget' && caseObject !== 'dashboardActionWidget' && !hideRoles" mat-icon-button>
+      <mat-icon color="accent">add</mat-icon>
+    </button>
+    <button (click)="removePeople(index)" *ngIf="index!==0 && !hideRoles" mat-icon-button>
+      <mat-icon color="accent">delete</mat-icon>
+    </button>
+  </div>
+</div>

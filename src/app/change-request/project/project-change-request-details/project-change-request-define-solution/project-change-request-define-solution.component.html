@@ -1,0 +1,224 @@
+<div fxLayout="column" fxLayout.xs="column" fxLayoutGap="1rem">
+  <div fxFlex="100%" fxFlex.xs="auto" fxLayout="column" fxLayoutGap="1rem">
+    <mc-case-object-overview-card-list-panel [caseObjectList]="caseObjectListOverview"
+                                    [caseObjectType]="caseObjectType" [caseObjectLabel]="caseObjectLabel"
+                                    [panelTitle]="'Dependent CRs'" [caseObjectRouterPath]="caseObjectRouterPath"
+                                    [isPanelExpanded]="isExpanded" [addButtonCaseAction]="'LINK_CR'"
+                                    [caseObject]="caseObject"
+                                    [showAddButton]="caseActions?.indexOf('UPDATE') !== -1 && !isCaseObjectInFinalState()"
+                                    [showItemDeleteButton]="caseActions?.indexOf('UPDATE') !== -1 && !isCaseObjectInFinalState()"
+                                    [deleteButtonCaseAction]="'UNLINK_CR'" (deleteItem)="onDeleteItem($event)"
+                                    (caseObjectListIdPanel)="onCaseObjectListIdPanel($event)"
+                                    (addItem)="onAddItem()">
+    </mc-case-object-overview-card-list-panel>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
+    <div fxFlex="50%" fxFlex.xs="auto" fxLayout="column" fxLayoutGap="1rem">
+      <mc-expansion-panel [header]="'Scope'" [isExpanded]="isExpanded">
+        <div class="inner-expansion-panel-content aal--padding-right-r-5" expansion-panel-content fxLayout="column"
+             fxLayoutGap="0.5rem">
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <mc-text [label]="changeRequestConfiguration?.scope?.label +' *'" [help]="changeRequestConfiguration?.scope?.help"></mc-text>
+            <mc-alert *ngIf="showDefineScopeAlert" [message]="'Required field. Fill and try again'"
+                      [level]="'ERROR'"></mc-alert>
+          </div>
+          <mc-button-contained class="scope-button-align" [text]="changeRequestConfiguration?.scope?.label" [isGenericButton]="true"
+                               [buttonId]="'change-request-scope-dialog'"
+                               [noCheckOnCaseAction]="true"
+                               (buttonClick)="openDefineScopeDialog()"
+          ></mc-button-contained>
+          <mc-expansion-panel [isExpanded]="changeRequestFormGroup.get('scope.parts').value === 'IN-SCOPE' && isExpanded" [header]="changeRequestConfiguration?.scope?.part_detail?.label"
+                              [headerCost]="getLabel(changeRequestFormGroup?.get('scope.parts').value)" [expansionDisabled]="!(changeRequestFormGroup.get('scope.parts').value === 'IN-SCOPE')"
+                              class="scope-inner-expansion-panel-content-header aal--margin-left-r1-5">
+            <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem" class="inner-expansion-panel-content">
+              <mc-text [label]="changeRequestConfiguration?.scope?.part_detail?.machine_bom_part?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.part_detail.machine_bom_part')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.part_detail?.machine_bom_part?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.part_detail?.fco_upgrade_option_csr?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.part_detail.fco_upgrade_option_csr')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.part_detail?.fco_upgrade_option_csr?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.part_detail?.service_part?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.part_detail.service_part')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.part_detail?.service_part?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.part_detail?.preinstall_part?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.part_detail.preinstall_part')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.part_detail?.preinstall_part?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.part_detail?.test_rig_part?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.part_detail.test_rig_part')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.part_detail?.test_rig_part?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.part_detail?.dev_bag_part?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.part_detail.dev_bag_part')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.part_detail?.dev_bag_part?.help"
+                       [align]="'horizontal'"></mc-text>
+            </div>
+          </mc-expansion-panel>
+          <mc-expansion-panel [isExpanded]="changeRequestFormGroup.get('scope.tooling').value === 'IN-SCOPE' && isExpanded" [header]="changeRequestConfiguration?.scope?.tooling_detail?.label"
+                              [headerCost]="getLabel(changeRequestFormGroup?.get('scope.tooling').value)" [expansionDisabled]="!(changeRequestFormGroup.get('scope.tooling').value === 'IN-SCOPE')"
+                              class="scope-inner-expansion-panel-content-header aal--margin-left-r1-5">
+            <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem" class="inner-expansion-panel-content">
+              <mc-text [label]="changeRequestConfiguration?.scope?.tooling_detail?.supplier_tooling?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.tooling_detail.supplier_tooling')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.tooling_detail?.supplier_tooling?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.tooling_detail?.manufacturing_de_tooling?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.tooling_detail.manufacturing_de_tooling')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.tooling_detail?.manufacturing_de_tooling?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.tooling_detail?.service_tooling?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.tooling_detail.service_tooling')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.tooling_detail?.service_tooling?.help"
+                       [align]="'horizontal'"></mc-text>
+            </div>
+          </mc-expansion-panel>
+          <mc-expansion-panel [isExpanded]="changeRequestFormGroup.get('scope.packaging').value === 'IN-SCOPE' && isExpanded" [header]="changeRequestConfiguration?.scope?.packaging_detail?.label"
+                              [headerCost]="getLabel(changeRequestFormGroup?.get('scope.packaging').value)" [expansionDisabled]="!(changeRequestFormGroup.get('scope.packaging').value === 'IN-SCOPE')"
+                              class="scope-inner-expansion-panel-content-header aal--margin-left-r1-5">
+            <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem" class="inner-expansion-panel-content">
+              <mc-text [label]="changeRequestConfiguration?.scope?.packaging_detail?.supplier_packaging?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.packaging_detail.supplier_packaging')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.packaging_detail?.supplier_packaging?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.packaging_detail?.storage_packaging?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.packaging_detail.storage_packaging')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.packaging_detail?.storage_packaging?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.packaging_detail?.shipping_packaging?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.packaging_detail.shipping_packaging')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.packaging_detail?.shipping_packaging?.help"
+                       [align]="'horizontal'"></mc-text>
+              <mc-text [label]="changeRequestConfiguration?.scope?.packaging_detail?.reusable_packaging?.label"
+                       [value]="getLabel(changeRequestFormGroup?.get('scope.packaging_detail.reusable_packaging')?.value)"
+                       [help]="changeRequestConfiguration?.scope?.packaging_detail?.reusable_packaging?.help"
+                       [align]="'horizontal'"></mc-text>
+            </div>
+          </mc-expansion-panel>
+          <mc-expansion-panel [isExpanded]="false" [header]="changeRequestConfiguration?.scope?.bop_detail?.label"
+                              [headerCost]="getLabel(changeRequestFormGroup?.get('scope.bop').value)" [expansionDisabled]="true"
+                              class="scope-inner-expansion-panel-content-header aal--margin-left-r1-5">
+          </mc-expansion-panel>
+          <mat-divider></mat-divider>
+          <mc-text [label]="changeRequestConfiguration?.scope?.scope_details?.label"
+                   [value]="changeRequestFormGroup?.get('scope.scope_details')?.value"
+                   [help]="changeRequestConfiguration?.scope?.scope_details?.help"
+          ></mc-text>
+        </div>
+      </mc-expansion-panel>
+      <mc-expansion-panel [header]="'Alignment & Recommendation'" [isExpanded]="isExpanded">
+        <div class="inner-expansion-panel-content aal--padding-right-r-5" expansion-panel-content fxLayout="column"
+             fxLayoutGap="0.5rem">
+          <mc-button-toggle-input [controlConfiguration]="changeRequestConfiguration?.solution_definition?.aligned_with_fo"
+                                  [control]="changeRequestFormGroup.get('solution_definition.aligned_with_fo')"
+                                  [descriptionControl]="changeRequestFormGroup?.get('solution_definition.aligned_with_fo_details')"
+                                  [descriptionControlConfiguration]="changeRequestConfiguration?.solution_definition?.aligned_with_fo_details"
+                                  [showDescriptionForOptions]="alignedWithFOShowDescForOptions"
+                                  [bubbleAcceptChanges]="true"
+                                  [requestType]="'instance'"
+                                  [instanceId]="changeRequestFormGroup.get('solution_definition.id').value"
+                                  (bubbledAcceptChanges)="updateDescription($event)" [isNullable]="true">
+          </mc-button-toggle-input>
+
+          <mc-rich-text-area [controlConfiguration]="changeRequestConfiguration?.solution_definition?.technical_recommendation"
+                             [requestType]="'instance'"
+                             [instanceId]="changeRequestFormGroup.get('solution_definition.id').value"
+                             [control]="changeRequestFormGroup.get('solution_definition.technical_recommendation')">
+          </mc-rich-text-area>
+        </div>
+      </mc-expansion-panel>
+      <mc-expansion-panel [header]="'Strategy'" [isExpanded]="isExpanded">
+        <div class="inner-expansion-panel-content aal--padding-right-r-5" expansion-panel-content fxLayout="column"
+             fxLayoutGap="0.5rem">
+          <mc-select-single-input [controlConfiguration]="changeRequestConfiguration?.solution_definition?.test_and_release_strategy"
+                                  [control]="changeRequestFormGroup.get('solution_definition.test_and_release_strategy')"
+                                  [descriptionControlConfiguration]="changeRequestConfiguration?.solution_definition?.test_and_release_strategy_details"
+                                  [descriptionControl]="changeRequestFormGroup.get('solution_definition.test_and_release_strategy_details')"
+                                  [showDescriptionForOptions]="testAndReleaseStrategyShowDesForOptions"
+                                  [instanceId]="changeRequestFormGroup.get('solution_definition.id').value"
+                                  [requestType]="'instance'"
+                                  [isNullable]="true">
+          </mc-select-single-input>
+        </div>
+      </mc-expansion-panel>
+    </div>
+    <div fxFlex="50%" fxFlex.xs="auto" fxLayout="column" fxLayoutGap="1rem">
+      <mc-expansion-panel [header]="'Dependencies'" [isExpanded]="isExpanded">
+        <div class="inner-expansion-panel-content aal--padding-right-r-5" expansion-panel-content fxLayout="column"
+             fxLayoutGap="0.5rem">
+          <mc-button-toggle-input
+            [controlConfiguration]="changeRequestConfiguration?.solution_definition?.functional_hardware_dependencies"
+            [control]="changeRequestFormGroup.get('solution_definition.functional_hardware_dependencies')"
+            [descriptionControlConfiguration]="changeRequestConfiguration?.solution_definition?.functional_hardware_dependencies_details"
+            [descriptionControl]="changeRequestFormGroup.get('solution_definition.functional_hardware_dependencies_details')"
+            [showDescriptionForOptions]="hardWareDependenciesShowDesForOptions"
+            [instanceId]="changeRequestFormGroup.get('solution_definition.id').value"
+            [bubbleAcceptChanges]="true"
+            [requestType]="'instance'"
+            (bubbledAcceptChanges)="onFunctionalHWSWfieldUpdate($event)" [isNullable]="true"></mc-button-toggle-input>
+          <mc-button-toggle-input
+            [controlConfiguration]="changeRequestConfiguration?.solution_definition?.functional_software_dependencies"
+            [control]="changeRequestFormGroup.get('solution_definition.functional_software_dependencies')"
+            [descriptionControlConfiguration]="changeRequestConfiguration?.solution_definition?.functional_software_dependencies_details"
+            [descriptionControl]="changeRequestFormGroup.get('solution_definition.functional_software_dependencies_details')"
+            [instanceId]="changeRequestFormGroup.get('solution_definition.id').value"
+            [showDescriptionForOptions]="softWareDependenciesShowDesForOptions"
+            [bubbleAcceptChanges]="true"
+            [requestType]="'instance'"
+            (bubbledAcceptChanges)="onFunctionalHWSWfieldUpdate($event)" [isNullable]="true"></mc-button-toggle-input>
+          <mc-button-toggle-input *ngIf="isFunctionHWSWDependencies"
+                                  [controlConfiguration]="changeRequestConfiguration?.solution_definition?.hardware_software_dependencies_aligned"
+                                  [control]="changeRequestFormGroup.get('solution_definition.hardware_software_dependencies_aligned')"
+                                  [requestType]="'instance'"
+                                  [instanceId]="changeRequestFormGroup.get('solution_definition.id').value"
+                                  [descriptionControlConfiguration]="changeRequestConfiguration?.solution_definition?.hardware_software_dependencies_aligned_details"
+                                  [descriptionControl]="changeRequestFormGroup.get('solution_definition.hardware_software_dependencies_aligned_details')"
+                                  [showDescriptionForOptions]="HWSWDepenAlignedShowDesForOptions" [isNullable]="true">
+          </mc-button-toggle-input>
+        </div>
+      </mc-expansion-panel>
+      <mc-expansion-panel [header]="'Product'" [isExpanded]="isExpanded">
+        <div class="inner-expansion-panel-content aal--padding-right-r-5" expansion-panel-content fxLayout="column"
+             fxLayoutGap="0.5rem">
+          <mc-auto-complete-products-affected-multiple
+            *ngIf="productsList?.length > 0" [productsList]="productsList"
+            [controlConfiguration]="changeRequestConfiguration?.solution_definition?.products_affected"
+            [control]="changeRequestFormGroup.get('solution_definition.products_affected')"
+            [requestType]="'instance'"
+            [instanceId]="changeRequestFormGroup.get('solution_definition.id').value"
+          ></mc-auto-complete-products-affected-multiple>
+          <mc-input-text [controlConfiguration]="changeRequestConfiguration?.solution_definition?.products_module_affected"
+                              [control]="changeRequestFormGroup.get('solution_definition.products_module_affected')"
+                              [requestType]="'instance'"
+                              [instanceId]="changeRequestFormGroup.get('solution_definition.id').value"
+                              [showLengthHint]="true">
+          </mc-input-text>
+        </div>
+      </mc-expansion-panel>
+      <mc-project-pictures [asIsControlConfiguration]="asIsPictureControlConfiguration"
+                   [caseObjectId]="changeRequestFormGroup?.get('id').value"
+                   [caseObjectStatus]="changeRequestFormGroup.get('status').value" [pictureUrl]="pictureUrl"
+                   [caseObject]="'ChangeRequest'" [control]="changeRequestDocumentsFormGroup.get('documents')"
+                   [toBeControlConfiguration]="toBePictureControlConfiguration" [isExpanded]="isExpanded">
+      </mc-project-pictures>
+    </div>
+  </div>
+  <!--<div fxLayout="row" *ngIf="changeRequestFormGroup?.get('issue_types')?.value.includes('PROCEDURE')">
+    <mc-solution-items-overview fxFlex="1 1 100%"
+                                [caseObjectType]="'ChangeRequest'"
+                                [setCaseActions]="linkedSolutionItems"
+                                [changeRequestFormGroup]="changeRequestFormGroup"
+                                (solutionItemEdit)="openSolutionItemDialog($event, 'EDIT')"
+                                (solutionItemAdd)="openSolutionItemDialog($event, 'ADD')"
+                                (ownerChange)="onOwnerChange($event)" (updateMyTeamList)="updateMyTeamList($event)"
+                                (fetchSolutionItems)="fetchSolutionItems()"
+                                [solutionItemsList]="linkedSolutionItems" [caseObject]="caseObject"
+                                [isExpanded]="isExpanded"
+                                [caseActions]="solutionItemsCaseActionsList"
+                                [isProject]="true" [helpMessage]="changeRequestConfiguration.scopeItems.help">
+    </mc-solution-items-overview>
+  </div>-->
+</div>

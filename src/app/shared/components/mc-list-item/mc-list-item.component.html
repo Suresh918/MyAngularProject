@@ -1,0 +1,27 @@
+<aal-list-item [ID]="id"
+               [titleTemplateRef]="titleTemplate"
+               [mainDescriptionTemplateRef]="mainDescriptionTemplate"
+               [subDescriptionTemplateRef]="subDescriptionTemplate"
+               [actionButtonIcon]="actionButtonIcon"
+               [actionButtonText]="actionButtonText" [actionButtonType]="actionButtonType"
+               [actionButtonTooltip]="actionButtonTooltip"
+               [showActionButton]="showActionButton"
+               [showActionButtonOnFocus]="showActionButtonOnFocus"
+               [action]="action"
+               [imageDisplayRef]="imageDisplayTemplate"
+               (actionSubmit)="onActionSubmit($event)">
+</aal-list-item>
+<ng-template #mainDescriptionTemplate let-item>
+  {{mainDescription}}
+</ng-template>
+<ng-template #subDescriptionTemplate let-item>
+  {{subDescription}}
+</ng-template>
+<ng-template #titleTemplate let-item>
+  {{title}}
+</ng-template>
+<ng-template #imageDisplayTemplate>
+  <img *ngIf="imageUrl" class="image-circle" [src]="imageUrl" alt="">
+  <mat-icon *ngIf="icon" class="icon" [ngClass]="{'icon--border': true}">{{icon}}</mat-icon>
+  <mat-icon *ngIf="svgIcon" class="icon" [svgIcon]="svgIcon"></mat-icon>
+</ng-template>

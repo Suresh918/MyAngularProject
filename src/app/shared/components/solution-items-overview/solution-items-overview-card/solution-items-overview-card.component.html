@@ -1,0 +1,111 @@
+<div fxLayout="column">
+  <!--Solution Item card header-->
+  <div class="solution-items--overview-card">
+    <mat-expansion-panel hideToggle #stateExpansionPanel>
+      <mat-expansion-panel-header class="solution-items--header"
+                                  [collapsedHeight]="'auto !important'"
+                                  [expandedHeight]="stateExpansionPanel.expanded ? 'auto !important' : ''">
+        <div fxLayout="row" fxFlex="100%" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+          <div fxLayout="row" class="aal--padding-right-r1" fxFlex="40%">
+            <div fxLayout="column">
+              <mc-card-summary fxFlex="100%"
+                               [line1]="solutionItem?.name"
+                               [line1Caption]="solutionItem?.change_type_label"
+                               [line2TemplateRef]="solutionItemDescriptionRef"
+                               [separator]="'interpunct'"
+                               [wordWrapApplicable]="true"
+                               [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+              <ng-template #solutionItemDescriptionRef>
+                <mc-text [isSingleLine]="true" [value]="solutionItem?.description"></mc-text>
+              </ng-template>
+              <ng-template #imageDisplayRef>
+                <mat-icon *ngIf="(solutionItem?.change_type && solutionItem?.change_object_type === 'RELEASEPACKAGE' && caseObjectType === 'ChangeNotice') || caseObjectType === 'ChangeRequest'"
+                  class="icon" [svgIcon]="solutionItem?.type === 'PROCESS' ? 'scope-items-pr' :
+                                                  (solutionItem?.type === 'OPERATION' ? 'scope-items-op' :
+                                                  (solutionItem?.type === 'WORK_INSTRUCTION' ? 'scope-items-wi' : ''))"></mat-icon>
+                <!--<mc-alert *ngIf="!(solutionItem?.change_type && solutionItem?.change_object_type === 'RELEASEPACKAGE') && caseObjectType === 'ChangeNotice'"
+                          [message]="'Please fill all the fields'"
+                          [level]="infoLevels.ERROR"></mc-alert>-->
+
+                <button *ngIf="!(solutionItem?.change_type && solutionItem?.change_object_type === 'RELEASEPACKAGE') && caseObjectType === 'ChangeNotice'"
+                        (click)="$event.stopPropagation();" [matMenuTriggerFor]="menuContainer" mat-icon-button>
+                  <mat-icon [ngClass]="'error'">warning</mat-icon>
+                </button>
+                <mat-menu #menuContainer="matMenu" [overlapTrigger]="false" class="overlay-card-alert-panel aal&#45;&#45;padding-all-r1 aal&#45;&#45;elevation-2">
+                  <div fxLayout="column">
+                    <div class="color-red bold--text">Error! Please Fill in Mandatory Fields!</div>
+                    <div>Please fill Change Type and or</div>
+                    <div>Assign RP to continue...</div>
+                  </div>
+                </mat-menu>
+
+              </ng-template>
+            </div>
+          </div>
+          <div fxLayout="row" fxFlex="60%" fxLayoutAlign="end start" class="aal--margin-bottom-r-5">
+            <mat-divider class="aal--margin-right-r1 aal--margin-top-r-5" [vertical]="true" [style.height]="'2rem'"></mat-divider>
+            <div fxLayout="column" *ngIf="creatorsList && creatorsList.length">
+              <span class="mat-caption">Creator</span>
+              <mc-chip-overlay-card [chipsData]="creatorsList" [totalChips]="creatorsList" class="aal--margin-right-r1"
+                                    [headerTitle]="'Creator(s)'">
+              </mc-chip-overlay-card>
+            </div>
+            <div class="aal--margin-right-r-5" fxLayout="column" *ngIf="!stateExpansionPanel.expanded && userList && userList.length">
+              <span class="mat-caption">User(s)</span>
+              <mc-chip-overlay-card [chipsData]="userList" [totalChips]="userList"
+                                    [headerTitle]="'User(s)'">
+              </mc-chip-overlay-card>
+            </div>
+            <div class="aal--margin-right-r-5" *ngIf="stateExpansionPanel.expanded">
+              <div fxLayout="column">
+                <span class="mat-caption">User(s)</span>
+                <div *ngFor="let user of userList" fxLayout="column" class="aal--margin-bottom-r-5">
+                  <mc-chip fxLayoutAlign="start"
+                           *ngIf="user?.name"
+                           [text]="user?.name"
+                           [disabled]="true" [removable]="false"
+                           [imageURL]="user?.id | userImage"></mc-chip>
+                </div>
+              </div>
+            </div>
+            <div class="aal--margin-left-r-5" *ngIf="caseObjectType === 'ChangeNotice'">
+              <div fxLayout="column">
+                <span class="mat-caption">RP</span>
+                <mat-chip class="rp-chip">{{ solutionItem?.change_object_type === 'RELEASEPACKAGE' ? solutionItem?.change_object_number : '-'}}</mat-chip>
+              </div>
+            </div>
+              <mc-button-icon class="aal--margin-left-top-r-5" [icon]="'edit'"
+                              [color]="'accent'"
+                              [buttonAction]="'UPDATE_SCOPE_ITEM'"
+                              isLinkedItem="true"
+                              [caseObject]="solutionItem && solutionItem['caseObject']"
+                              [isGenericButton]="true"
+                              (buttonClick)="editSolutionItemDialog(solutionItem)"
+              ></mc-button-icon>
+          </div>
+        </div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </div>
+
+
+  <!--Solution Item panel-->
+  <div fxLayout="column" fxFlex="100" *ngIf="!(changeRequestFormGroup?.get('change_owner_type')?.value === 'PROJECT' || changeNoticeFormGroup?.get('changeOwnerType')?.value === 'PROJECT')"
+       [ngClass]="{'solution-items--change-owner-selected': solutionItem?.is_change_owner}">
+    <mat-card class="aal--elevation-1 aal--padding-all-r-5 solution-items--panel">
+      <mat-card-content fxLayout="column" class="aal--padding-all-r-5">
+        <div fxLayout="column">
+          <div fxLayout="row" class="aal--padding-left-r-5">
+            <div fxLayout="row" fxLayoutAlign="start center" fxFlex="70%">
+              <mat-radio-button [class.mat-radio-checked]="solutionItem?.is_change_owner" value="do-not-duplicate"
+                                [checked]="solutionItem?.is_change_owner" [disabled]="!caseAction?.UPDATE_SCOPE_ITEM || !updateChangeOwnerAllowed"
+                                (change)="onChangeOwner(solutionItem)" class="opacity-54">
+                Change Owner
+              </mat-radio-button>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

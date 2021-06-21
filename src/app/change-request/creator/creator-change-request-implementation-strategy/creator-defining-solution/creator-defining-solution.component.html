@@ -1,0 +1,71 @@
+<div fxLayout="row" fxLayoutGap="1rem">
+  <div fxLayout="column" fxFlex="50%" fxFlex.xs="auto" fxLayoutGap="1rem">
+    <mc-expansion-panel [header]="'Problem'" [isExpanded]="isExpanded">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+            <mc-help [message]="changeRequestConfiguration['air']['help'].help"></mc-help>
+            <div class=" mat-caption label" fxFlex="90" [fontSize]="fontSize" aalChangeFontSize [isLabel]="true">
+              AIR Issues / PBS Issue
+            </div>
+          </div>
+          <div class="aal--margin-left-r2 aal--padding-left-r1 aal--padding-left-r1" fxFlex fxLayoutGap="1rem" wrap>
+            <mc-creator-air-pbs-issues-list [buttonText]="'AIR'"
+                                    [disableLink]="!AIRItems || AIRItems.length === 0"
+                                    [items]="AIRItems"
+                                    [title]="'AIR Issues'"
+                                    [type]="'air'">
+            </mc-creator-air-pbs-issues-list>
+            <mc-creator-air-pbs-issues-list [buttonText]="'PBS'"
+                                    [disableLink]="!PBSItem || PBSItem.length === 0"
+                                    [items]="PBSItem" [title]="'PBS Issue'"
+                                    [type]="'pbs'"></mc-creator-air-pbs-issues-list>
+          </div>
+        </div>
+        <div fxLayout="column" fxLayoutGap="0.5rem">
+          <mc-text [label]="changeRequestConfiguration?.problem_description?.label" [help]="changeRequestConfiguration?.problem_description?.help"
+                   [value]="changeRequestFormGroup?.get('problem_description').value" [fontSize]="fontSize"></mc-text>
+          <mc-text [label]="changeRequestConfiguration?.root_cause?.label" [help]="changeRequestConfiguration?.root_cause?.help"
+                   [value]="changeRequestFormGroup?.get('root_cause').value" [fontSize]="fontSize"></mc-text>
+          <mc-text [label]="changeRequestConfiguration?.proposed_solution?.label" [help]="changeRequestConfiguration?.proposed_solution?.help"
+                   [value]="changeRequestFormGroup?.get('proposed_solution').value" [fontSize]="fontSize"></mc-text>
+          <mc-text [label]="changeRequestConfiguration?.benefits_of_change?.label" [help]="changeRequestConfiguration?.benefits_of_change?.help"
+                   [value]="changeRequestFormGroup?.get('benefits_of_change').value" [fontSize]="fontSize"></mc-text>
+        </div>
+      </div>
+    </mc-expansion-panel>
+    <mc-expansion-panel [header]="'Product'" [isExpanded]="isExpanded">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <div fxLayout="column" fxLayoutGap="0.5rem">
+          <mc-text [label]="changeRequestConfiguration?.solution_definition?.products_affected?.label" [help]="changeRequestConfiguration?.solution_definition?.products_affected?.help"
+                   [value]="changeRequestFormGroup?.get('solution_definition.products_affected').value" [fontSize]="fontSize"></mc-text>
+          <mc-text [label]="changeRequestConfiguration?.solution_definition?.products_module_affected?.label" [help]="changeRequestConfiguration?.solution_definition?.products_module_affected?.help"
+                   [value]="changeRequestFormGroup?.get('solution_definition.products_module_affected').value" [fontSize]="fontSize"></mc-text>
+
+        </div>
+      </div>
+    </mc-expansion-panel>
+  </div>
+  <div fxLayout="column" fxFlex="50%" fxFlex.xs="auto" fxLayoutGap="1rem">
+    <mc-expansion-panel-disabled [header]="'Pictures'"></mc-expansion-panel-disabled>
+    <mc-expansion-panel [header]="'Scope'" [isExpanded]="isExpanded">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <div fxLayout="column">
+          <mc-text [label]="changeRequestConfiguration?.scope?.scope_details?.label"
+                   [value]="changeRequestFormGroup?.get('scope.scope_details')?.value"
+                   [help]="changeRequestConfiguration?.scope?.scope_details?.help"
+                   [fontSize]="fontSize"
+          ></mc-text>
+        </div>
+      </div>
+    </mc-expansion-panel>
+    <mc-expansion-panel [header]="changeRequestConfiguration?.solution_definition?.technical_recommendation?.label"
+                            [isExpanded]="isExpanded">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <mc-text [label]="changeRequestConfiguration?.solution_definition?.technical_recommendation?.label" [help]="changeRequestConfiguration?.solution_definition?.technical_recommendation?.help"
+                 [value]="changeRequestFormGroup?.get('solution_definition.technical_recommendation').value" [fontSize]="fontSize"></mc-text>
+
+      </div>
+    </mc-expansion-panel>
+  </div>
+</div>

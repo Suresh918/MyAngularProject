@@ -1,0 +1,13 @@
+::ng-deep .mat-expansion-panel-body aal-empty-state {
+  width: 100%;
+}
+
+:host ::ng-deep {
+  .empty-state--card {
+    padding: 0 0.5rem 0.5rem 0.5rem !important;
+  }
+  .mat-expansion-panel-header-title {
+    font: 490 20px/24px Roboto;
+    letter-spacing: .25px;
+  }
+}

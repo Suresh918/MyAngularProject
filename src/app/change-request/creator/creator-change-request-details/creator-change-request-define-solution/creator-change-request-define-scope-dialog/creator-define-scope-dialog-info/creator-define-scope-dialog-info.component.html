@@ -1,0 +1,26 @@
+<div fxLayoutAlign="start center" fxLayout="row" class="scope-info-content">
+  <div class="consent-form" fxLayout="column" fxLayoutGap="2rem" fxFlex="100%">
+    <div fxLayout="row" fxLayoutGap="1.5rem">
+      <mat-icon [matTooltip]="'C'" mat-list-icon>mail</mat-icon>
+      <div fxLayout="column" fxLayoutGap="0.5rem">
+              <span class="mat-title">{{formConfiguration?.defineScope?.first?.warning?.label}}</span>
+        <span [innerHTML]="formConfiguration?.defineScope?.first?.warning?.hint"></span>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="1.5rem">
+      <mat-icon class="menu-item--mat-icon  list-icon">group_add</mat-icon>
+      <div fxLayout="column" fxLayoutGap="0.5rem">
+              <span class="mat-title">{{formConfiguration?.defineScope?.second?.warning?.label}}</span>
+        <span [innerHTML]="formConfiguration?.defineScope?.second?.warning?.hint"></span>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="aal--margin-top-r1-5" fxLayoutGap="1rem">
+      <mc-button-contained [text]="'Yes, I understand'"
+                           [noCheckOnCaseAction]="true"
+                           [isGenericButton]="true"
+                           (buttonClick)="onProceed()"
+                           [color]="'accent'">
+      </mc-button-contained>
+    </div>
+  </div>
+</div>

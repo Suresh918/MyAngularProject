@@ -1,0 +1,108 @@
+<div class="title-bar aal--padding-all-r1" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="1.25rem">
+  <div [style.width]="'100%'" fxLayout="row" fxLayoutAlign="space-between">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="3.5rem">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" [id]="service.toLowerCase() + '_title'">
+        <div class="aal--padding-left-r1">
+          <mat-icon *ngIf="service.toUpperCase()==='CHANGEREQUEST'" [matTooltip]="'Change Request'" mat-list-icon
+                    svgIcon="change-request"></mat-icon>
+          <mat-icon *ngIf="service.toUpperCase()==='CHANGENOTICE'" [matTooltip]="'Change Notice'" mat-list-icon
+                    svgIcon="change-notice"></mat-icon>
+          <mat-icon *ngIf="service.toUpperCase()==='RELEASEPACKAGE'" [matTooltip]="'Release Package'" mat-list-icon
+                    svgIcon="release-package"></mat-icon>
+          <mat-icon *ngIf="service.toUpperCase()==='AGENDA'" [matTooltip]="'Agenda'" mat-list-icon>event</mat-icon>
+          <mat-icon *ngIf="service.toUpperCase()==='REVIEW'" [matTooltip]="'Review'" mat-list-icon>rate_review
+          </mat-icon>
+          <mat-icon *ngIf="service.toUpperCase()==='DECISION'" [matTooltip]="'Decision'" mat-list-icon>gavel</mat-icon>
+          <mat-icon *ngIf="service.toUpperCase()==='ACTION'" [matTooltip]="'Action'" class="action--mat-icon"
+                    mat-list-icon>assignment
+          </mat-icon>
+          <mat-icon *ngIf="service.toUpperCase()==='REPORT'" [matTooltip]="'Reports'" mat-list-icon>bar_chart</mat-icon>
+          <mat-icon *ngIf="service.toUpperCase()==='IMPLEMENTATIONSTRATEGY'" [matTooltip]="'Implementation Strategy'"
+                    class="action--mat-icon"
+                    mat-list-icon>description
+          </mat-icon>
+          <mat-icon *ngIf="service.toUpperCase()==='CUSTOMERIMPACTASSESSMENT'" [matTooltip]="'Customer Impact Assessment'"
+                    class="action--mat-icon"
+                    mat-list-icon>description
+          </mat-icon>
+        </div>
+        <span
+          class="mat-title aal--margin-bottom-r0">{{service.toUpperCase() === 'IMPLEMENTATIONSTRATEGY' ? 'Implementation Strategy' : service.toUpperCase() === 'CUSTOMERIMPACTASSESSMENT' ? 'Customer Impact Assessment (CIA)' : service.toUpperCase() === 'RELEASEPACKAGE' ? formGroup?.get('release_package_number')?.value : formGroup?.get('id')?.value || formGroup?.get('ID')?.value}}</span>
+        <span
+          class="mat-headline aal--margin-bottom-r0">{{(service.toUpperCase() === 'RELEASEPACKAGE' && ecnId) ? '(' + ecnId + ')' : ''}}</span>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center flex-end" fxLayoutGap="0.5rem" [id]="service.toLowerCase() + '_status'">
+        <mc-object *ngIf="!(service.toUpperCase()==='CUSTOMERIMPACTASSESSMENT')"
+                   [direction]="'column'"
+                   [key]="'Status'"
+                   [noMargin]="true"
+                   [value]="currentStatus"
+                   [toolTip]="'Click Pencil Icon To Edit Status'"></mc-object>
+      </div>
+      <mc-object *ngIf="service.toUpperCase()==='ACTION'" [direction]="'column'" [key]="'Created by'" [noMargin]="true"
+                 [value]="formGroup?.get('generalInformation.createdBy.fullName')?.value"></mc-object>
+      <mc-object *ngIf="service.toUpperCase()==='IMPLEMENTATIONSTRATEGY'||
+      service.toUpperCase()==='CHANGEREQUEST'||
+      service.toUpperCase()==='CHANGENOTICE'" [direction]="'column'" [key]="priorityTitle" [noMargin]="true"
+                 [value]="currentPriorityStatus"></mc-object>
+      <div *ngIf="link">
+        <label class="label">Linked Item: </label>
+        <a [routerLink]="navigateToCase()" href="javascript:void(0)" target="_blank">
+          {{ link?.type?.toUpperCase() === 'CHANGEREQUEST' ? 'CR ' : '' }} {{ link?.type?.toUpperCase() === 'CHANGENOTICE' ? 'CN '
+            : '' }} {{ link?.type?.toUpperCase() === 'RELEASEPACKAGE' ? 'RP ' : '' }} {{ link?.type?.toUpperCase() === 'REVIEW'
+            ? 'Review ' : '' }} {{ link?.ID }}
+        </a>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <ng-content select="[title-bar-actions]"></ng-content>
+    </div>
+  </div>
+  <div [style.width]="'100%'" fxLayoutAlign="space-between center" fxLayout="row"
+       class="aal--padding-left-r1 width-100">
+    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="0.25rem"
+         [fxFlex]="(service.toUpperCase()==='RELEASEPACKAGE' && tags?.length > 0) || service.toUpperCase()==='CHANGEREQUEST' || service.toUpperCase()==='CHANGENOTICE' ? '1 1 50%' : '1 1 100%'">
+      <mat-icon (click)="openChangeTitle()" class="color-blue icon--pointer"
+                *ngIf="(hideEditOptions ? !hideEditOptions : true) && (progressFields?.length === 0) && !isCaseObjectInFinalState() && service.toUpperCase()!=='ACTION'"
+                matTooltip="Edit Title/Status">
+        mode_edit
+      </mat-icon>
+      <mat-spinner *ngIf="progressFields?.length > 0" [diameter]="20"></mat-spinner>
+      <div class="mat-sub-title overflow-ellipsis width-100" matTooltip="{{ service.toUpperCase() === 'IMPLEMENTATIONSTRATEGY' ? 'CR ' + (formGroup?.get('id')?.value || formGroup?.get('ID')?.value) + ' &middot; ' : service.toUpperCase() === 'CUSTOMERIMPACTASSESSMENT'  ? 'CR ' + (formGroup?.get('id')?.value || formGroup?.get('ID')?.value) + ' - ' : ''}}
+        {{ formGroup?.get('title')?.value || formGroup?.get('generalInformation.title')?.value}}">
+        {{ service.toUpperCase() === 'IMPLEMENTATIONSTRATEGY' ? 'CR ' + (formGroup?.get('id')?.value || formGroup?.get('ID')?.value) + ' &middot; ' : service.toUpperCase() === 'CUSTOMERIMPACTASSESSMENT'  ? 'CR ' + (formGroup?.get('id')?.value || formGroup?.get('ID')?.value) + ' - ' : ''}}
+        {{ formGroup?.get('title')?.value || formGroup?.get('generalInformation.title')?.value}}
+      </div>
+      <mat-icon (click)="openActionChangeTitle()" class="color-blue icon--pointer"
+                *ngIf="(hideEditOptions? !hideEditOptions : true) && service.toUpperCase()==='ACTION'">mode_edit
+      </mat-icon>
+    </div>
+    <div #tagContainer fxFlex="1 1 50%" *ngIf="service.toUpperCase()==='RELEASEPACKAGE'"
+         fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="0.25rem" class="tag-container">
+      <div *ngFor="let tag of tags; let index=index;">
+        <mc-chip [text]="tag" *ngIf="!lastChipIndexToShow || index < lastChipIndexToShow"></mc-chip>
+      </div>
+      <mat-chip *ngIf="lastChipIndexToShow">
+        <button mat-icon-button [matMenuTriggerFor]="filterOptionsMenu" #trigger="matMenuTrigger">
+          <span>+ {{(tags.length - lastChipIndexToShow)}}</span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+      </mat-chip>
+    </div>
+  </div>
+</div>
+
+<mat-menu #filterOptionsMenu="matMenu" [overlapTrigger]="false" yPosition="below" xPosition="before"
+          class="header-toolbar--menu">
+  <mat-toolbar>
+    <mat-toolbar-row fxLayoutGap="1rem">
+      <mat-icon> label</mat-icon>
+      <span fxFlex>Tags</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-chip-list class="aal--padding-all-r1" *ngIf="tags?.length > 0">
+    <ng-container *ngFor="let chipValue of tags">
+      <mc-chip [text]="chipValue" class="aal--margin-all-r-25 tag-container"></mc-chip>
+    </ng-container>
+  </mat-chip-list>
+</mat-menu>

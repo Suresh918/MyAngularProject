@@ -1,0 +1,64 @@
+<mc-button-overlay-tabbed [headerIcon]="'assignment'"
+                          [headerTitle]="'Actions'"
+                          [tooltip]="'Actions'"
+                          [buttonType]="'icon'"
+                          [defaultItemIcon]="'assignment'"
+                          [isIconBorder]="false"
+                          [progressBar]="progressBar"
+                          [overlayData]="userActionsList"
+                          [closeOnItemClick]="true"
+                          [showAllForTabs]="['Assigned To Me', 'Created By Me']"
+                          [largeAmountsForTabs]="['Assigned To Me', 'Created By Me']"
+                          [largeAmountsLength]="largeAmountsLength"
+                          (selectedTab)="onSelectedTabClick($event)"
+                          [selectedTabIndex]="selectedTabIndex"
+                          (showAllItems)="showAllAction()"
+                          (listItemClicked)="openLinkedAction($event)"
+                          (panelOpened)="getUserActionList()"
+                          [cardSummaryRef]="cardSummaryRef"
+                          [largeAmountsRef]="largeAmountsRef"
+                          [emptyStateRef]="emptyStateRef"
+></mc-button-overlay-tabbed>
+
+<ng-template #cardSummaryRef let-item>
+  <aal-card-summary [item]="item" [ID]="item['ActionElement'].ID" [mainDescriptionLink]="item['ActionElement'].ID"
+                    [mainDescription]="' &middot; '+ item['ActionElement']?.generalInformation?.title"
+                    (mainDescriptionClick)="navigateToActions(item['ActionElement'].ID)"
+                    [line1Caption]="(item?.statusLabel) +' &middot; '+ (item['ActionElement']?.deadline | aalDate:'dueDate')"
+                    [line2Caption]="item['LinkElement']?.ID +' &middot; '+ item['LinkElement']?.title"
+                    [iconImageTemplateRef]="imageDisplayRef" [actionTemplateRef]="actionRef" fxFlex="100%"></aal-card-summary>
+  <ng-template #imageDisplayRef>
+    <span fxLayout="column" fxLayoutAlign="center center">
+                  <span class="notification-badge background-orange"
+                        *ngIf="item?.expiry?.toUpperCase() === 'SOON'"></span>
+                  <span class="notification-badge background-red"
+                        *ngIf="item?.expiry?.toUpperCase() === 'LATE' || item?.expiry?.toUpperCase() === 'PAST'"></span>
+                  <span class="notification-badge background-green"
+                        *ngIf="item?.expiry?.toUpperCase() === 'OTHER'"></span>
+                  <span fxLayoutAlign="center center" class="case-object--border mat-icon-no-margin">
+                    <mat-icon class="color-black">assignment</mat-icon>
+                  </span>
+    </span>
+  </ng-template>
+  <ng-template #actionRef>
+    <mc-button-icon [ngClass]="{'hide-badge': item?.totalNotes === '0'}"
+                    [icon]="'mode_comment'"
+                    [tooltip]="'Comments'"
+                    [disabled]="true"
+                    [isBadgeDisabled]="true"
+                    [badgeData]="item?.totalNotes"
+                    [noCheckOnCaseAction]="true"
+                    [isGenericButton]="true"></mc-button-icon>
+  </ng-template>
+</ng-template>
+<ng-template #largeAmountsRef let-tab>
+  <mc-empty-state [title]="largeAmountsLength + ' Out Of ' + tab['totalItems'] + ' Actions Shown'"
+                                [icon]="'assignment'">
+  </mc-empty-state>
+</ng-template>
+<ng-template #emptyStateRef let-tab>
+  <mc-empty-state [title]="'No ' + (tab && tab['name'] ? tab['name'] : 'Action') + ' items'"
+                                [subTitle]="'All ' + (tab && tab['name'] ? tab['name'] : 'Action') + ' items will appear here.'"
+                                [icon]="'list'">
+  </mc-empty-state>
+</ng-template>

@@ -1,0 +1,94 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" mat-dialog-title>
+  <span>Add to CB Agenda</span>
+  <button (click)="close()" color="primary" mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="dialog-content" fxLayout="column">
+  <div fxFlex="100%" fxLayoutAlign="end end">
+    <mc-auto-complete-user-multiple [control]="userSearchControl"
+                                    [controlConfiguration]="userSearchControlConfiguration"
+                                    [fieldSaveNotApplicable]="true" [isHistoryEnabled]="true"
+                                    (bubbledAcceptChanges)="onCreatedFilter($event)"
+                                    [lockMode]="'EDIT'" [mode]="'EDIT'" fxFlex="50%" [hideConfirmationToolBar]="true" [hideHelp]="true"></mc-auto-complete-user-multiple>
+  </div>
+  <div class="overflow-section" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+       (scrolled)="onScrollDown()" [scrollWindow]="false">
+    <div *ngFor="let listItem of caseObjectList">
+      <mc-overview-configurable-card fxFlex="100" class="aal--margin-bottom-r-5">
+        <div card-content-1 fxFlex="45%">
+          <mc-card-summary [labelCaption]="listItem['status']" [label]="listItem['title']" [separator]="'interpunct'"
+                           [line1Caption]="listItem['startDate'] | aalDate: 'week-day'"
+                           [line1]="listItem['category']" fxFlex="100%"
+                           [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+          <ng-template #imageDisplayRef>
+            <mat-icon class="icon--medium"
+              [svgIcon]="(listItem && listItem['category']) ? (listItem['category'].toLowerCase() === 'cb'? 'cb-icon' : 'ccb-icon') : ''"></mat-icon>
+          </ng-template>
+        </div>
+        <div card-content-2 fxFlex="15%">
+          <div fxLayout="row" fxLayoutGap="1rem">
+            <mat-divider [vertical]="true"></mat-divider>
+            <mc-agenda-list-overlay-card fxFlex="1 1 auto" [caseObjectID] = 'listItem.ID' [category]='listItem["category"]' fxFlex="1 1 auto" [headerIcon]="'event'"
+                                         [headerTitle]="'Agenda Items'"
+                                         [buttonText]="'Agenda Items'" [progressBar]="progressBar" [badgeCount]="listItem?.agendaItemCount"></mc-agenda-list-overlay-card>
+          </div>
+        </div>
+        <div card-content-3 fxFlex="20%">
+          <mc-card-summary [labelCaption]="'Creator'" [separator]="'parenthesis'"
+                           [line1Caption]="listItem['createdBy']['userID']"
+                           [line1]="listItem['createdBy']['fullName']" fxFlex="100%"
+                           [iconImageTemplateRef]="imageDisplayRef1"></mc-card-summary>
+          <ng-template #imageDisplayRef1>
+            <img class="image-circle-medium"
+                 [src]="listItem['createdBy']['userID'] | userImage"
+                 alt="">
+          </ng-template>
+        </div>
+        <div card-content-4 fxFlex="15%">
+          <div fxLayout="row" fxLayoutGap="1rem">
+            <mat-divider [vertical]="true"></mat-divider>
+            <span>
+              <button mat-button [matMenuTriggerFor]="menu" (menuOpened)="getSectionDetails(listItem['ID'])"
+                      [id]="'add_to_meeting_' + listItem['ID']">
+              <mat-icon class="aal--padding-right-r-5">add</mat-icon>
+              Add to Meeting
+            </button>
+            <mat-menu #menu="matMenu">
+              <mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate"
+                                *ngIf="sectionProgressBar">
+              </mat-progress-bar>
+              <button mat-menu-item
+                      [disabled]="(data.type === 'Online') ? (!sectionItem?.isUserDefined) : (sectionItem?.name?.toLowerCase() !== data?.type?.toLowerCase())"
+                      *ngFor="let sectionItem of sectionList"
+                      (click)="addToMeeting(listItem, sectionItem)"
+                      [id]="'add_to_meeting_'+sectionItem['name']+'_'+listItem['ID']">{{sectionItem['name']}}
+                ({{sectionItem['count']}})
+              </button>
+              <div *ngIf="!sectionList || sectionList?.length === 0">
+                <mc-menu-empty-state-card [title]="'No Sections'"
+                                              [subTitle]="'Added Sections will appear here'"
+                                              [icon]="'event'">
+                </mc-menu-empty-state-card>
+              </div>
+            </mat-menu>
+            </span>
+          </div>
+        </div>
+      </mc-overview-configurable-card>
+    </div>
+  </div>
+  <mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate" *ngIf="progressBar">
+  </mat-progress-bar>
+  <div *ngIf="!caseObjectList || caseObjectList.length === 0">
+    <mc-menu-empty-state-card [title]="'No Agendas Added'"
+                                  [subTitle]="'Added Agenda List will appear here'"
+                                  [icon]="'event'">
+    </mc-menu-empty-state-card>
+  </div>
+
+
+</mat-dialog-content>
+
+

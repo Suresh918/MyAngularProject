@@ -1,0 +1,43 @@
+.button-tab--container {
+  button {
+    width:50%;
+    color: #e8e8e8;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: #0d47a1;
+  }
+  .active {
+    color: #ffffff;
+    border-bottom: 2px solid #fff;
+  }
+}
+.list-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 3px solid #000000;
+  margin-right: 1rem;
+}
+.full-width {
+  width: 100%;
+}
+.changerequest--border-radius{
+  border-radius: 35%;
+}
+.changenotice--border-radius{
+  border-radius: 20%;
+}
+.releasepackage--border-radius{
+  border-radius: 0;
+}
+
+.case-object--border {
+  border: 3px solid;
+  height: 2.25rem;
+  width: 2.25rem;
+  font-weight: bolder;
+  border-radius: 35%;
+}
+.mat-icon-no-margin .mat-icon{
+  margin-right: 0px!important;
+}
+

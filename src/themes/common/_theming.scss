@@ -1,0 +1,145 @@
+/*
+
+                         _              __  __       _______ ______ _____  _____          _        _______ _    _ ______ __  __ ______
+     /\         /\      | |           |  \/  |   /\|__   __|  ____|  __ \|_   _|   /\   | |      |__   __| |  | |  ____|  \/  |  ____|
+    /  \       /  \     | |           | \  / |  /  \  | |  | |__  | |__) | | |    /  \  | |         | |  | |__| | |__  | \  / | |__
+   / /\ \     / /\ \    | |           | |\/| | / /\ \ | |  |  __| |  _  /  | |   / /\ \ | |         | |  |  __  |  __| | |\/| |  __|
+  / ____ \   / ____ \   | |____       | |  | |/ ____ \| |  | |____| | \ \ _| |_ / ____ \| |____     | |  | |  | | |____| |  | | |____
+ /_/    \_\ /_/    \_\  |______|      |_|  |_/_/    \_|_|  |______|_|  \_|_____/_/    \_|______|    |_|  |_|  |_|______|_|  |_|______|
+
+
+
+***/
+/**
+*Standard naming for  classes should follow BEM, so that we can write classes in more standard way
+*http://blog.kaelig.fr/post/48196348743/fifty-shades-of-bem
+*http://getbem.com/naming/
+https://seesparkbox.com/foundry/bem_by_example
+*/
+
+
+
+$aal-blue: (
+  50 : #E6F1FC,
+  100 : #b9c6e5,
+  200 : #92a0d0,
+  300 : #6575b9,
+  400 : #3a4ca2,
+  500 : #0f238c,
+  600 : #0b1a80,
+  700 : #071175,
+  800 : #04096a,
+  900 : #00005e,
+  A100 : #87ceeb,
+  A200 : #448de2,
+  A400 : #1C7DDB,
+  A700 : #0052a9,
+  A900: #ffffff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+    A900: #448de2
+  )
+);
+
+$aal-theme-colors: (
+  green: #34B233,
+  orange: #F0AB00,
+  red: #EE0000,
+  blue: #0F238C,
+  medium_blue:#1C7DDB,
+  light_blue: #86CEF4,
+  lightest_blue: #E6F1FC,
+  light_bsnl_blue: #E2E4EF,
+  lightest_bsnl_blue: #EDEEF4,
+  pink: #FF5CBD,
+  magneta: #EC008C,
+  light_grey: #CCCCCC,
+  lightest_grey: #EBEBEB,
+  white: #FFFFFF,
+  off_white: #FBFBFB,
+  black: #000000
+);
+
+$aal-font-family: 'Roboto, "Helvetica Neue", sans-serif';
+$aal-font-h1: ("font-size": 96px, "line-height": 115.2px, "font-weight": 300, "font-family": 'Roboto', "letter-spacing": -1.5px);
+$aal-font-h2: ("font-size": 60px, "line-height": 72px, "font-weight": 400, "font-family": 'Roboto', "letter-spacing": -0.5px);
+$aal-font-h3: ("font-size": 48px, "line-height": 57.6px, "font-weight": 400, "font-family": 'Roboto', "letter-spacing": 0px);
+$aal-font-h4: ("font-size": 34px, "line-height": 40.8px, "font-weight": 400, "font-family": 'Roboto', "letter-spacing": 0.25px);
+$aal-font-h5: ("font-size": 24px, "line-height": 28.8px, "font-weight": 400, "font-family": 'Roboto', "letter-spacing": 0px);
+$aal-font-h6: ("font-size": 20px, "line-height": 24px, "font-weight": 500, "font-family": 'Roboto', "letter-spacing": 0.25px);
+$aal-font-b1: ("font-size": 16px, "line-height": 19.2px, "font-weight": 500, "font-family": 'Roboto', "letter-spacing": 0.15px);
+$aal-font-b2: ("font-size": 14px, "line-height": 16.8px, "font-weight": 500, "font-family": 'Roboto', "letter-spacing": 0.1px);
+$aal-font-s1: ("font-size": 16px, "line-height": 19.2px, "font-weight": 400, "font-family": 'Roboto', "letter-spacing": 0.5px);
+$aal-font-s2: ("font-size": 14px, "line-height": 16.8px, "font-weight": 400, "font-family": 'Roboto', "letter-spacing": 0.256px);
+$aal-font-bt1: ("font-size": 14px, "line-height": 16.8px, "font-weight": 500, "font-family": 'Roboto', "letter-spacing": 1.25px);
+$aal-font-cp1: ("font-size": 12px, "line-height": 14.4px, "font-weight": 400, "font-family": 'Roboto', "letter-spacing": 0.4px);
+$aal-font-cp2: ("font-size": 12px, "line-height": 14.4px, "font-weight": 500, "font-family": 'Roboto', "letter-spacing": 0.4px);
+$aal-font-ol1: ("font-size": 12px, "line-height": 14.4px, "font-weight": 400, "font-family": 'Roboto', "letter-spacing": 0.4px);
+
+/* code to generate margin (aal-margin-top-1,aal-margin-bottom-1,....)and padding(aal-padding-top-1,aal-padding-bottom-2,....) based on loop */
+$dimensions: (0: r0, 0.25: r-25, 0.5: r-5, 0.75: r-75, 1:r1, 1.25:r1-25, 1.5:r1-5, 2:r2, 2.25:r2-25, 2.5:r2-5, 3:r3, 3.5:r3-5, 4:r4); // Adjust this to include the pixel amounts you need.
+$sides: (top, bottom, left, right, all, top-right-bottom, right-bottom-left, bottom-left-top, left-top-right,
+top-right, right-bottom, bottom-left, left-top,
+top-bottom, right-left); // Leave this variable alone
+
+@each $space, $name in $dimensions {
+  @each $side in $sides {
+    @if $side == all {
+      .aal--margin-#{$side}-#{$name} {
+        margin: #{$space}rem !important;
+      }
+      .aal--padding-#{$side}-#{$name} {
+        padding: #{$space}rem !important;
+      }
+    }
+      // if a class has three sides specified
+    @else if str-length($side) >12 {
+      $indexOfSeparator: str-index($side, '-');
+      $length: str-length($side);
+      .aal--margin-#{str-slice($side, 0, $indexOfSeparator - 1)}-#{str-slice($side, $indexOfSeparator + 1, $length+1)}-#{str-slice($side, $indexOfSeparator + 2, $length+2)}-#{$name} {
+        margin-#{str-slice($side, 0, $indexOfSeparator - 1)}: #{$space}rem !important;
+        margin-#{str-slice($side, $indexOfSeparator + 1, $length+1)}: #{$space}rem !important;
+        margin-#{str-slice($side, $indexOfSeparator + 2, $length+2)}: #{$space}rem !important;
+      }
+      .aal--padding-#{str-slice($side, 0, $indexOfSeparator - 1)}-#{str-slice($side, $indexOfSeparator+1, $length+1)}-#{str-slice($side, $indexOfSeparator+2, $length+2)}-#{$name} {
+        padding-#{str-slice($side, 0, $indexOfSeparator - 1)}: #{$space}rem !important;
+        padding-#{str-slice($side, $indexOfSeparator + 1, $length+1)}: #{$space}rem !important;
+        padding-#{str-slice($side, $indexOfSeparator + 2, $length+2)}: #{$space}rem !important;
+      }
+    }
+      // if a class has two sides specified
+    @else if str-length($side) >6 {
+      $indexOfSeparator: str-index($side, '-');
+      $length: str-length($side);
+      .aal--margin-#{str-slice($side, 0, $indexOfSeparator - 1)}-#{str-slice($side, $indexOfSeparator + 1, $length+1)}-#{$name} {
+        margin-#{str-slice($side, 0, $indexOfSeparator - 1)}: #{$space}rem !important;
+        margin-#{str-slice($side, $indexOfSeparator + 1, $length+1)}: #{$space}rem !important;
+      }
+      .aal--padding-#{str-slice($side, 0, $indexOfSeparator - 1)}-#{str-slice($side, $indexOfSeparator+1, $length+1)}-#{$name} {
+        padding-#{str-slice($side, 0, $indexOfSeparator - 1)}: #{$space}rem !important;
+        padding-#{str-slice($side, $indexOfSeparator + 1, $length+1)}: #{$space}rem !important;
+      }
+    } @else {
+      .aal--margin-#{$side}-#{$name} {
+        margin-#{$side}: #{$space}rem !important;
+      }
+      .aal--padding-#{$side}-#{$name} {
+        padding-#{$side}: #{$space}rem !important;
+      }
+    }
+
+  }
+}

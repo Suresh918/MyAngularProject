@@ -1,0 +1,11 @@
+<aal-expansion-panel [header]="header" [isExpanded]="isExpanded" [isDataLoading]="isDataLoading"
+                     [headerCost]="headerCost" [headerHelp]="headerHelp" [hideHeaderHelp]="hideHeaderHelp"
+                     [buttonLabel]="buttonLabel" [showButton]="showButton" (buttonClick)="buttonClick()"
+                     [headerCaption]="headerCaption" [expansionDisabled]="expansionDisabled">
+  <div expansion-panel-description>
+    <ng-content class="expansion-panel-description" select="[expansion-panel-description]"></ng-content>
+  </div>
+  <div expansion-panel-content>
+    <ng-content class="expansion-panel-content" select="[expansion-panel-content]"></ng-content>
+  </div>
+</aal-expansion-panel>

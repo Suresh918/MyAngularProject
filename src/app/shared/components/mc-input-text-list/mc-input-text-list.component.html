@@ -1,0 +1,13 @@
+<aal-input-text [control]="control"
+                [ID]="fieldConfiguration?.ID"
+                [hint]="fieldConfiguration?.hint"
+                [placeholder]="fieldConfiguration?.placeholder"
+                [help]="help"
+                [label]="fieldConfiguration?.label"
+                [isBusy]="isBusy"
+                [mode]="mode"
+                [showLengthHint]="showLengthHint"
+                [maxLength]="fieldConfiguration?.validators?.max_length"
+                [alert]="serverError"
+                (acceptChanges)="onAcceptChanges($event)">
+</aal-input-text>

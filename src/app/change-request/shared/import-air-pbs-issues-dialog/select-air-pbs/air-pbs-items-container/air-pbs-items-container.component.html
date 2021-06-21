@@ -1,0 +1,58 @@
+<mat-card class="air-pbs-container--card aal--elevation-1">
+  <mat-card-content>
+    <div fxLayout="column" class="card-content">
+      <div class="mat-title">{{title}} ({{airPbsItemList.length}})</div>
+      <span fxFlex>
+      <mat-divider [style.position]="'relative'"></mat-divider>
+    </span>
+      <mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate" *ngIf="showProgressBar"></mat-progress-bar>
+      <div fxLayout="column" class="air-pbs-item-content-scroll" fxLayoutGap="1rem" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50">
+        <mc-empty-state [title]="'No ' + getHeader()"
+                        [subTitle]="noDataMessage"
+                        [imageTemplateRef]="noDataImageRef"
+                        *ngIf="airPbsItemList?.length === 0"></mc-empty-state>
+        <ng-template #noDataImageRef>
+          <mat-icon [svgIcon]="trigger === 'air' ? 'air' : 'pbs'"></mat-icon>
+        </ng-template>
+        <ng-container *ngFor="let item of airPbsItemList; let index=index">
+
+          <div fxLayout="column" fxLayoutAlign="start end">
+            <div fxLayout="row" [style.width]="'100%'" fxLayoutAlign="start center">
+              <mc-card-summary fxFlex="100%" [mainDescription]="item?.ID || item?.number"
+                               [mainDescriptionCaption]="item?.status"
+                               [line1Caption]="item?.short_description || item?.deliverable"
+                               [line2Caption]="(item?.itemType?.toUpperCase()==='PBS' && item?.projectID) ? (item?.projectID) :
+                                              ((item?.itemType?.toUpperCase()==='AIR' && item?.owner?.full_name) ?
+                                              (item?.owner?.full_name + ' - ' + item?.owner?.abbreviation) : '')"
+                               [separator]="'interpunct'"
+                               class="aal--margin-right-r-5 overflow-ellipsis clickable"
+                               [iconImageTemplateRef]="imageDisplayRef" [actionTemplateRef]="actionRef"
+                               (click)="navigateToIssue(item)"></mc-card-summary>
+              <ng-template #imageDisplayRef>
+                <img src="../../../../../../../assets/images/pbs.png" *ngIf="item?.itemType?.toUpperCase()==='PBS'"
+                     alt=""/>
+                <img src="../../../../../../../assets/images/air.png" *ngIf="item?.itemType?.toUpperCase()==='AIR'"
+                     alt=""/>
+              </ng-template>
+              <ng-template #actionRef>
+                <mc-button-contained [text]="'Add'"
+                                     [color]="'accent'"
+                                     [noCheckOnCaseAction]="true"
+                                     [tooltip]="item?.tooltipMessage || 'Add'"
+                                     (buttonClick)="$event.stopPropagation(); addIssue(item);"
+                                     [disabled]="item?.disableAdd || item?.selected"
+                                     *ngIf="showAddButton">
+                </mc-button-contained>
+                <mc-button-icon [noCheckOnCaseAction]="true"
+                                [icon]="'delete'"
+                                [color]="'accent'"
+                                (buttonClick)="$event.stopPropagation(); deleteIssue(item);"
+                                *ngIf="showRemoveButton"></mc-button-icon>
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

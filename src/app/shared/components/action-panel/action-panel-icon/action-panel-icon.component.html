@@ -1,0 +1,14 @@
+<span fxLayout="column" fxLayoutAlign="center center">
+        <span class="notification-badge background-orange"
+              *ngIf="isEnDateGreater(action?.deadline) && getEnDateDaysLeft(action?.deadline) < 6"></span>
+        <span class="notification-badge background-red" *ngIf="!isEnDateGreater(action?.deadline)"></span>
+        <span class="notification-badge background-green"
+              *ngIf="isEnDateGreater(action?.deadline) && getEnDateDaysLeft(action?.deadline) >=6"></span>
+        <span fxLayoutAlign="center center" class="case-object--border case-object-icon"
+              [ngClass]="{'no--border-radius':caseObjectType === 'ReleasePackage', 'cn--border-radius':caseObjectType === 'ChangeNotice'}">
+          <mat-icon *ngIf="!(action?.type === 'REVIEW' || action?.type === 'PROCESS-REVIEW')">assignment
+          </mat-icon>
+          <mat-icon *ngIf="(action?.type === 'REVIEW' || action?.type === 'PROCESS-REVIEW')">rate_review</mat-icon>
+        </span>
+</span>
+

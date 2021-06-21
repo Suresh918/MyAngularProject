@@ -1,0 +1,57 @@
+<button mat-icon-button [matMenuTriggerFor]="userMenu" class="header-toolbar--menu-icon" #trigger="matMenuTrigger"
+        [ngClass]="{'is-menuOpen': trigger.menuOpen}">
+  <mat-icon class="menu-icon">account_circle</mat-icon>
+</button>
+<mat-menu #userMenu="matMenu" [overlapTrigger]="false" class="user-profile-menu">
+  <mat-toolbar class="user-profile-toolbar">
+    <mat-toolbar-row fxLayoutGap="1rem">
+      <mat-icon [style.opacity]="'0.5'">account_circle</mat-icon>
+      <span fxLayoutGap="0.5rem">
+      <span>User Profile</span>
+      </span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-card>
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutGap="2rem" class="user-menu--items">
+        <div fxLayout="column" fxLayoutGap="1rem">
+          <div fxLayout="row" fxLayoutGap="2rem" fxLayoutAlign="start">
+            <div>
+              <img [src]="userProfile?.user_id | userImage"
+                   alt="User Profile"
+                   class="user-profile-img"
+                   aalLoadBlankPortrait />
+            </div>
+            <div>
+              <span class="title overflow-ellipsis" fxLayoutAlign="center center">{{ userProfile?.full_name }}
+                - {{ userProfile?.abbreviation}}</span>
+            </div>
+          </div>
+          <div class="roles-groups" fxLayout="row" fxLayoutGap="1.5rem">
+            <div [style.width]="'40%'">
+              <span class="sub-title">Role(s)</span>
+              <div *ngFor="let role of roles">
+                <span class="items overflow-ellipsis">{{ role|changeUserRoleLabels }}</span>
+              </div>
+            </div>
+            <div [style.width]="'60%'">
+              <span class="sub-title">Group(s)</span>
+              <div *ngFor="let group of groups">
+                <span class="items overflow-ellipsis">{{ group }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end">
+      <mc-button-contained [text]="'Logout'"
+                           [buttonId]="'user_profile_logout'"
+                           (buttonClick)="logout()"
+                           [isGenericButton]="true"
+                           [noCheckOnCaseAction]="true">
+      </mc-button-contained>
+    </mat-card-actions>
+  </mat-card>
+</mat-menu>
+

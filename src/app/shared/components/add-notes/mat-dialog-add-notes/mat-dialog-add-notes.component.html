@@ -1,0 +1,27 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <span>{{data?.title || 'New Comment'}}</span>
+  <button mat-icon-button color="primary" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content fxLayout="column" fxLayoutGap="0.5rem">
+  <mc-mat-input-text-area [control]="noteForm?.get('note')?.get('note')" [controlConfiguration]="addCommentControlConfiguration">
+  </mc-mat-input-text-area>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <a mat-button color="accent" (click)="noteDoc.click()">Add attachments</a>
+    <button mat-icon-button [matMenuTriggerFor]="attachmentsMenu" color="accent" *ngIf="newNoteAttachments?.length>0">
+      {{ newNoteAttachments?.length }}
+      <mat-icon>attach_file</mat-icon>
+    </button>
+  </div>
+  <input type="file" #noteDoc (change)="addNoteAttachment(noteDoc)" [style.display]="'none'" />
+  <mat-menu #attachmentsMenu="matMenu" [overlapTrigger]="false">
+    <a href="{{ docUrl }}/{{ attachment?.ID }}" mat-menu-item *ngFor="let attachment of newNoteAttachments">
+      {{ attachment?.name }}
+    </a>
+  </mat-menu>
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="space-between center" fxLayout="row" fxLayoutGap=".5rem">
+  <button mat-button class="secondary-action-button" (click)="onCancelPress()" mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="accent" (click)="saveNote()" [disabled]="noteForm?.invalid">Save</button>
+</mat-dialog-actions>

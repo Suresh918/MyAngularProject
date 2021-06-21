@@ -1,0 +1,142 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
+  <div fxLayout="column" fxFlex="49.5%" fxFlex.xs="auto" fxLayoutGap="1rem">
+
+    <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Change Owner'">
+      <div fxLayout="column" expansion-panel-content fxLayoutGap="1rem" class="inner-expansion-panel-content aal--padding-right-r-5">
+        <!--[mode]="changeRequestFormGroup?.get('status')?.value === 1 ? 'READ' : 'PROTECTED'"-->
+          <mc-select-single [mode]="'PROTECTED'"
+                            [selectFormControl]="changeRequestFormGroup?.get('change_owner_type')"
+                            [controlConfiguration]="changeRequestConfiguration?.change_owner_type"
+                            [bubbleAcceptChanges]="true" (bubbledAcceptChanges)="updateCRTemplate($event)"
+                            [requestType]="'instance'"></mc-select-single>
+      </div>
+    </mc-expansion-panel>
+    <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Definition'">
+      <div fxLayout="column" expansion-panel-content fxLayoutGap="1rem" class="inner-expansion-panel-content aal--padding-right-r-5">
+        <div fxLayout="column" fxLayoutGap="0.5rem">
+          <mc-select-single [selectFormControl]="changeRequestFormGroup?.get('change_request_type')"
+                            [controlConfiguration]="changeRequestConfiguration?.change_request_type"
+                            [isNullable]="true" [requestType]="'instance'"></mc-select-single>
+          <mc-select-multiple [selectFormControl]="changeRequestFormGroup?.get('issue_types')"
+                              [controlConfiguration]="changeRequestConfiguration?.issue_types"
+                              [bubbleAcceptChanges]="true"
+                              (bubbledAcceptChanges)="updateCRTemplate($event)"
+                              [requestType]="'instance'"></mc-select-multiple>
+          <mc-rich-text-area [control]="changeRequestFormGroup?.get('problem_description')"
+                             [controlConfiguration]="changeRequestConfiguration?.problem_description"
+                             [requestType]="'instance'"></mc-rich-text-area>
+          <mc-input-text-area [control]="changeRequestFormGroup?.get('root_cause')"
+                              [controlConfiguration]="changeRequestConfiguration?.root_cause"
+                              [requestType]="'instance'"></mc-input-text-area>
+          <mc-rich-text-area [control]="changeRequestFormGroup?.get('proposed_solution')"
+                             [controlConfiguration]="changeRequestConfiguration?.proposed_solution"
+                             [requestType]="'instance'"></mc-rich-text-area>
+          <mc-select-single [selectFormControl]="changeRequestFormGroup?.get('analysis_priority')"
+                            [controlConfiguration]="changeRequestConfiguration?.analysis_priority"
+                            [bubbleAcceptChanges]="true" (bubbledAcceptChanges)="setPriorityInTitle($event)"
+                            [isNullable]="true" [requestType]="'instance'"></mc-select-single>
+          <mc-input-text-area [control]="changeRequestFormGroup?.get('benefits_of_change')"
+                              [controlConfiguration]="changeRequestConfiguration?.benefits_of_change"
+                              [requestType]="'instance'">
+          </mc-input-text-area>
+        </div>
+      </div>
+    </mc-expansion-panel>
+    <mc-expansion-panel-list-air [changeRequestFormGroup]="changeRequestFormGroup" [AIRItems]="AIRItems" [PBSItem]="PBSItem"
+                                 [controlConfiguration]="changeRequestConfiguration['air']?.help"
+                                 [isExpanded]="isExpanded" [changeRequestID]="changeRequestFormGroup?.get('id')?.value" [openDialog]="openInMode && openInMode?.toUpperCase()==='AIR'"
+      ></mc-expansion-panel-list-air>
+    <mc-expansion-panel-list-pbs [changeRequestFormGroup]="changeRequestFormGroup" [AIRItems]="AIRItems" [PBSItem]="PBSItem"
+                                 [controlConfiguration]="changeRequestConfiguration['pbs']?.help"
+                                 [isExpanded]="isExpanded" [changeRequestID]="changeRequestFormGroup?.get('id')?.value" [openDialog]="openInMode && openInMode?.toUpperCase()==='PBS'"
+                                 (fetchCrDetailsOnLinkingPbs)="getCrDetailsOnLinkingPbs()"
+      ></mc-expansion-panel-list-pbs>
+    <!--<mc-expansion-panel-list-work-instruction-comments
+                                                       [controlConfiguration]="changeRequestConfiguration['linkedWorkInstructionComments']?.help"
+                                                       [itemsList]="wiComments" [isExpanded]="isExpanded">
+    </mc-expansion-panel-list-work-instruction-comments>-->
+  </div>
+  <div fxLayout="column" fxFlex="49.5%" fxFlex.xs="auto" fxLayoutGap="1rem">
+
+    <mc-expansion-panel [isExpanded]="isExpanded" [header]="'General Info'">
+      <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem" class="inner-expansion-panel-content aal--padding-right-r-5">
+        <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('is_secure')"
+                          [controlConfiguration]="changeRequestConfiguration?.is_secure"
+                          [requestType]="'instance'">
+        </mc-button-toggle>
+        <mc-select-multiple [selectFormControl]="changeRequestFormGroup?.get('reasons_for_change')"
+                            [controlConfiguration]="changeRequestConfiguration?.reasons_for_change"
+                            [requestType]="'instance'">
+        </mc-select-multiple>
+      </div>
+    </mc-expansion-panel>
+
+    <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Responsibilities'">
+      <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem" class="inner-expansion-panel-content aal--padding-right-r-5">
+        <mc-auto-complete-user-single
+          [mode]="'PROTECTED'"
+          [controlConfiguration]="changeRequestConfiguration?.creator"
+          [control]="changeRequestFormGroup?.get('creator')"
+          [requestType]="'instance'"
+          [isObjectSnakeCase]="true">
+        </mc-auto-complete-user-single>
+        <mc-auto-complete-user-single [controlConfiguration]="changeRequestConfiguration?.change_specialist1"
+                                      [control]="changeRequestFormGroup?.get('change_specialist1')"
+                                      [requestType]="'instance'"
+                                      [isObjectSnakeCase]="true">
+        </mc-auto-complete-user-single>
+        <mc-auto-complete-user-single
+          [controlConfiguration]="changeRequestConfiguration?.change_specialist2"
+          [control]="changeRequestFormGroup?.get('change_specialist2')"
+          [requestType]="'instance'"
+          [isObjectSnakeCase]="true">
+        </mc-auto-complete-user-single>
+        <mc-auto-complete-group-multiple
+          [controlConfiguration]="changeRequestConfiguration?.change_control_boards"
+          [control]="changeRequestFormGroup?.get('change_control_boards')"
+          [groupType]="'CCB'"
+          [requestType]="'instance'">
+        </mc-auto-complete-group-multiple>
+        <mc-auto-complete-group-multiple
+          [controlConfiguration]="changeRequestConfiguration?.change_boards"
+          [control]="changeRequestFormGroup?.get('change_boards')"
+          [groupType]="'CB'"
+          [requestType]="'instance'">
+        </mc-auto-complete-group-multiple>
+        <mc-auto-complete-functional-cluster-single
+          [control]="changeRequestFormGroup?.get('functional_cluster_id')"
+          [controlConfiguration]="changeRequestConfiguration?.functional_cluster_id"
+        [changeRequestID]="changeRequestFormGroup?.get('id')?.value"
+          [requestType]="'instance'">
+        </mc-auto-complete-functional-cluster-single>
+        <mc-auto-complete-product-single
+          [requestType]="'instance'"
+          [control]="changeRequestFormGroup?.get('product_id')"
+          [controlConfiguration]="changeRequestConfiguration?.product_id" [type]="'ChangeRequest'"
+          [updateProjectPLFields]="updateProjectPLFields"
+          [caseObjectId]="changeRequestFormGroup?.get('id')?.value"
+        >
+        </mc-auto-complete-product-single>
+        <mc-auto-complete-project-single
+          [requestType]="'instance'"
+          [control]="changeRequestFormGroup?.get('project_id')"
+          [projectLeadControl]="changeRequestFormGroup?.get('project_lead')"
+          [controlConfiguration]="changeRequestConfiguration?.project_id"
+          [type]="'ChangeRequest'"
+          [updateProjectPLFields]="updateProjectPLFields"
+          [caseObjectId]="changeRequestFormGroup?.get('id')?.value" >
+        </mc-auto-complete-project-single>
+        <mc-auto-complete-user-single [mode]="'PROTECTED'" fxFlex="100%" [isObjectSnakeCase]="true"
+                                      [controlConfiguration]="changeRequestConfiguration?.change_owner"
+                                      [control]="changeRequestFormGroup?.get('change_owner')"></mc-auto-complete-user-single>
+        <div class="align-problem-item mat-caption caption">{{selectedProblemItem ? selectedProblemItem : ''}}</div>
+      </div>
+    </mc-expansion-panel>
+    <!--<mc-problem-items-expansion-panel [changeRequestFormGroup]="changeRequestFormGroup"
+                                      [hideChangeOwnerPanel]="changeRequestFormGroup?.get('status')?.value > 1 ? true: false"
+                                      [isExpanded]="isExpanded"
+                                      [problemItemsData]="problemItemsData"
+                                      [helpMessage]="changeRequestConfiguration.problemItems.help"
+                                      (updateChangeOwnerField)="updateChangeOwnerField($event)"></mc-problem-items-expansion-panel>-->
+  </div>
+</div>

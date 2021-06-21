@@ -1,0 +1,37 @@
+<div fxLayout="column" fxLayoutGap="3rem" fxFlex="100%">
+  <!-- air pbs search inputs-->
+  <div fxLayout="row" fxFlex="100%">
+    <div fxLayout="row" fxFlex="49%" fxLayoutGap="1.5rem">
+      <mc-input-number *ngIf="createFrom!=='pbs'" [control]="airSearchControl"
+                       [controlConfiguration]="airFormConfiguration"
+                       [prefix]="'P'" [bubbleAcceptChanges]="true"
+                       [mode]="createFrom !== 'addPBS' ? 'EDIT' : 'PROTECTED'" [lockMode]="createFrom !== 'addPBS' ? 'EDIT' : 'PROTECTED'"
+                       [fieldSaveNotApplicable]="true" [hideHelp]="true"
+                       [hideConfirmationToolBar]="true" fxFlex="1 1 49%">
+      </mc-input-number>
+
+      <mc-input-number *ngIf="createFrom!=='air' && (pbsLength === 0 || pbsLength === undefined)"
+                       [control]="pbsSearchControl"
+                       [controlConfiguration]="pbsFormConfiguration"
+                       [bubbleAcceptChanges]="true"
+                       [mode]="createFrom !== 'addAIR' ? 'EDIT' : 'PROTECTED'" [lockMode]="createFrom !== 'addAIR' ? 'EDIT' : 'PROTECTED'"
+                       [fieldSaveNotApplicable]="true" [hideHelp]="true"
+                       [hideConfirmationToolBar]="true" fxFlex="1 1 49%">
+      </mc-input-number>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="1.5rem">
+    <mc-air-pbs-items-container [title]="'Search Results'" [airPbsItemList]="airPbsSearchResults" [trigger]="createFrom"
+                                [showAddButton]="true" [airPbsDividerIndex]="airPbsDividerIndex"
+                                (addIssueEvent)="addIssue($event)"
+                                [showProgressBar]="showAirProgressBar || showPbsProgressBar"
+                                fxFlex="1 1 49%"
+                                [noDataMessage]="'Search Results Will Appear Here'"></mc-air-pbs-items-container>
+    <mc-air-pbs-items-container [title]="'Selected for Import'" [airPbsItemList]="selectedAirPbsItems"
+                                [trigger]="createFrom"
+                                [showRemoveButton]="true" (removeIssueEvent)="removeIssue($event)"
+                                fxFlex="1 1 49%"
+                                [noDataMessage]="'Selected Issues Will Appear Here'"></mc-air-pbs-items-container>
+  </div>
+</div>

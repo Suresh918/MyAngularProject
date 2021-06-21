@@ -1,0 +1,8 @@
+<aal-button-contained *ngIf="(buttonAction$ | async) || noCheckOnCaseAction || buttonDisabled"
+                      [name]="name"
+                      [tooltip]="(!(buttonAction$ | async) && buttonDisabled) || disabled ? tooltipForDisabled : tooltip"
+                      [color]="color ? color : 'primary'"
+                      [disabled]="(!(buttonAction$ | async) && buttonDisabled) || disabled"
+                      [hasBadge]="hasBadge"
+                      [ID]="buttonId ? buttonId : defaultButtonID"
+                      (onClick)="onButtonClick($event)"></aal-button-contained>

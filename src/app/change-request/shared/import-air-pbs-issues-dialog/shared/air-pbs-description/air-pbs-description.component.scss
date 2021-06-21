@@ -1,0 +1,23 @@
+.air-pbs-description{
+  ::ng-deep svg {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  .navigation-container{
+    cursor: pointer;
+  }
+  .menu-item--mat-icon{
+    height: 2.25rem;
+    width: 2.25rem;
+    margin-right: 1.5rem;
+  }
+  &.importing div {
+    color: #cccccc;
+  }
+  &.importing span {
+    color: #cccccc;
+  }
+  .opacity-description {
+    opacity: 38%;
+  }
+}

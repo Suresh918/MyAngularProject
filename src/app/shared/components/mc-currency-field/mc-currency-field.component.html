@@ -1,0 +1,8 @@
+<div fxFlex="75%" fxLayout="row" fxLayoutAlign="space-between center">
+  <span aalChangeFontSize [fontSize]="fontSize" [isLabel]="true" class="mat-caption">{{placeholder}}</span>
+  <span
+    *ngIf="!!value" class="value mat-body-1" aalChangeFontSize [fontSize]="fontSize">
+    {{ toNumber(value) | currency: currencyCode : 'symbol' :  getDisplayFormat() | aalReplace: ',':thousandsSeparator}}
+      </span>
+  <span *ngIf="!value" class="value">-</span>
+</div>

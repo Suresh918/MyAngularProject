@@ -1,0 +1,26 @@
+<div fxLayout="row" fxLayoutAlign="space-between">
+  <aal-auto-complete-single [control]="control" [style.width]="'100%'"
+                            [ID]="fieldConfiguration?.ID"
+                            [placeholder]="fieldConfiguration?.placeholder"
+                            [label]="fieldConfiguration?.label"
+                            [help]="fieldConfiguration?.help"
+                            [dataSource]="dataSource"
+                            [isBusy]="isBusy"
+                            [mode]="mode"
+                            [itemValueField]="(requestType === 'instance' ? 'wbs_id' : 'wbsElement')"
+                            [itemDisplayField]="[(requestType === 'instance' ? 'wbs_id' : 'wbsElement'),'description']"
+                            [itemIcon]="'account_circle'"
+                            [isHistoryEnabled]="true"
+                            (acceptChanges)="onAcceptChange($event)"
+                            [alert]="serverError"
+  ></aal-auto-complete-single>
+  <aal-overlay-card-alert [alert]="fetchError" *ngIf="fetchError && !serverError"></aal-overlay-card-alert>
+</div>
+<mc-auto-complete-project-lead [controlConfiguration]="projectLeadConfiguration"
+                               [caseObject]="caseObject" [caseObjectTab]="caseObjectTab"
+                               [control]="projectLeadControl"
+                               [projectID]="projectID"
+                               [projectLeadUpdate$]="projectLeadUpdate$"
+                               [instanceResponse$]="instanceResponse$"
+                               [caseObjectId]="caseObjectId"
+                               [type]="type"></mc-auto-complete-project-lead>

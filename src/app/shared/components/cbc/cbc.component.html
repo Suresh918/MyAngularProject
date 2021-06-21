@@ -1,0 +1,235 @@
+<div fxLayout="column" fxLayoutGap="1rem" class="cbc-section">
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <div fxLayout="column" fxFlex="50%" fxFlex.xs="100%" fxLayoutGap="1rem">
+      <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Non-Recurring Costs ' + ((toNumber(control?.get('nonRecurringCosts.updateUpgradeProductDocs')?.value) + toNumber(control?.get('nonRecurringCosts.farmOutDevelopment')?.value)
+        + toNumber(control?.get('nonRecurringCosts.prototypeMaterials')?.value) + toNumber(control?.get('nonRecurringCosts.supplyChainAdjustments')?.value) + toNumber(control?.get('nonRecurringCosts.inventoryScrapCosts')?.value)
+        + toNumber(control?.get('nonRecurringCosts.factoryChangeOrderCosts')?.value) + toNumber(control?.get('nonRecurringCosts.fieldChangeOrderCosts')?.value))
+        | currency: 'EUR' : 'symbol' : '1.0' )">
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Development Introduction'" [headerCost]="(toNumber(control?.get('nonRecurringCosts.updateUpgradeProductDocs')?.value) + toNumber(control?.get('nonRecurringCosts.farmOutDevelopment')?.value)
+        + toNumber(control?.get('nonRecurringCosts.prototypeMaterials')?.value) | currency: 'EUR' : 'symbol' : '1.0')"
+                              class="cbc-inner-expansion-panel-content-header">
+            <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem" class="inner-expansion-panel-content">
+              <mc-input-currency
+                [control]="control?.get('nonRecurringCosts.updateUpgradeProductDocs')"
+                [controlConfiguration]="controlConfiguration?.nonRecurringCosts?.updateUpgradeProductDocs" [mode]="mode"
+                [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-currency [control]="control?.get('nonRecurringCosts.farmOutDevelopment')"
+                                 [controlConfiguration]="controlConfiguration?.nonRecurringCosts?.farmOutDevelopment"
+                                 [mode]="mode" [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-currency [control]="control?.get('nonRecurringCosts.prototypeMaterials')"
+                                 [controlConfiguration]="controlConfiguration?.nonRecurringCosts?.prototypeMaterials"
+                                 [mode]="mode" [fontSize]="fontSize">
+              </mc-input-currency>
+            </div>
+          </mc-expansion-panel>
+          <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Implementation'" [headerCost]="toNumber(control?.get('nonRecurringCosts.supplyChainAdjustments')?.value) + toNumber(control?.get('nonRecurringCosts.inventoryScrapCosts')?.value) + toNumber(control?.get('nonRecurringCosts.factoryChangeOrderCosts')?.value)
+        + toNumber(control?.get('nonRecurringCosts.fieldChangeOrderCosts')?.value) | currency: 'EUR' : 'symbol' : '1.0'"
+                              class="cbc-inner-expansion-panel-content-header">
+            <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem" class="inner-expansion-panel-content">
+              <mc-input-currency [control]="control?.get('nonRecurringCosts.supplyChainAdjustments')"
+                                 [controlConfiguration]="controlConfiguration?.nonRecurringCosts?.supplyChainAdjustments"
+                                 [mode]="mode" [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-currency [control]="control?.get('nonRecurringCosts.inventoryScrapCosts')"
+                                 [controlConfiguration]="controlConfiguration?.nonRecurringCosts?.inventoryScrapCosts"
+                                 [mode]="mode" [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-currency [control]="control?.get('nonRecurringCosts.factoryChangeOrderCosts')"
+                                 [controlConfiguration]="controlConfiguration?.nonRecurringCosts?.factoryChangeOrderCosts"
+                                 [mode]="mode" [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-currency [control]="control?.get('nonRecurringCosts.fieldChangeOrderCosts')"
+                                 [controlConfiguration]="controlConfiguration?.nonRecurringCosts?.fieldChangeOrderCosts"
+                                 [mode]="mode" [fontSize]="fontSize">
+              </mc-input-currency>
+            </div>
+          </mc-expansion-panel>
+        </div>
+
+      </mc-expansion-panel>
+      <mc-expansion-panel [isExpanded]="isExpanded"
+                          [header]="'Supply Chain Management ' + (toNumber(control?.get('nonRecurringCosts.inventoryReplaceExpense')?.value) | currency: 'EUR' : 'symbol' : '1.0') ">
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-input-currency [control]="control?.get('nonRecurringCosts.inventoryReplaceExpense')"
+                             [controlConfiguration]="controlConfiguration?.nonRecurringCosts?.inventoryReplaceExpense"
+                             [mode]="mode" [fontSize]="fontSize">
+          </mc-input-currency>
+        </div>
+      </mc-expansion-panel>
+
+
+      <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Investments ' + ((toNumber(control?.get('investments.supplierInvestments')?.value) + toNumber(control?.get('investments.factoryInvestments')?.value)
+        + toNumber(control?.get('investments.SCManagementInvestments')?.value) + toNumber(control?.get('investments.FSToolingInvestments')?.value) + toNumber(control?.get('investments.DEInvestments')?.value)) | currency: 'EUR' : 'symbol' : '1.0') ">
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-input-currency [control]="control?.get('investments.supplierInvestments')"
+                             [controlConfiguration]="controlConfiguration?.investments?.supplierInvestments"
+                             [mode]="mode" [fontSize]="fontSize">
+          </mc-input-currency>
+          <mc-input-currency [control]="control?.get('investments.factoryInvestments')"
+                             [controlConfiguration]="controlConfiguration?.investments?.factoryInvestments"
+                             [mode]="mode" [fontSize]="fontSize">
+          </mc-input-currency>
+          <mc-input-currency [control]="control?.get('investments.SCManagementInvestments')"
+                             [controlConfiguration]="controlConfiguration?.investments?.SCManagementInvestments"
+                             [mode]="mode" [fontSize]="fontSize">
+          </mc-input-currency>
+          <mc-input-currency [control]="control?.get('investments.FSToolingInvestments')"
+                             [controlConfiguration]="controlConfiguration?.investments?.FSToolingInvestments"
+                             [mode]="mode" [fontSize]="fontSize">
+          </mc-input-currency>
+          <mc-input-currency [control]="control?.get('investments.DEInvestments')"
+                             [controlConfiguration]="controlConfiguration?.investments?.DEInvestments" [mode]="mode"
+                             [fontSize]="fontSize">
+          </mc-input-currency>
+        </div>
+      </mc-expansion-panel>
+    </div>
+    <div fxLayout="column" fxFlex="50%" fxFlex.xs="100%" fxLayoutGap="1rem">
+      <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Recurring Costs ' + ((toNumber(control?.get('recurringCosts.material')?.value) + toNumber(control?.get('recurringCosts.labor')?.value)
+        + toNumber(control?.get('recurringCosts.cycleTime')?.value)) | currency: 'EUR' : 'symbol' : '1.0') ">
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-input-currency [control]="control?.get('recurringCosts.material')"
+                             [controlConfiguration]="controlConfiguration?.recurringCosts?.material" [mode]="mode"
+                             [fontSize]="fontSize">
+          </mc-input-currency>
+          <mc-input-currency [control]="control?.get('recurringCosts.labor')"
+                             [controlConfiguration]="controlConfiguration?.recurringCosts?.labor" [mode]="mode"
+                             [fontSize]="fontSize">
+          </mc-input-currency>
+          <mc-input-currency [control]="control?.get('recurringCosts.cycleTime')"
+                             [controlConfiguration]="controlConfiguration?.recurringCosts?.cycleTime" [mode]="mode"
+                             [fontSize]="fontSize">
+          </mc-input-currency>
+        </div>
+      </mc-expansion-panel>
+
+      <mc-expansion-panel [isExpanded]="isExpanded"
+                          [header]="'BSNL OPEX Costs & Revenues ' + ((toNumber(control?.get('benefits.OPEXReductionFieldLabor')?.value) + toNumber(control?.get('benefits.OPEXReductionSpareParts')?.value)
+        + toNumber(control?.get('benefits.otherOPEXSavings')?.value) + toNumber(control?.get('benefits.revenues')?.value)) | currency: 'EUR' : 'symbol' : '1.0') ">
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-input-currency [control]="control?.get('benefits.OPEXReductionFieldLabor')"
+                             [controlConfiguration]="controlConfiguration?.benefits?.OPEXReductionFieldLabor"
+                             [mode]="mode" [fontSize]="fontSize">
+          </mc-input-currency>
+          <mc-input-currency [control]="control?.get('benefits.OPEXReductionSpareParts')"
+                             [controlConfiguration]="controlConfiguration?.benefits?.OPEXReductionSpareParts"
+                             [mode]="mode" [fontSize]="fontSize">
+          </mc-input-currency>
+          <mc-input-currency [control]="control?.get('benefits.otherOPEXSavings')"
+                             [controlConfiguration]="controlConfiguration?.benefits?.otherOPEXSavings" [mode]="mode"
+                             [fontSize]="fontSize">
+          </mc-input-currency>
+          <mc-input-currency [control]="control?.get('benefits.revenues')"
+                             [controlConfiguration]="controlConfiguration?.benefits?.revenues" [mode]="mode"
+                             [fontSize]="fontSize">
+          </mc-input-currency>
+        </div>
+      </mc-expansion-panel>
+
+      <mc-expansion-panel [isExpanded]="isExpanded"
+                          [header]="'Customer Impact ' + ((toNumber(control?.get('benefits.customerUptimeImpr')?.value)) | currency: 'EUR' : 'symbol' : '1.0') ">
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-input-currency [control]="control?.get('benefits.customerUptimeImpr')"
+                             [controlConfiguration]="controlConfiguration?.benefits?.customerUptimeImpr"
+                             [mode]="mode" [fontSize]="fontSize">
+          </mc-input-currency>
+        </div>
+      </mc-expansion-panel>
+      <mc-expansion-panel [isExpanded]="isExpanded"
+                          [header]="'Quantities ' + (toNumber(control?.get('systemStartsImpacted')?.value) + toNumber(control?.get('systemsWIPFieldImpacted')?.value)) ">
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-input-number [control]="control?.get('systemStartsImpacted')"
+                           [controlConfiguration]="controlConfiguration?.systemStartsImpacted" [mode]="mode"
+                           [fontSize]="fontSize">
+          </mc-input-number>
+          <mc-input-number [control]="control?.get('systemsWIPFieldImpacted')"
+                           [controlConfiguration]="controlConfiguration?.systemsWIPFieldImpacted" [mode]="mode" [fontSize]="fontSize">
+          </mc-input-number>
+        </div>
+      </mc-expansion-panel>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <div fxLayout="column" fxFlex="50%" fxFlex.xs="100%" fxLayoutGap="1rem">
+      <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Financial Summary - 2 Year '">
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-expansion-panel [isExpanded]="isExpanded" [header]="'BSNL Internal Performance Metrics '"
+                              class="cbc-inner-expansion-panel-content-header">
+            <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem" class="inner-expansion-panel-content">
+              <mc-input-number [control]="control?.get('financialSummary.internalRateofReturn')"
+                               [fractionDigits]="2"
+                               [controlConfiguration]="controlConfiguration?.financialSummary?.internalRateofReturn"
+                               [prefix]="'%'" [mode]="mode" [fontSize]="fontSize">
+              </mc-input-number>
+              <mc-input-currency [control]="control?.get('financialSummary.BSNLSavings')"
+                                 [controlConfiguration]="controlConfiguration?.financialSummary?.BSNLSavings"
+                                 [mode]="mode" [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-number [control]="control?.get('financialSummary.paybackPeriod')"
+                               [controlConfiguration]="controlConfiguration?.financialSummary?.paybackPeriod"
+                               [fractionDigits]="2"
+                               [prefix]="'Yr'" [mode]="mode" [fontSize]="fontSize">
+              </mc-input-number>
+            </div>
+          </mc-expansion-panel>
+          <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Customer Performance Metrics (Total IBL)'"
+                              class="cbc-inner-expansion-panel-content-header">
+            <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem" class="inner-expansion-panel-content">
+              <mc-input-currency [control]="control?.get('financialSummary.customerOpexSavings')"
+                                 [controlConfiguration]="controlConfiguration?.financialSummary?.customerOpexSavings"
+                                 [mode]="mode" [fontSize]="fontSize">
+              </mc-input-currency>
+            </div>
+          </mc-expansion-panel>
+        </div>
+      </mc-expansion-panel>
+    </div>
+    <div fxLayout="column" fxFlex="50%" fxFlex.xs="100%" fxLayoutGap="1rem">
+      <mc-expansion-panel [isExpanded]="isExpanded"
+                          [header]="'Risks and E&O '">
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-expansion-panel [isExpanded]="isExpanded" [headerCost]="((toNumber(control?.get('riskOnEOValue')?.value) - getAbsoluteValue(toNumber(control?.get('riskOnEORedProposal')?.value)) + toNumber(control?.get('HWCommitment')?.value) +
+                              toNumber(control?.get('risk')?.value) + toNumber(control?.get('riskInLaborHours')?.value)) | currency: 'EUR' : 'symbol' : '1.0')"
+                              [header]="'Subtotal Risks '">
+            <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+              <mc-input-currency [control]="control?.get('riskOnEOValue')"
+                                 [controlConfiguration]="controlConfiguration?.riskOnEOValue" [mode]="mode"
+                                 [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-currency [control]="control?.get('riskOnEORedProposal')" [isNegativeCurrency]="true"
+                                 [controlConfiguration]="controlConfiguration?.riskOnEORedProposal" [mode]="mode"
+                                 [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-currency [control]="control?.get('HWCommitment')"
+                                 [controlConfiguration]="controlConfiguration?.HWCommitment" [mode]="mode"
+                                 [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-currency [control]="control?.get('risk')"
+                                 [controlConfiguration]="controlConfiguration?.risk" [mode]="mode" [fontSize]="fontSize">
+              </mc-input-currency>
+              <mc-input-currency [control]="control?.get('riskInLaborHours')"
+                                 [controlConfiguration]="controlConfiguration?.riskInLaborHours" [mode]="mode"
+                                 [fontSize]="fontSize">
+              </mc-input-currency>
+            </div>
+          </mc-expansion-panel>
+        </div>
+        <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+          <mc-expansion-panel [isExpanded]="isExpanded" [headerCost]="((toNumber(control?.get('riskOnEORedPropCosts').value)) | currency: 'EUR' : 'symbol' : '1.0')"
+                              [header]="'Subtotal Cost'">
+            <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+              <mc-input-currency [control]="control?.get('riskOnEORedPropCosts')"
+                                 [controlConfiguration]="controlConfiguration?.riskOnEORedPropCosts" [mode]="mode"
+                                 [fontSize]="fontSize">
+              </mc-input-currency>
+            </div>
+          </mc-expansion-panel>
+        </div>
+      </mc-expansion-panel>
+    </div>
+  </div>
+
+</div>

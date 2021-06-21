@@ -1,0 +1,103 @@
+<mc-button-overlay-tabbed class="header-notifications" [headerIcon]="'autorenew'"
+                          [headerTitle]="'Background Tasks'"
+                          [tooltip]="'Background Tasks'"
+                          [buttonType]="'icon'"
+                          [defaultItemIcon]="'autorenew'"
+                          [isIconBorder]="false"
+                          [progressBar]="false"
+                          [disableClickOnItem]="true"
+                          [panelCloseOnItemClick]="panelCloseOnItemClick"
+                          [hasBadge]="false"
+                          [badgeColor]="'warn'"
+                          [badgeType]="'single'"
+                          [badgeData]="numberOfTasks"
+                          [overlayData]="backgroundTasksSubList"
+                          [closeOnItemClick]="true"
+                          [showAllForTabs]="['Scheduled', 'Processing', 'Completed', 'Failed']"
+                          [largeAmountsForTabs]="['Scheduled', 'Processing', 'Completed', 'Error']"
+                          [largeAmountsLength]="largeAmountsLength"
+                          (selectedTab)="onSelectedTabClick($event)"
+                          [selectedTabIndex]="selectedTabIndex"
+                          (showAllItems)="showAllNotifications()"
+                          (panelOpened)="getAllBackgroundTaskDetails()"
+                          (listItemClicked)="listItemClicked($event)"
+                          [defaultIconTempRef]="defaultIconTempRef"
+                          [cardSummaryRef]="cardSummaryRef"
+                          [largeAmountsRef]="largeAmountsRef"
+                          [emptyStateRef]="emptyStateRef"
+></mc-button-overlay-tabbed>
+<ng-template #defaultIconTempRef>
+  <mat-icon class="task-scheduler-header-icon menu-icon"
+            fxLayoutAlign="center center" #refreshIcon
+            [ngClass]="backgroundTasksInProgress ? 'progress' : 'not-in-progress'">autorenew
+  </mat-icon>
+</ng-template>
+<ng-template #cardSummaryRef let-item let-tab="tabItem">
+  <aal-card-summary [item]="item"
+                    [ID]="item['backgroundTaskDetails'] ? item['backgroundTaskDetails'].ID?.toString() : item['job']?.id?.toString()"
+                    [mainDescription]="getTitleByJobAction(tab['name'], item)"
+                    [line1Caption]="tab['name']?.toUpperCase() === 'COMPLETED' ? (item?.job?.action?.indexOf('OBSOLETE') > -1 ? 'Is obsoleted' : (item?.job?.action?.indexOf('RELEASE') > -1 ? 'Is released' : 'Is linked')) :
+                    (tab['name']?.toUpperCase() === 'PROCESSING' ? (item?.job?.action?.indexOf('OBSOLETE') > -1 ? 'Is being obsoleted...' : (item?.job?.action?.indexOf('RELEASE') > -1 ? 'Is being released...' : 'Is being processed...')) :
+                    (tab['name']?.toUpperCase() === 'FAILED' ? (item?.job?.action?.indexOf('OBSOLETE') > -1 ? 'Failed to obsolete' : (item?.job?.action?.indexOf('RELEASE') > -1 ? 'Failed to release' : 'Failed to link'))
+                     : (item?.backgroundTaskDetails?.scheduledOn | aalDate: 'time')))"
+                    [iconImageTemplateRef]="imageDisplayRef" fxFlex="100%"
+                    [actionTemplateRef]="actionRef"
+                    [ngClass]="item?.backgroundTaskDetails?.type ==='AGENDA-CB' || item.backgroundTaskDetails?.type ==='AGENDA-CCB' ?
+                                'task-schedule-item' : ''"
+                    (click)="onItemClicked(item)"></aal-card-summary>
+  <ng-template #imageDisplayRef>
+    <span fxLayout="column" fxLayoutAlign="center center">
+                  <span class="notification-badge background-orange"
+                        *ngIf="tab['name']?.toUpperCase() === 'PROCESSING'"></span>
+                  <span class="notification-badge background-red"
+                        *ngIf="tab['name']?.toUpperCase() === 'FAILED'"></span>
+                  <span class="notification-badge background-green"
+                        *ngIf="tab['name']?.toUpperCase() === 'COMPLETED'"></span>
+                  <span fxLayoutAlign="center center" class="mat-icon-no-margin">
+                    <!--<mat-icon class="color-black">assignment</mat-icon>-->
+                    <mat-icon *ngIf="item?.job?.type ==='RELEASEPACKAGE'"
+                              class="aal--margin-left-r1 icon--medium color-black">{{getListItemIcon(item?.job?.type)}}</mat-icon>
+                      <mat-icon *ngIf="item?.job?.type ==='MYTEAM' && item?.job?.action.indexOf('REPLACE') === -1"
+                                class="aal--margin-left-r1 icon--medium color-black">{{getListItemIcon(item?.job?.type, item?.job?.action)}}</mat-icon>
+                    <mat-icon *ngIf="item?.job?.type ==='MYTEAM' && item?.job?.action.indexOf('REPLACE') > -1"
+                              class="aal--margin-left-r1 icon--medium color-black"
+                              [svgIcon]="getListItemIcon(item?.job?.type, item?.job?.action)"></mat-icon>
+                    <mat-icon
+                      *ngIf="(item?.backgroundTaskDetails?.type || item?.job?.type) ==='AGENDA-CB' || (item.backgroundTaskDetails?.type || item?.job?.type) ==='AGENDA-CCB'"
+                      class="aal--margin-left-r1 icon--medium color-black"
+                      [svgIcon]="getListItemIcon(item?.backgroundTaskDetails?.type)"></mat-icon>
+                    <mat-icon
+                      *ngIf="item.backgroundTaskDetails && item.backgroundTaskDetails?.type !=='AGENDA-CB' && item.backgroundTaskDetails?.type !=='AGENDA-CCB' && item?.job?.type !=='RELEASEPACKAGE'"
+                      class="aal--margin-right-r-5 icon--medium color-black"
+                      [svgIcon]="item?.backgroundTaskDetails?.caseAction === 'UPDATE' ? getListItemIcon(item?.backgroundTaskDetails?.type, item?.backgroundTaskDetails?.caseAction) : ''">
+                      {{getListItemIcon(item?.backgroundTaskDetails?.type, item?.backgroundTaskDetails?.caseAction)}}
+                    </mat-icon>
+                  </span>
+    </span>
+  </ng-template>
+  <ng-template #actionRef>
+    <div *ngIf="item?.job">
+      <mc-button-contained [text]="item?.job?.context && ((item?.job?.context?.name | contextIdTransform) || item?.job?.context?.type)"
+                           [color]="'accent'"
+                           [noCheckOnCaseAction]="true"
+                           [tooltip]="item?.job?.context && item?.job?.context?.type"
+                           (buttonClick)="navigateToRP(item); $event.stopPropagation();">
+      </mc-button-contained>
+    </div>
+  </ng-template>
+</ng-template>
+<ng-template #largeAmountsRef let-tab>
+  <mc-empty-state [title]="largeAmountsLength + ' Out Of ' + tab['totalItems'] + ' Tasks Shown'"
+                  [icon]="'autorenew'">
+  </mc-empty-state>
+</ng-template>
+
+<ng-template #emptyStateRef let-tab>
+  <mc-empty-state [title]="'No ' + tab['name'] + ' Tasks'"
+                  [subTitle]="tab['name'] === 'Processing' ?
+                  ('Current '+ tab['name'] + ' Tasks will appear here') :
+                  ('New '+ tab['name'] + ' Tasks will appear here')"
+                  [icon]="'autorenew'">
+  </mc-empty-state>
+</ng-template>
+

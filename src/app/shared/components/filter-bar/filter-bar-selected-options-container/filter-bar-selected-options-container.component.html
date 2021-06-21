@@ -1,0 +1,66 @@
+<div fxLayout="row wrap" class='aal--padding-top-bottom-r-5 filter-options--panel'
+     [ngClass]="{'background-white': (caseObject === 'dashboardWidget' || caseObject === 'dashboardActionWidget')}" *ngIf="showFilterContainer && totalChipList?.length > 0">
+  <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="space-between center" [style.width]="'99%'">
+    <mat-chip-list *ngIf="totalChipList?.length > 0">
+      <mat-icon class="aal--padding-right-left-r2 list-icon">filter_list</mat-icon>
+      <ng-container *ngFor="let chipValue of totalChipList">
+        <mat-chip class="filter--chip" [removable]="true" [matTooltip]="chipValue?.toolTip"
+                  (removed)="removeItem(chipValue?.filterKey, chipValue?.filterOption)"
+                  *ngIf="!(chipValue?.isDate &&caseObject === 'readNotification')"
+                  [ngClass]="chipValue?.filterKey === 'keywords' ? 'icon-chip' : chipValue?.filterKey === 'myTeamAction' ? 'colored-chip' :'text-chip'">
+          <mat-icon *ngIf="chipValue?.filterKey === 'keywords' && chipValue?.filterOption?.length > 0"
+                    class="aal--margin-right-r-5">search
+          </mat-icon>
+          <span *ngIf="chipValue?.isDate">
+            {{chipValue?.value?.begin | aalDate}} -
+            {{chipValue?.value?.end | aalDate}}
+          </span>
+          <span *ngIf="!chipValue?.isDate">
+            {{chipValue?.value}}
+          </span>
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </ng-container>
+      <ng-container>
+        <mat-chip class="filter--chip" [ngClass]="chipIndex > 0 ? 'show-chip':'hide-chip'">
+          <button mat-icon-button [matMenuTriggerFor]="filterOptionsMenu" #trigger="matMenuTrigger">
+            <span *ngIf="chipIndex > 0">+ {{chipIndex }}</span>
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+        </mat-chip>
+      </ng-container>
+    </mat-chip-list>
+    <div fxLayout="row" fxLayoutGap="1rem" [style.height]="'100%'">
+      <mat-divider [vertical]="true" [style.height]="'100%'" *ngIf="!fromFilterPanel"></mat-divider>
+      <button mat-button class="secondary-action-button" type="submit" id="filter_bar_clear_all"
+              *ngIf="totalChipList?.length > 0 && !fromFilterPanel" fxFlex="5rem" (click)="onClearAllFilters()">Clear
+      </button>
+    </div>
+  </div>
+</div>
+
+<mat-menu #filterOptionsMenu="matMenu" [overlapTrigger]="false" yPosition="below" xPosition="before"
+          class="header-toolbar--menu aal--padding-bottom-r-5">
+  <mat-toolbar>
+    <mat-toolbar-row fxLayoutGap="1rem">
+      <mat-icon> filter_list</mat-icon>
+      <span fxFlex>Filters</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-chip-list class="header-toolbar--menu-content" *ngIf="menuChipListValues?.length > 0">
+    <ng-container *ngFor="let chipValue of menuChipListValues">
+      <mat-chip mat-menu-item class="filter--chip aal--margin-top-r-5 aal--margin-left-r-5"
+                [removable]="!fromFilterPanel" [matTooltip]="chipValue?.toolTip"
+                (removed)="removeItem(chipValue?.filterKey, chipValue?.filterOption)">
+        <span *ngIf="chipValue?.isDate && caseObject !== 'readNotification'">
+          {{chipValue?.value?.begin | aalDate}} -
+          {{chipValue?.value?.end | aalDate}}
+        </span>
+        <span *ngIf="!chipValue?.isDate">
+          {{chipValue?.value}}
+        </span>
+        <mat-icon *ngIf="!fromFilterPanel" matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </ng-container>
+  </mat-chip-list>
+</mat-menu>

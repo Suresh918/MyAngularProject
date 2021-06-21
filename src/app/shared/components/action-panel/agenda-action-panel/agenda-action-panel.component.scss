@@ -1,0 +1,29 @@
+
+@import '../../../../../themes/material/theming';
+
+.agenda-action--panel {
+  background: $aal--mat-surface-variant;
+  box-shadow: none;
+  .action-details-header {
+    height: 2.5rem !important;
+    background-color: $aal--mat-surface !important;
+  }
+  .action-details-header:hover{
+    background-color: $aal--mat-surface !important;
+  }
+  .toggle-action--container .mat-button-toggle-checked{
+    background: $aal--mat-secondary !important;
+  }
+}
+.mat-expansion-panel
+{
+  border-radius: 0;
+  .mat-expansion-panel-header {
+    &.mat-expanded{
+      height: 2.5rem  !important;
+    }
+  }
+}
+.action--divider-top {
+  margin-top: 0.1rem;
+}

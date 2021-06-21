@@ -1,0 +1,14 @@
+.air-pbs-container--card {
+  .air-pbs-content-scroll {
+    overflow-y: auto;
+    max-height: 340px;
+    padding: 0;
+  }
+}
+
+.air-pbs-item-content-scroll{
+  height: 32vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  padding-top: 1rem;
+}

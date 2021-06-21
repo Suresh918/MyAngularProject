@@ -1,0 +1,21 @@
+@import '../../../../../themes/material/theming';
+
+.mc-search-input, .mc-search-input:focus, .mc-search-input:active, .mc-search-input:hover {
+  border: 0;
+  outline: none;
+  outline-offset: 0;
+  background: transparent;
+}
+.search-menu {
+  height: 3rem;
+  width: 280px !important;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  background: $aal--mat-priority-5;
+  border-radius: 4px;
+}
+::placeholder {
+  font: 500 16px/19.2px Roboto, "Helvetica Neue", sans-serif
+}
+.icon-grey {
+  color: rgba(0, 0, 0, 0.54);
+}

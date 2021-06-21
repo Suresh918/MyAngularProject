@@ -1,0 +1,74 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0.5rem">
+    <mat-icon>edit</mat-icon>
+    <span>Add issues</span>
+  </div>
+  <mc-button-icon [noCheckOnCaseAction]="true"
+                  [isGenericButton]="true"
+                  (buttonClick)="cancel(true)"
+                  [icon]="'close'"
+                  [disabled]="importLoading"></mc-button-icon>
+</div>
+
+<mat-dialog-content fxLayout="column" class="aal--padding-all-r1 background--off-white" [ngClass]="enableStepper ? 'dialog-content' : 'info-dialog-content'"
+                    [style.max-height]="'77vh'">
+  <mat-horizontal-stepper [linear]="false" #stepper class="flow-stepper background--off-white" [selectedIndex]="selectedStepIndex"
+    (selectionChange)="onStepSelection($event)" [ngClass]="{'inActiveStep': !enableStepper, 'importing': importLoading}">
+    <mat-step [label]="(linkedPbsIds && linkedPbsIds?.length) || trigger === 'air' ? 'Select AIR' : trigger === 'pbs' ? 'Select PBS' : 'Select AIR/PBS'" [completed]="false">
+      <mat-divider></mat-divider>
+      <div class="stepper-content">
+        <mc-select-air-pbs *ngIf="enableStepper" [linkedAirIds]="linkedAirIds" [linkedPbsIds]="linkedPbsIds" [createFrom]="trigger"
+          [selectedAirPbsItems]="selectedItemsToImport" [pbsLength]="data?.pbsLength" (selectionChangeEvent)="selectionListChanged()"></mc-select-air-pbs>
+        <mc-air-pbs-import-info *ngIf="!enableStepper" [triggeredFrom]="trigger" [formConfiguration]="importContentFormConfiguration"
+          (onConfirm)="onConfirmInfo()" (onCancel)="cancel(true)"></mc-air-pbs-import-info>
+      </div>
+    </mat-step>
+    <mat-step label="Sort Importance" [completed]="false">
+      <mat-divider></mat-divider>
+      <div class="stepper-content">
+        <mc-sort-air-pbs [selectedAirPbsItems]="selectedItemsToImport" (selectionChangeEvent)="selectionListChanged()"></mc-sort-air-pbs>
+      </div>
+    </mat-step>
+    <mat-step label="Overwrite or Not" [completed]="false">
+      <mat-divider></mat-divider>
+      <div class="stepper-content">
+        <mc-overwrite-or-not [selectedAirPbsItems]="selectedItemsToImport" [portationFormGroupArray]="portationFormGroupArray" [importContentFormConfiguration]="airActionFormConfiguration"
+          [errorSummary]="errorSummary" [importLoading]="importLoading"></mc-overwrite-or-not>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutGap="1rem" *ngIf="enableStepper || importLoading">
+  <mc-button-icon-outlined [noCheckOnCaseAction]="true"
+                       [isGenericButton]="true"
+                       (buttonClick)="onClickPrevious()"
+                       [color]="'accent'"
+                       [icon]="'chevron_left'"
+                       *ngIf="selectedStepIndex > 0 && !showCloseButton && !importLoading">
+  </mc-button-icon-outlined>
+  <span fxFlex="1 1 auto"></span>
+  <mc-button-outlined [text]="showCloseButton ? 'Done' : 'Cancel'"
+                       [noCheckOnCaseAction]="true"
+                       [isGenericButton]="true"
+                       (buttonClick)="cancel(true)"
+                       [color]="'accent'"
+                       *ngIf="!importLoading">
+  </mc-button-outlined>
+  <mc-button-contained [text]="'Next'"
+                       [noCheckOnCaseAction]="true"
+                       [isGenericButton]="true"
+                       (buttonClick)="onClickNext()"
+                       [color]="'accent'"
+                       [disabled]="selectedItemsToImport.length === 0"
+                       *ngIf="selectedStepIndex < 2">
+  </mc-button-contained>
+  <mc-button-contained [text]="importLoading ? 'Importing':'Import'"
+                       [noCheckOnCaseAction]="true"
+                       [isGenericButton]="true"
+                       (buttonClick)="importIssues()"
+                       [color]="'accent'"
+                       [disabled]="portationFormGroupArray.invalid"
+                       *ngIf="selectedStepIndex === 2 && !showCloseButton">
+  </mc-button-contained>
+</mat-dialog-actions>

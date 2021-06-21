@@ -1,0 +1,41 @@
+
+<div fxLayout="column" fxFlex="100%" fxLayoutGap="1rem">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutGap="1rem">
+      <mc-select-single [selectFormControl]="changeRequestFormGroup?.get('change_owner_type')"
+                        [controlConfiguration]="configuration?.change_owner_type?.help"
+                        [mode]="'PROTECTED'"></mc-select-single>
+      <mat-divider [vertical]="true" [style.height]="'2.25rem'" class="aal--margin-top-r-5"></mat-divider>
+      <mc-button-icon-outlined [icon]="'add'" class="aal--margin-top-r-5"
+                               [text]="'Communicate Closed'"
+                               [tooltip]="communicateButtonTooltip"
+                               [disabled]="disableCommunicateButton"
+                               (buttonClick)="onCommunicateCR()"
+                               [buttonAction]="'COMMUNICATE_CHANGE_REQUEST'"></mc-button-icon-outlined>
+    </div>
+    <ng-template [ngTemplateOutlet]="fontChangeTemplate"></ng-template>
+  </div>
+  <div fxLayout="column" fxLayoutGap="1rem" *ngIf="linkedChangeNotice?.ID">
+    <div fxLayout="row" fxFlex fxLayoutAlign="start center" fxLayoutGap="2rem" class="agenda-item--section">
+    <span fxFlex>
+      <mat-divider></mat-divider>
+    </span>
+      <div fxLayout="row" fxLayoutGap="0.5rem"
+           (click)="isExpanded = !isExpanded">
+        <span class="mat-title bold--text aal--margin-bottom-r0">Linked CN</span>
+      </div>
+      <span fxFlex>
+      <mat-divider></mat-divider>
+    </span>
+    </div>
+    <mc-case-object-details-card fxFill [caseObjectType]="caseObjectType" [caseObjectLabel]="caseObjectLabel"
+                                 [caseObjectRouterPath]="caseObjectRouterPath" [caseObject]="linkedChangeNotice"
+                                 [showItemDeleteButton]="false">
+    </mc-case-object-details-card>
+  </div>
+  <mc-empty-state *ngIf="!linkedChangeNotice?.ID" [title]="'No CN\'s Linked Yet'"
+                  [subTitle]="'Linked CN\'s will be displayed here'"
+                  [icon]="'event'"></mc-empty-state>
+
+
+</div>

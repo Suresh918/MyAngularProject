@@ -1,0 +1,73 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <span>Select Change Request(s)</span>
+  <mc-button-icon mat-dialog-close [noCheckOnCaseAction]="true"
+                  [isGenericButton]="true"
+                  [icon]="'close'"
+                  [tooltip]="'Close'" (buttonClick)="onClose()"></mc-button-icon>
+</div>
+<mat-dialog-content>
+  <div >
+    <!-- DOM to show input and ask user to search after user enters 5 digits-->
+    <mat-form-field [formGroup]="changeRequestSearchForm"
+                    floatPlaceholder="always">
+      <input matInput aalTrimInput #filterCR placeholder="CR ID Starts with" formControlName="changeRequestSearchControl"/>
+      <mat-hint align="end">
+        <em>use at least 3 digit</em>
+      </mat-hint>
+      <mat-progress-bar color="primary" class="primary-btn-theme progress-bar__input" mode="indeterminate" color="primary"
+                        *ngIf="progressBar">
+      </mat-progress-bar>
+    </mat-form-field>
+    <mat-table #table [dataSource]="linkedChangeRequestDataSource" class="aal--margin-top-r1">
+      <ng-container [matColumnDef]="'changeRequestChecked'">
+        <mat-header-cell *matHeaderCellDef fxFlex="1 1 15%" class="aal--margin-left-r1">
+          <span class="aal--margin-left-r1">CR ID</span>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let changeRequest; let i = index;" fxFlex="1 1 15%">
+          <mat-checkbox color='primary' [(ngModel)]="changeRequest.selected"
+                        (change)="disableOtherCheckboxes($event)" [disabled]="disableOthers &&
+                          !changeRequest?.selected">
+            <span class="aal--margin-left-r1">{{ changeRequest?.ID }}</span>
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <ng-container [matColumnDef]="'title'">
+        <mat-header-cell *matHeaderCellDef fxFlex="1 1 50%"> Title</mat-header-cell>
+        <mat-cell *matCellDef="let changeRequest" fxFlex="1 1 50%">
+          <span class="context-overflow">{{ changeRequest?.title }}</span>
+        </mat-cell>
+      </ng-container>
+      <ng-container [matColumnDef]="'status'">
+        <mat-header-cell *matHeaderCellDef fxFlex="1 1 35%"> Status</mat-header-cell>
+        <mat-cell *matCellDef="let changeRequest" fxFlex="1 1 35%">
+          <span class="context-overflow">{{ changeRequest?.statusLabel }}</span>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns">
+      </mat-row>
+    </mat-table>
+    <div *ngIf="selectedChangeRequestItems?.length === 0" class="no-result-div mat-body-1">No search results</div>
+    <div>
+      <span fxFlex="1 1 auto"></span>
+      <mat-paginator #paginator [length]="resultsLength" [pageIndex]="0" [pageSize]="8">
+      </mat-paginator>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions  fxLayout="row" fxLayoutGap="1rem">
+  <span fxFlex="1 1 auto"></span>
+  <mc-button-contained mat-dialog-close [text]="'Cancel'"
+                       [tooltip]="'Cancel'"
+                       [noCheckOnCaseAction]="true"
+                       [isGenericButton]="true">
+  </mc-button-contained>
+  <mc-button-contained [text]="'Link'"
+                       [noCheckOnCaseAction]="true"
+                       [isGenericButton]="true"
+                       (buttonClick)="linkProblems()"
+                       [color]="'accent'"
+                       [disabled]="disableLink">
+  </mc-button-contained>
+</mat-dialog-actions>

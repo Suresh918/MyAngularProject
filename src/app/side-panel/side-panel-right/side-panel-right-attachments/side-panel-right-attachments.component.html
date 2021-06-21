@@ -1,0 +1,27 @@
+<div [style.height]="'100%'">
+  <mc-right-panel-header [headerText]="'All Attachments'"
+                         [itemsCount]="attachmentCount" [panelMode]="panelMode" [type]="caseObjectType"></mc-right-panel-header>
+  <div class="side-panel-right-content">
+    <div [style.height]="'5px'" *ngIf="showLoader">
+      <mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div fxLayout="column" fxLayoutGap="1rem" class="panel-data-content">
+      <mc-loader *ngIf="showLoader" [type]="'right-panel-menu-list-items'" [count]="3"></mc-loader>
+      <mc-empty-state [title]="'No Attachments'"
+                      [subTitle]="getNoDataMessageForCaseObject()"
+                      [icon]="'attachment'"
+                      *ngIf="attachmentCount === 0 && !showLoader">
+      </mc-empty-state>
+      <div *ngFor="let attachmentGroup of attachmentList" fxLayout="column" fxLayoutGap="1rem">
+        <div fxLayout="column" fxLayoutGap="4px">
+          <div class="mat-title">{{attachmentGroup.category}}</div>
+          <div fxLayout="column" fxLayoutGap="0.5rem">
+            <mc-attachment-card *ngFor="let attachment of attachmentGroup.attachments" [attachment]="attachment" [caseObjectType]="caseObjectType"
+                                [pictureURL]="(caseObjectType === 'ChangeRequest' || caseObjectType === 'ReleasePackage') ? microServicePictureURL : pictureUrl" [mode]="'readOnly'" (attachmentClick)="attachmentClicked($event)"
+                                [cardCategory]="attachmentGroup.category"></mc-attachment-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

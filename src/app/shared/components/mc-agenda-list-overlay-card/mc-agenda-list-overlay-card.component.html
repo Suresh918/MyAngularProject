@@ -1,0 +1,64 @@
+<mc-button-overlay-card *ngIf="category === 'CCB'" fxFlex="1 1 auto"
+                        [buttonType]="'text'"
+                        [headerIcon]="'event'" [headerTitle]="'Agenda Items'"
+                        [buttonText]="'Agenda Items'" [progressBar]="progressBar"
+                        [showCategories]="true"
+                        [overlayData]="agendaItemsOverviewData"
+                        [categoryItemsCount]="agendaItemsOverviewData ? agendaItemsOverviewData.TotalItems : 0"
+                        [hasBadge]="true" [badgeData]="badgeCount" [badgeType]="'single'"
+                        (panelOpened)="agendaOverviewPanelOpened()"
+                        (listItemClicked)="agendaListItemClicked($event)"
+                        [cardSummaryRefForOverlayCard]="cardSummaryRefForOverlayCard"
+                        [emptyStateTemplateRefForOverlayCard]="emptyStateRefForOverlayCard"></mc-button-overlay-card>
+<ng-template #cardSummaryRefForOverlayCard let-item>
+  <aal-card-summary [item]="item" [ID]="item['link'].ID" [mainDescription]="item['link'].ID" [mainDescriptionCaption]="item['link'].statusLabel"
+                    [line1]="item['link'].title"
+                    [line2]="((item.startDateTime && (item.startDateTime | date:'HH:mm') !== '') ? (item.startDateTime | date:'HH:mm') : '-' ) +
+                    ((item.plannedDuration && (item.plannedDuration | aalDuration) !== '') ? '  (' + (item.plannedDuration | aalDuration) + ')' : '')"
+                    [separator]="'interpunct'"
+                    [line2Caption]="item.presenter ? (item.presenter | personName) : ''"
+                    [iconImageTemplateRef]="imageDisplayRef2"></aal-card-summary>
+  <ng-template #imageDisplayRef2 let-item>
+    <mat-icon *ngIf="item['link'].type.toUpperCase()==='CHANGEREQUEST'" [matTooltip]="'Change Request'" mat-list-icon  class="icon--medium aal--margin-right-r0" svgIcon="change-request"></mat-icon>
+    <mat-icon *ngIf="item['link'].type.toUpperCase()==='CHANGENOTICE'" [matTooltip]="'Change Notice'" mat-list-icon class="icon--medium aal--margin-right-r0" svgIcon="change-notice"></mat-icon>
+    <mat-icon *ngIf="item['link'].type.toUpperCase()==='OTHER'" [matTooltip]="'Other'" mat-list-icon class="icon--medium aal--margin-right-r0">event</mat-icon>
+  </ng-template>
+</ng-template>
+<ng-template #emptyStateRefForOverlayCard>
+  <mc-empty-state [title]="'No Agenda items'"
+                                [subTitle]="'All Agenda items will appear here.'"
+                                [icon]="'list'">
+  </mc-empty-state>
+</ng-template>
+
+<mc-button-overlay-tabbed *ngIf="category === 'CB'" fxFlex="1 1 auto"
+                          [headerIcon]="'event'" [headerTitle]="'Agenda Items'"
+                          [buttonText]="'Agenda Items'" [buttonType]="'text'"
+                          [progressBar]="progressBar"
+                          [overlayData]="agendaItemsOverviewData"
+                          (listItemClicked)="agendaListItemClicked($event)"
+                          (panelOpened)="agendaOverviewPanelOpened()"
+                          [hasBadge]="true" [badgeData]="badgeCount" [badgeType]="'single'"
+                          [cardSummaryRef]="cardSummaryRef"
+                          [emptyStateRef]="emptyStateRef"></mc-button-overlay-tabbed>
+
+<ng-template #cardSummaryRef let-item>
+  <aal-card-summary [item]="item" [ID]="item['link'].ID" [mainDescription]="item['link'].ID" [mainDescriptionCaption]="item['link'].statusLabel"
+                    [line1]="item['link'].title" fxFlex="100%"
+                    [line2]="((item.startDateTime && (item.startDateTime | date:'HH:mm') !== '') ? (item.startDateTime | date:'HH:mm') : '' ) +
+                    ((item.plannedDuration && (item.plannedDuration | aalDuration) !== '') ? '  (' + (item.plannedDuration | aalDuration) + ')' : '')"
+                    [separator]="'interpunct'"
+                    [line2Caption]="item.presenter ? (item.presenter | personName) : ''"
+                    [iconImageTemplateRef]="imageDisplayRef"></aal-card-summary>
+  <ng-template #imageDisplayRef let-item>
+    <mat-icon *ngIf="item['link'].type.toUpperCase()==='CHANGEREQUEST'" [matTooltip]="'Change Request'" mat-list-icon class="icon--medium aal--margin-right-r0" svgIcon="change-request"></mat-icon>
+    <mat-icon *ngIf="item['link'].type.toUpperCase()==='CHANGENOTICE'" [matTooltip]="'Change Notice'" mat-list-icon class="icon--medium aal--margin-right-r0" svgIcon="change-notice"></mat-icon>
+    <mat-icon *ngIf="item['link'].type.toUpperCase()==='OTHER'" [matTooltip]="'Other'" mat-list-icon class="icon--medium aal--margin-right-r0">event</mat-icon>
+  </ng-template>
+</ng-template>
+<ng-template #emptyStateRef let-tab>
+  <mc-empty-state [title]="'No ' + (tab && tab['name'] ? tab['name'] : 'Agenda') + ' items'"
+                                [subTitle]="'All ' + (tab && tab['name'] ? tab['name'] : 'Agenda') + ' items will appear here.'"
+                                [icon]="'list'">
+  </mc-empty-state>
+</ng-template>

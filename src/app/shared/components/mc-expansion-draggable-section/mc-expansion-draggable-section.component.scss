@@ -1,0 +1,12 @@
+@import '../../../../themes/common/theming';
+@import '../../../../themes/material/theming';
+.section-expansion-header {
+  background-color: $aal--mat-surface-variant !important;
+  ::ng-deep .mat-expansion-panel-header {
+    background-color: $aal--mat-surface-variant !important;
+    padding: 0 2rem 0 1rem !important;
+  }
+}
+.auto-height{
+  height: auto !important;
+}

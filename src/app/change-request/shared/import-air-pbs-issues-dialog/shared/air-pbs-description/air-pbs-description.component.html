@@ -1,0 +1,40 @@
+<div fxLayout="row" fxFlex="100%" fxLayoutAlign="start center"
+     class="air-pbs-description aal--margin-bottom-r-25 aal--margin-top-r-75" [ngClass]="{'importing':importingData}">
+  <div [fxFlex]="showDropDown ? '60%' : '100%'" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem"
+       [ngClass]="{'opacity-description': (issueItem?.disableAdd || issueItem?.selected) && showAddButton}">
+    <mc-card-summary fxFlex="100%" [mainDescription]="issueItem?.ID || issueItem?.number"
+                     [mainDescriptionCaption]="issueItem?.status"
+                     [line1Caption]="issueItem?.shortDescription || issueItem?.deliverable"
+                     [line2Caption]="getProblemID(issueItem)"
+                     [separator]="'interpunct'"
+                     (click)="navigateToIssue(issueItem?.type?.toUpperCase())"
+                     class="aal--margin-right-r-5 overflow-ellipsis clickable"
+                     [iconImageTemplateRef]="imageDisplayRef"
+    ></mc-card-summary>
+    <ng-template #imageDisplayRef>
+      <img src="../../../../../../../assets/images/pbs.png" *ngIf="checkForPbs(issueItem)"
+           alt=""/>
+      <img src="../../../../../../../assets/images/air.png" *ngIf="checkForAir(issueItem)"
+           alt=""/>
+    </ng-template>
+  </div>
+
+  <div [fxFlex]="showDropDown ? '40%' : ''" fxLayout="row">
+    <div fxLayout="row" fxFlex="100%" fxLayoutAlign="start end">
+      <mc-select-single *ngIf="showDropDown && !issueItem['dataPortationDetail']" [style.width]="'100%'"
+                        class="aal--padding-bottom-r1" [selectFormControl]="portationFormGroup?.get('action')"
+                        [controlConfiguration]="importDataSelectConfiguration"
+                        [mode]="'EDIT'" [hideHelp]="true"
+                        [fieldSaveNotApplicable]="true"
+                        [bubbleAcceptChanges]="true" [lockMode]="'EDIT'" [ellipsisAfter]="200">
+      </mc-select-single>
+      <!--<div fxLayout="column" *ngIf="issueItem['dataPortationDetail']">
+        <span>{{(listIndex | aalNumberToWord: 'to-word') + ', use ' + (issueItem && issueItem.type ? issueItem.type.toUpperCase() : '') + ' content to:'+ importContentFormConfiguration?.enumeration?.label}}</span>
+      <span
+        [style.color]="(issueItem['dataPortationStatus']?.indexOf('ERROR') > -1) ? 'red' : 'black'">{{issueItem['dataPortationDetail']}}</span>
+        <span
+          [style.color]="(issueItem['linkStatus']?.indexOf('ERROR') > -1) ? 'red' : 'black'">{{issueItem['linkDetail']}}</span>
+      </div>-->
+    </div>
+  </div>
+</div>

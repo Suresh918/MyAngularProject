@@ -1,0 +1,48 @@
+<mc-button-overlay-card fxFlex="1 1 auto"
+                        [buttonType]="'icon'"
+                        [headerIcon]="'history'" [headerTitle]="caseObjectType === 'myTeam' ? 'History Changes' : 'Status Changes'"
+                        [defaultItemIcon]="'history'" [progressBar]="showLoader"
+                        [showCategories]="false"
+                        [isIconBorder]="true"
+                        [overlayData]="historyItems"
+                        [showFooterBar]="historyItems?.length > 0"
+                        [footerButtonText]="'Show All'"
+                        [categoryItemsCount]="historyItems?.length"
+                        [emptyStateData]="emptyStateData"
+                        [footerButtonColor]="'accent'"
+                        [largeAmountsLength]="24"
+                        [largeAmountsTemplateRef]="moreDataRef"
+                        [cardSummaryRefForOverlayCard]="cardSummaryRefForOverlayCard"
+                        [emptyStateTemplateRefForOverlayCard]="emptyStateRefForOverlayCard"
+                        (panelOpened)="getCaseObjectHistory()"
+                        (footerButtonClick)="showAllHistory()"></mc-button-overlay-card>
+<ng-template #moreDataRef>
+  <mc-empty-state [title]="'24 Out Of ' + historyItems?.length + ' items Shown'"
+                  [icon]="'history'">
+  </mc-empty-state>
+</ng-template>
+<ng-template #cardSummaryRefForOverlayCard let-item>
+  <mc-card-summary *ngIf="caseObjectType === 'myTeam'" [iconImageTemplateRef]="iconRef"
+                   [mainDescription]="item?.userModified | personName"
+                   [line1Caption]="item?.action + ': ' + (item?.modifiedBy  | personName)"
+                   [line2Caption]="item?.modifiedOn | aalDate">
+  </mc-card-summary>
+  <mc-card-summary *ngIf="caseObjectType !== 'myTeam'"  [iconImageTemplateRef]="iconRef"
+                   [mainDescription]="(caseObjectType === 'review') ? item?.statusLabel?.label : ((caseObjectType === 'ChangeNotice') ? item?.status : item?.statusLabel)"
+                   [line1Caption]="(item?.modifiedOn || item?.updated_on) | aalDate:'dueDate'"
+                   [line2Caption]="(item?.modifiedBy || item?.updater) | personName">
+  </mc-card-summary>
+  <ng-template #iconRef>
+    <img aalLoadBlankPortrait class="aal--padding-right-r-25 image--circle-large" *ngIf="(item?.userModified?.userID ||item?.userModified?.user_id) && caseObjectType === 'myTeam'"
+         [src]="(item?.userModified?.userID ||item?.userModified?.user_id) | userImage" alt="no picture"/>
+    <mat-icon *ngIf="caseObjectType !== 'myTeam'" class="icon--medium label">history</mat-icon>
+  </ng-template>
+</ng-template>
+<ng-template #emptyStateRefForOverlayCard>
+  <aal-empty-state *ngIf="caseObjectType !== 'myTeam'" [title]="'No Status Changes'" [subTitle]="'Status changes will appear here'"
+                   [description]="'A history of all changes can be found below. This includes other changes than status'"
+                   [icon]="'history'"></aal-empty-state>
+  <aal-empty-state *ngIf="caseObjectType === 'myTeam'" [title]="'No myTeam Changes'" [subTitle]="'myTeam changes will appear here'"
+                   [description]="'A history of all myTeam related changes can be found below.'"
+                   [icon]="'history'"></aal-empty-state>
+</ng-template>

@@ -1,0 +1,60 @@
+<div aalDragDropFile [style.height]="'100%'"
+     (dragenterFn)="onDragFileEnter($event)" (dragleaveFn)="onDragFileLeave($event)">
+  <mc-right-panel-header [headerText]="'Comments'" [itemsCount]="allNotesCount"
+                         *ngIf="!(showAddNoteForm && highlightDropArea)"
+                         (closeSidePanel)="closeSidePanel()" [panelMode]="panelMode" [type]="caseObjectType"></mc-right-panel-header>
+  <div class="side-panel-right-content">
+    <div [style.height]="'5px'">
+      <mat-progress-bar color="primary" class="primary-btn-theme" mode="indeterminate" *ngIf="progressBar">
+      </mat-progress-bar>
+    </div>
+    <mc-right-panel-add-object [tooltip]="'Add Comment'" (add)="onPressAddNote()" [buttonCaseAction]="'CREATE-NOTE'"
+                               *ngIf="!showAddNoteForm && (caseObjectType !== 'ChangeRequest' && caseObjectType !== 'ReleasePackage')"></mc-right-panel-add-object>
+    <mc-right-panel-add-object [tooltip]="'Add Comment'" (add)="onPressAddNote()" [buttonCaseAction]="'CREATE_COMMENT'"
+                               *ngIf="!showAddNoteForm && (caseObjectType === 'ChangeRequest' || caseObjectType === 'ReleasePackage')"></mc-right-panel-add-object>
+    <div fxLayout="column" fxLayoutGap="1rem" class="panel-data-content"
+         [ngClass]="{'aal--padding-all-r0': highlightDropArea && showAddNoteForm}">
+      <mc-file-upload-form *ngIf="showAddNoteForm" [formDataGroup]="noteForm"
+                           [formDataControlConfiguration]="addNoteControlConfiguration"
+                           [caseObject]="caseObject" [commentId]="noteForm?.get('note')?.value?.ID"
+                           [caseObjectType]="caseObjectType"
+                           (saveForm)="onSaveNote()"
+                           (cancelForm)="onCancelAddNoteForm($event)"></mc-file-upload-form>
+      <div fxLayout="row" fxLayoutAlign="end center"
+           *ngIf="caseObjectAbbreviation !== 'RP' && caseObjectAbbreviation !== 'Action' && !(highlightDropArea && showAddNoteForm )">
+        <mat-button-toggle-group (change)="toggleNotesGroup($event)" [formControl]="toggleNotesViewControl">
+          <mat-button-toggle color="primary" [value]="'CASEOBJECT'">
+            {{toggleButtonLabel}} ({{ caseObjectNotesCount }})
+          </mat-button-toggle>
+          <mat-button-toggle color="primary" [value]="'ALL'">
+            All ({{ allNotesCount }})
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <mc-loader *ngIf="progressBar" [type]="'right-panel-menu-list-items'" [count]="3"></mc-loader>
+      <mc-empty-state [title]="'No Comments'" [subTitle]="getNoDataMessageForCaseObject()"
+                      [icon]="'note'" class="aal--padding-all-r1"
+                      *ngIf="allNotesCount === 0 && !(highlightDropArea && showAddNoteForm) && !progressBar">
+      </mc-empty-state>
+      <div *ngIf="!(highlightDropArea && showAddNoteForm ) && categorizedNoteSummaries?.length > 0">
+        <div *ngFor="let categorizedNoteSummary of categorizedNoteSummaries"
+             class="aal--margin-bottom-r1" fxLayout="column" fxLayoutGap="4px">
+          <span class="mat-title"
+                *ngIf="toggleNotesViewControl.value === 'ALL' && caseObjectAbbreviation !== 'RP' && caseObjectAbbreviation !== 'Action'">{{categorizedNoteSummary.category}}
+            Comments</span>
+          <div fxLayout="column" fxLayoutGap="0.5rem">
+            <div *ngFor="let noteSummary of categorizedNoteSummary.noteSummaries">
+              <mc-note-card [noteSummary]="noteSummary" *ngIf="noteSummary?.note?.status?.toUpperCase() !== 'REMOVED'" [caseObjectType]="caseObjectType"
+                            (editNote)="onEditNote($event)" (deleteNote)="onDeleteNote($event)" (documentClick)="documentClicked($event)"
+                            [currentUserID]="currentUser?.userID"></mc-note-card>
+              <div class="disable-block label mat-body-2 aal--padding-all-r-5"
+                   *ngIf="noteSummary?.note?.status?.toUpperCase() === 'REMOVED'">
+                <span> Comment Deleted By {{getDeletedUser(noteSummary?.note)}} {{ noteSummary?.note?.lastModifiedOn | aalDate:'dueDays' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

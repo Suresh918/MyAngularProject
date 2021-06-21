@@ -1,0 +1,15 @@
+@import '../../../../../themes/material/theming';
+.reviewer-button-actions{
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  visibility: hidden;
+}
+.overview-card:hover .reviewer-button-actions{
+  visibility: visible;
+}
+.overview-card {
+  position: relative;
+  border-radius: 8px;
+  background: $aal--mat-surface;
+}

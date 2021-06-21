@@ -1,0 +1,7 @@
+<mat-button-toggle-group #group1="matButtonToggleGroup" [formControl]="changeFontSizeControl" (change)="onSelectFontSize()" [value]="fontSize">
+  <mat-button-toggle *ngFor="let enumerationItem of changeFontSizeControlConfiguration?.options" color="primary" [matTooltip]="enumerationItem.help"
+                     mat-raised-button [value]="enumerationItem.name" [ngStyle]="{'font-size':enumerationItem.name,'width':'50px'}">
+    {{ enumerationItem.label }}
+  </mat-button-toggle>
+</mat-button-toggle-group>
+

@@ -1,0 +1,22 @@
+<aal-select-single (acceptChanges)=onAcceptChanges($event)
+                   [ID]="fieldConfiguration?.ID"
+                   [isNullable]="isNullable"
+                   [alert]="serverError"
+                   [control]="selectControl"
+                   [ellipsisAfter]="ellipsisAfter" [fontSize]="fontSize"
+                   [help]="help"
+                   [hideLabel]="hideLabel"
+                   [isBusy]="isBusy"
+                   [isHistoryEnabled]="isHistoryEnabled"
+                   [lockMode]="lockMode"
+                   [disableControl]="disableControl"
+                   [mode]="mode"
+                   [optionLabelField]="'label'"
+                   [optionValueField]="valueAsObject ? '' : 'value'"
+                   [options]="fieldConfiguration?.options"
+                   [placeholder]="fieldConfiguration?.placeholder"
+                   [label]="fieldConfiguration?.label"
+                   [showValueChip]="showValueChip"
+                   [hideHelp]="hideHelp"
+                   [confirmToolBarNotApplicable]="hideConfirmationToolBar">
+</aal-select-single>

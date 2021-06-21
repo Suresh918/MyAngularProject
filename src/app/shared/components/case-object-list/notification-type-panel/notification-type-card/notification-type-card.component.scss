@@ -1,0 +1,39 @@
+@import '../../../../../../themes/material/theming';
+@import '../../../../../../../node_modules/@angular/material/theming';
+
+.card {
+  background-color: $aal--mat-surface;
+  color: $aal--mat-primary;
+  border-radius: 4px;
+
+  &.collapsed .panel-count {
+    font-size: 24px;
+    line-height: 1;
+    transition-duration: 0.2s;
+  }
+
+  &.expanded .panel-count {
+    transition-duration: 0.2s;
+  }
+
+  &:hover {
+    background-color: $aal--mat-hover;
+  }
+
+  &:focus {
+    background-color: $aal--mat-focus;
+  }
+}
+
+.card-active {
+  transition-duration: 0.5s;
+  background-color: $aal--mat-priority-4;
+  color: black;
+  -webkit-box-shadow: inset 0px 0px 0px 2px #1c7ddb;
+  -moz-box-shadow: inset 0px 0px 0px 2px #1c7ddb;
+  box-shadow: inset 0px 0px 0px 2px #1c7ddb;
+
+  &:hover {
+    background-color: $aal--mat-priority-4;
+  }
+}

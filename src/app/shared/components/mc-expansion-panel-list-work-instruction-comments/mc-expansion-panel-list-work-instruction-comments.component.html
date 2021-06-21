@@ -1,0 +1,14 @@
+<aal-expansion-panel-list [help]="controlConfiguration?.help"  *ngIf="!hidePanel"
+                          [header]="expansionPanelItemConfigurationList && expansionPanelItemConfigurationList.length ? 'Linked Work Instruction Comments ('+expansionPanelItemConfigurationList.length+')' : 'Linked Work Instruction Comments (0)'"
+                          [isBusy]="isBusy"
+                          [expansionPanelItemConfigurationList]="expansionPanelItemConfigurationList"
+                          [showAddButton]="false"
+                          (itemClick)="onItemClick($event)"
+                          [emptyStateData]="emptyStatedata"
+                          [isExpanded]="isExpanded"
+                          [fontSize]="fontsize"
+                          [imageDisplayRef]="imageDisplayTemplate">
+</aal-expansion-panel-list>
+<ng-template #imageDisplayTemplate let-item>
+  <mat-icon class="icon" [svgIcon]="'problem-items-wi'"></mat-icon>
+</ng-template>

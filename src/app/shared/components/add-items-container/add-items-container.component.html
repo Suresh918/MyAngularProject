@@ -1,0 +1,102 @@
+<mat-card class="item-container--card aal--elevation-1">
+  <mat-card-content>
+    <div class="card-content" fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="mat-title">{{title}} ({{itemList?.length}})</div>
+        <mc-button-icon [noCheckOnCaseAction]="true"
+                        [isGenericButton]="true"
+                        (buttonClick)="sortClicked()"
+                        [color]="'accent'"
+                        [icon]="'sort'"
+                        [tooltip]="caseObjectType !== 'review' ? 'CR With Most Recent Status Change On Top' : ''"
+                        *ngIf="showAddButton && !sortAscending"></mc-button-icon>
+      </div>
+      <span fxFlex>
+        <mat-divider [style.position]="'relative'"></mat-divider>
+      </span>
+      <mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate"
+                        *ngIf="showProgressBar"></mat-progress-bar>
+      <div fxLayout="column" class="item-content-scroll aal--padding-top-r-5" fxLayoutGap="1rem" infiniteScroll
+           [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+           (scrolled)="onScroll()" [scrollWindow]="false">
+        <mc-empty-state [title]="noDataHeader" [subTitle]="noDataMessage" [icon]="!isMultipleSVGIcon ? 'event': ''"
+                        [imageTemplateRef]="isMultipleSVGIcon ? noDataImageTemplateRef : ''"
+                        *ngIf="itemList?.length === 0"></mc-empty-state>
+        <ng-template #noDataImageTemplateRef>
+          <div fxLayout="row" fxLayoutAlign="center center" *ngIf="caseObjectType !== 'review'">
+            <mat-icon [svgIcon]="'change-request'" class="icon--medium"></mat-icon>
+            <span class="slash-separator icon--medium bsnl--margin-top-bottom-l no-data-icon">/</span>
+            <mat-icon [svgIcon]="'change-notice'" class="icon--medium"></mat-icon>
+          </div>
+          <mat-icon *ngIf="caseObjectType === 'review'" [svgIcon]="'solution-item-icon'" class="icon--medium">
+            rate_review
+          </mat-icon>
+        </ng-template>
+        <ng-container *ngFor="let item of itemList; let index=index">
+          <div fxLayout="column" fxLayoutAlign="start end" class="aal--padding-right-r1">
+            <div fxLayout="row" [style.width]="'100%'" fxLayoutAlign="start center">
+              <mc-card-summary *ngIf="caseObjectType !== 'review'" fxFlex="100%"
+                               [mainDescription]="caseObjectType !== 'release-package' ? item?.ID : item?.release_package_number"
+                               [mainDescriptionCaption]="item?.statusLabel || item?.status_label"
+                               [line1]="(caseObjectType === 'release-package' ? (item?.ecn ? (item?.ecn + ' &middot; ' +item?.title) : item?.title) : (item?.type === 'Other' ? item?.title : ''))"
+                               [line1Caption]="caseObjectType !== 'release-package' && item?.type !== 'Other' ? item?.title : ''"
+                               [line2Caption]="((item?.priority && item?.priority !== 'None') ? item?.priority + ' &middot; ' : '') +
+                               ((item?.totalActionsCount ? item?.totalActionsCount + ' Actions &middot; ' : '') + (item?.soonActionsCount ? item?.soonActionsCount + ' Soon &middot; ' : '') + (item?.lateActionsCount ? item?.lateActionsCount + ' Late' : ''))"
+                               [separator]="'interpunct'"
+                               class="aal--margin-right-r-5 overflow-ellipsis clickable"
+                               [iconImageTemplateRef]="iconDisplayRef"
+                               [actionTemplateRef]="actionRef"
+                               (click)="navigateToCaseObject(item)"></mc-card-summary>
+              <mc-card-summary *ngIf="caseObjectType === 'review' && !isEnablePAF" fxFlex="100%"
+                               [mainDescription]="(item?.title) ? item?.title : item?.name"
+                               [iconImageTemplateRef]="iconDisplayRef"
+                               [actionTemplateRef]="actionRef"
+              ></mc-card-summary>
+              <mc-card-summary *ngIf="caseObjectType === 'review' && isEnablePAF" fxFlex="100%"
+                               [line1]="(item?.id && !item?.context_id) ? (item?.id + ' &middot; ' +item?.title) : (item?.title) ? item?.title : (item?.context_id) ? (item?.context_id + ' &middot; ' +item?.id) : item?.id"
+                               [separator]="'interpunct'"
+                               [iconImageTemplateRef]="iconDisplayRef"
+                               [actionTemplateRef]="actionRef"
+              ></mc-card-summary>
+              <ng-template #iconDisplayRef>
+                <mat-icon *ngIf="item.type === 'ChangeRequest'" [svgIcon]="'change-request'"
+                          class="icon--medium"></mat-icon>
+                <mat-icon *ngIf="item.type === 'ChangeNotice'" [svgIcon]="'change-notice'"
+                          class="icon--medium"></mat-icon>
+                <mat-icon *ngIf="caseObjectType === 'release-package'" [svgIcon]="'release-package'"
+                          class="icon--medium"></mat-icon>
+                <mat-icon *ngIf="item.type === 'Other'" class="icon">event</mat-icon>
+                <mat-icon *ngIf="caseObjectType === 'review' && !isEnablePAF" [svgIcon]="'solution-item-icon'" class="icon--medium">
+                  rate_review
+                </mat-icon>
+                <mat-icon *ngIf="caseObjectType === 'review' && isEnablePAF && !item?.is_tpd" [svgIcon]="'product_attribute_description'" class="icon--medium"></mat-icon>
+                <mat-icon *ngIf="caseObjectType === 'review' && isEnablePAF && item?.is_tpd"  class="icon--medium">description</mat-icon>
+              </ng-template>
+              <ng-template #actionRef>
+                <mc-button-contained *ngIf="showAddButton"
+                                     [text]="'Add'"
+                                     [tooltip]="item?.tooltip"
+                                     [disabled]="item?.isSelected"
+                                     [color]="'accent'"
+                                     [buttonId]="'add_to_selected_'+ (item?.id || item?.title?.toLowerCase())"
+                                     [isGenericButton]="true"
+                                     [noCheckOnCaseAction]="true"
+                                     (buttonClick)="addItem(item, $event)">
+                </mc-button-contained>
+                <mc-button-icon *ngIf="showRemoveButton"
+                                [icon]="'delete'"
+                                [tooltip]="removeButtonToolTip || 'Remove'"
+                                [color]="'accent'"
+                                [buttonId]="'remove_from_selected_'+ (item?.id || item?.title?.toLowerCase())"
+                                [isGenericButton]="true"
+                                [noCheckOnCaseAction]="true"
+                                (buttonClick)="removeItem(item, $event)">
+                </mc-button-icon>
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

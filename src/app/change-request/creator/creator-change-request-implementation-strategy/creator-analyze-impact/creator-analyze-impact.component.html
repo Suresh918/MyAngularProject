@@ -1,0 +1,67 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
+  <div fxFlex="50%" fxFlex.xs="auto" fxLayout="column" fxLayoutGap="1rem">
+    <mc-expansion-panel [header]="'Risk, Release strategy and dependencies'" [isExpanded]="isExpanded">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_sra?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_sra?.help"
+                 [value]="getLabelAndDescription('impact_analysis.tech_risk_assessment_sra', 'impact_analysis.tech_risk_assessment_sra_details')"
+                 [fontSize]="fontSize"></mc-text>
+      </div>
+    </mc-expansion-panel>
+    <mc-expansion-panel-disabled [header]="'Upgrade'"></mc-expansion-panel-disabled>
+  </div>
+  <div fxFlex="50%" fxFlex.xs="auto" fxLayout="column" fxLayoutGap="1rem">
+    <mc-expansion-panel [header]="'Impact on Supply Chain / Factory / Field'" [isExpanded]="isExpanded">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.investigation_labor_hours?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.investigation_labor_hours?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.investigation_labor_hours')?.value | aalDuration"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.development_labor_hours?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.development_labor_hours?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.development_labor_hours')?.value | aalDuration"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.impact_on_cycle_time?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.impact_on_cycle_time?.help"
+                 [value]="getLabelAndDescription('impact_analysis.impact_on_cycle_time', 'impact_analysis.impact_on_cycle_time_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.impact_on_availability?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.impact_on_availability?.help"
+                 [value]="getLabelAndDescription('impact_analysis.impact_on_availability','impact_analysis.impact_on_availability_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.impact_on_system_level_performance?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.impact_on_system_level_performance?.help"
+                 [value]="getLabelAndDescription('impact_analysis.impact_on_system_level_performance', 'impact_analysis.impact_on_system_level_performance_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.impact_on_labor_hours?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.impact_on_labor_hours?.help"
+                 [value]="getLabelAndDescription('impact_analysis.impact_on_labor_hours', 'impact_analysis.impact_on_labor_hours_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mc-help
+              [message]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_impact_result?.help"></mc-help>
+            <div aalChangeFontSize [fontSize]="fontSize"
+                 [ngClass]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_impact_result?.help ? 'aal--margin-bottom-r0' : 'no-help-label'"
+                 [isLabel]="true" class=" mat-caption" fxFlex="90">
+              Customer impact
+            </div>
+          </div>
+          <div aalChangeFontSize [fontSize]="fontSize" class="aal--margin-left-r2 aal--padding-left-r1" fxFlex="1 1 auto">
+            {{ getLabel('impact_analysis.customer_impact.customer_impact_result') }}
+          </div>
+        </div>
+
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_communication?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_communication?.help"
+                 [value]="getLabelAndDescription('impact_analysis.customer_impact.customer_communication', 'impact_analysis.customer_impact.customer_communication_details')"
+                 [fontSize]="fontSize"></mc-text>
+
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_approval?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_approval?.help"
+                 [value]="getLabelAndDescription('impact_analysis.customer_impact.customer_approval', 'impact_analysis.customer_impact.customer_approval_details')"
+                 [fontSize]="fontSize"></mc-text>
+      </div>
+    </mc-expansion-panel>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+@import './src/themes/material/theming';
+
+.solution-items--overview-card {
+  z-index: 1;
+  ::ng-deep .mat-expansion-panel .mat-expansion-panel-content {
+    border-top: none !important;
+    margin: 0 !important;
+  }
+}
+
+.solution-items--header {
+  border-radius: 8px;
+  background: white !important;
+  margin: 0 auto;
+  z-index: 1;
+  height: 60px !important;
+  padding-top: 0.5rem !important;
+}
+.solution-items--header:hover{
+  background-color: white !important;
+}
+
+.solution-items--panel {
+  height: 30px !important;
+  border-radius: 8px;
+  background: #fbfbfb;
+}
+
+.solution-items--change-owner-selected {
+  background: #e6f1fc !important;
+}
+
+.change-owner-section{
+  background: $aal--mat-surface-variant ;
+  border-radius: 8px;
+  &.owner {
+    background: $aal--mat-active ;
+    border-radius: 8px;
+  }
+}
+.change-owner-section:hover{
+  background: $aal--mat-background-hover ;
+}
+
+::ng-deep .change-owner-section {
+  min-height: 2rem;
+  .aal-edit-section {
+    padding-top: 0 !important;
+  }
+}
+
+::ng-deep .rp-chip {
+  min-width: 20px !important;
+  max-width: 30px !important;
+}
+::ng-deep .text-field-wrapper {
+  padding: 0px !important;
+}
+
+.scope-item-solution-items-card ::ng-deep .image-section {
+  margin-right: 1rem!important;
+}

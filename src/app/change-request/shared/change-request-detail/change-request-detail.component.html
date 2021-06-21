@@ -1,0 +1,18 @@
+<div class="full-height">
+  <mc-project-change-request-details *ngIf="isProjectCR" [isCreatorCR]="isCreatorCR" [param]="param"
+                                     [changeRequestData]="changeRequestResponse" [isProjectCR]="isProjectCR"
+                                     [showLoader]="showLoader"
+                                     [changeRequestDocumentsFormGroup]="changeRequestDocumentsFormGroup"
+                                     (updateChangeRequestView)="updateCRType($event)"></mc-project-change-request-details>
+  <mc-creator-change-request-details *ngIf="isCreatorCR" [isCreatorCR]="isCreatorCR" [param]="param"
+                                     [changeRequestData]="changeRequestResponse" [isProjectCR]="isProjectCR"
+                                     [showLoader]="showLoader"
+                                     [changeRequestDocumentsFormGroup]="changeRequestDocumentsFormGroup"
+                                     (updateChangeRequestView)="updateCRType($event)"></mc-creator-change-request-details>
+  <div *ngIf="showLoader" class="loader-overlay" fxLayout="column" fxLayoutAlign="center">
+    <div [style.margin]="'0 auto'" fxFlex="1 1 10%">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+  </div>
+
+</div>

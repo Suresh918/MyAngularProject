@@ -1,0 +1,22 @@
+<div mat-dialog-title class="aal--margin-bottom-r1" fxLayout="row" fxLayoutAlign="space-between center">
+  <span>Change Title</span>
+  <button mat-icon-button color="warn" (click)="close(false)">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content fxLayout="column" fxLayoutGap="0.5rem">
+
+  <div fxLayout="row" class="aal--padding-right-left-r-5">
+    <mc-mat-input-text-area fxFill [control]="data.control"
+                            [controlConfiguration]="data.controlConfiguration">
+    </mc-mat-input-text-area>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions class="primary-btn-theme" fxLayout="row" fxLayoutGap=".5rem">
+  <span fxFlex="1 1 auto"></span>
+  <button class="secondary-action-button" mat-button color="primary" (click)="close(false)">Cancel</button>
+  <button mat-raised-button color="primary" (click)="submit()">Change</button>
+</mat-dialog-actions>

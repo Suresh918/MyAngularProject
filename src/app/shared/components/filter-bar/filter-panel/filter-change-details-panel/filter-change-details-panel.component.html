@@ -1,0 +1,190 @@
+<div class="aal--margin-bottom-r1" fxLayout="column" fxLayoutGap="0.5rem" *ngIf="caseObject !== 'review'">
+  <span fxLayout="row" fxLayoutAlign="start center">
+    <mc-help [message]="filterFormConfiguration?.changeObjectDetails?.help"></mc-help>
+    <span class="mat-title aal--margin-bottom-r0">{{filterFormConfiguration?.changeObjectDetails?.label}}</span>
+  </span>
+  <div fxLayout="row wrap" fxLayoutGap="1.5rem grid" fxLayoutAlign="start bottom">
+    <mc-auto-complete-group-multiple [bubbleAcceptChanges]="true"
+                                     *ngIf="caseObjectFilterConfiguration?.group"
+                                     [controlConfiguration]="filterFormConfiguration?.group"
+                                     [control]="caseObjectCurrentFilterFormGroup?.get('group')"
+                                     [fieldSaveNotApplicable]="true"
+                                     [hideConfirmationToolBar]="true" [hideHelp]="true"
+                                     [isGenericField]="true" [isHistoryEnabled]="true"
+                                     [lockMode]="'EDIT'" [mode]="'EDIT'"
+                                     fxFlex="0 0 32"></mc-auto-complete-group-multiple>
+    <mc-auto-complete-project-multiple
+      *ngIf="caseObjectFilterConfiguration?.projectID"
+      [bubbleAcceptChanges]="true"
+      [controlConfiguration]="filterFormConfiguration?.projectID"
+      [control]="caseObjectCurrentFilterFormGroup?.get('projectID')" [fieldSaveNotApplicable]="true"
+      [hideConfirmationToolBar]="true"
+      [hideHelp]="true" [isGenericField]="true" [isHistoryEnabled]="true" [lockMode]="'EDIT'" [mode]="'EDIT'"
+      fxFlex="0 0 32">
+    </mc-auto-complete-project-multiple>
+    <mc-auto-complete-product-multiple
+      *ngIf="caseObjectFilterConfiguration?.productID"
+      [bubbleAcceptChanges]="true"
+      [controlConfiguration]="filterFormConfiguration?.productID"
+      [control]="caseObjectCurrentFilterFormGroup?.get('productID')" [fieldSaveNotApplicable]="true"
+      [hideConfirmationToolBar]="true" [hideHelp]="true" [isGenericField]="true" [isHistoryEnabled]="true"
+      [lockMode]="'EDIT'"
+      [mode]="'EDIT'" fxFlex="0 0 32" [caseObject]="">
+    </mc-auto-complete-product-multiple>
+    <mc-auto-complete-air-multiple *ngIf="caseObjectFilterConfiguration?.PCCSTRAIMIDs"
+                                   [controlConfiguration]="filterFormConfiguration?.PCCSTRAIMIDs"
+                                   [control]="caseObjectCurrentFilterFormGroup?.get('PCCSTRAIMIDs')"
+                                   [fieldSaveNotApplicable]="true"
+                                   [hideConfirmationToolBar]="true" [hideHelp]="true" [isGenericField]="true"
+                                   [isHistoryEnabled]="true"
+                                   [lockMode]="'EDIT'" [mode]="'EDIT'"
+                                   fxFlex="0 0 32"></mc-auto-complete-air-multiple>
+
+
+    <mc-auto-complete-pbs-multiple *ngIf="caseObjectFilterConfiguration?.PBSIDs"
+                                   [controlConfiguration]="filterFormConfiguration?.PBSIDs"
+                                   [control]="caseObjectCurrentFilterFormGroup?.get('PBSIDs')"
+                                   [fieldSaveNotApplicable]="true"
+                                   [hideConfirmationToolBar]="true" [hideHelp]="true" [isGenericField]="true"
+                                   [isHistoryEnabled]="true"
+                                   [lockMode]="'EDIT'" [mode]="'EDIT'"
+                                   fxFlex="0 0 32"></mc-auto-complete-pbs-multiple>
+    <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.customerImpact"
+                        [bubbleAcceptChanges]="true"
+                        [controlConfiguration]="filterFormConfiguration?.customerImpact"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('customerImpact')"
+                        [fieldSaveNotApplicable]="true" [hideConfirmationToolBar]="true" [hideHelp]="true"
+                        [lockMode]="'EDIT'"
+                        [mode]="'EDIT'" class="aal--margin-bottom-r-5"
+                        fxFlex="0 0 32"></mc-select-multiple>
+
+    <mc-select-single *ngIf="caseObjectFilterConfiguration?.changeObject && caseObject === 'myTeamManagement'"
+                      [controlConfiguration]="filterFormConfiguration?.changeObject"
+                      [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('changeObject')"
+                      [hideConfirmationToolBar]="true"
+                      [hideHelp]="true"
+                      [lockMode]="'EDIT'" [mode]="'EDIT'" fxFlex="0 0 32"></mc-select-single>
+
+    <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.status && caseObject !== 'review' && caseObject !== 'reviewEntry'"
+                        [bubbleAcceptChanges]="true" [controlConfiguration]="filterFormConfiguration?.status"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('status')" [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true"
+                        [lockMode]="caseObject !== 'myTeamManagement' ? 'EDIT' : 'PROTECTED'" [mode]="caseObject !== 'myTeamManagement' ? 'EDIT' : 'PROTECTED'" [valueAsObject]="true" [primaryKeyInValue]="'value'"
+                        class="aal--margin-bottom-r-5" fxFlex="0 0 32"></mc-select-multiple>
+
+    <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.type && (caseObject === 'readNotification' || caseObject === 'unreadNotification')"
+                        [controlConfiguration]="filterFormConfiguration?.type"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('type')" [valueAsObject]="true" [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true" [lockMode]="'EDIT'"
+                        [mode]="'EDIT'" [bubbleAcceptChanges]="true"
+                        class="aal--margin-bottom-r-5" fxFlex="0 0 32"></mc-select-multiple>
+
+    <mc-select-single *ngIf="caseObjectFilterConfiguration?.linkedChangeObject"
+                      [controlConfiguration]="filterFormConfiguration?.linkedChangeObject"
+                      [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('linkedChangeObject')"
+                      [hideConfirmationToolBar]="true"
+                      [hideHelp]="true"
+                      [lockMode]="'EDIT'" [mode]="'EDIT'" fxFlex="0 0 32"
+                      [isNullable]="true"></mc-select-single>
+
+    <mc-select-single *ngIf="caseObjectFilterConfiguration?.agendaCategory"
+                      [controlConfiguration]="filterFormConfiguration?.agendaCategory"
+                      [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('agendaCategory')"
+                      [hideConfirmationToolBar]="true"
+                      [hideHelp]="true"
+                      [lockMode]="'EDIT'" [mode]="'EDIT'" fxFlex="0 0 32"
+                      [isNullable]="true"></mc-select-single>
+    <mc-select-single *ngIf="caseObjectFilterConfiguration?.isActive"
+                      [controlConfiguration]="filterFormConfiguration?.isActive"
+                      [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('isActive')" [fieldSaveNotApplicable]="true"
+                      [hideConfirmationToolBar]="true" [hideHelp]="true"
+                      [lockMode]="'EDIT'" [mode]="'EDIT'" fxFlex="0 0 32"
+                      [isNullable]="true"></mc-select-single>
+
+    <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.classification"
+                        [bubbleAcceptChanges]="true" [controlConfiguration]="filterFormConfiguration?.classification"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('classification')"
+                        [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true" [lockMode]="'EDIT'"
+                        [mode]="'EDIT'" [valueAsObject]="true" class="aal--margin-bottom-r-5"
+                        fxFlex="0 0 32"></mc-select-multiple>
+
+    <mc-input-text *ngIf="caseObjectFilterConfiguration?.solutionItem"
+                   [controlConfiguration]="filterFormConfiguration?.solutionItem"
+                   [control]="caseObjectCurrentFilterFormGroup?.get('solutionItem')"
+                   [bubbleAcceptChanges]="true" [mode]="'EDIT'"
+                   [fieldSaveNotApplicable]="true" [lockMode]="'EDIT'" [hideHelp]="true"
+                   [hideConfirmationToolBar]="true"
+                   class="aal--margin-bottom-r-5" fxFlex="0 0 32"></mc-input-text>
+
+
+    <mc-input-text *ngIf="caseObjectFilterConfiguration?.reviewItems"
+                   [controlConfiguration]="filterFormConfiguration?.reviewItems"
+                   [control]="caseObjectCurrentFilterFormGroup?.get('reviewItems')" [bubbleAcceptChanges]="true" [mode]="'EDIT'"
+                   [fieldSaveNotApplicable]="true" [lockMode]="'EDIT'" [hideHelp]="true"
+                   [hideConfirmationToolBar]="true"
+                   class="aal--margin-bottom-r-5" fxFlex="0 0 32" ></mc-input-text>
+    <mc-input-text *ngIf="caseObjectFilterConfiguration?.linkedItems"
+                   [controlConfiguration]="filterFormConfiguration?.linkedItems"
+                   [control]="caseObjectCurrentFilterFormGroup?.get('linkedItems')" [bubbleAcceptChanges]="true" [mode]="'EDIT'"
+                   [fieldSaveNotApplicable]="true" [lockMode]="'EDIT'" [hideHelp]="true"
+                   [hideConfirmationToolBar]="true"
+                   fxFlex="0 0 38"></mc-input-text>
+
+    <mc-input-text *ngIf="caseObjectFilterConfiguration?.department"
+                   [controlConfiguration]="filterFormConfiguration?.department"
+                   [control]="caseObjectCurrentFilterFormGroup?.get('department')" [bubbleAcceptChanges]="true" [mode]="'EDIT'"
+                   [fieldSaveNotApplicable]="true" [lockMode]="'EDIT'" [hideHelp]="true"
+                   [hideConfirmationToolBar]="true"
+                   class="aal--margin-bottom-r-5" fxFlex="0 0 32"></mc-input-text>
+
+    <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.type && !(caseObject === 'readNotification' || caseObject === 'unreadNotification')"
+                        [controlConfiguration]="filterFormConfiguration?.type"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('type')" [valueAsObject]="true" [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true" [lockMode]="'EDIT'"
+                        [mode]="'EDIT'" [bubbleAcceptChanges]="true"
+                        class="aal--margin-bottom-r-5" fxFlex="0 0 32"></mc-select-multiple>
+    <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.tags"
+                        [controlConfiguration]="filterFormConfiguration?.tags"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('tags')" [valueAsObject]="true" [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true" [lockMode]="'EDIT'"
+                        [mode]="'EDIT'" [bubbleAcceptChanges]="true"
+                        class="aal--margin-bottom-r-5" fxFlex="0 0 32"></mc-select-multiple>
+    <mc-select-single *ngIf="caseObjectFilterConfiguration?.changeOwnerType"
+                      [controlConfiguration]="filterFormConfiguration?.changeOwnerType"
+                      [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('changeOwnerType')"
+                      [hideConfirmationToolBar]="true"
+                      [hideHelp]="true"
+                      [lockMode]="'EDIT'" [mode]="'EDIT'" fxFlex="0 0 32"
+                      [isNullable]="true"></mc-select-single>
+
+  </div>
+</div>
+
+<div *ngIf="caseObject === 'review'" fxLayout="row" fxLayoutGap="1.5rem" class="aal--margin-bottom-r1">
+  <div fxLayout="column" fxLayoutGap="0.5rem" fxFlex="0 0 35">
+    <span fxLayout="row" fxLayoutAlign="start center">
+      <mc-help [message]="filterFormConfiguration?.changeObjectDetails?.help"></mc-help>
+      <span class="mat-title aal--margin-bottom-r0">{{filterFormConfiguration?.changeObjectDetails?.label}}</span>
+    </span>
+    <mc-input-text *ngIf="caseObjectFilterConfiguration?.linkedItems"
+                   [controlConfiguration]="filterFormConfiguration?.linkedItems"
+                   [control]="caseObjectCurrentFilterFormGroup?.get('linkedItems')" [bubbleAcceptChanges]="true" [mode]="'EDIT'"
+                   [fieldSaveNotApplicable]="true" [lockMode]="'EDIT'" [hideHelp]="true"
+                   [hideConfirmationToolBar]="true"
+                   fxFlex="0 0 38"></mc-input-text>
+  </div>
+  <div fxLayout="column" fxLayoutGap="1rem" class="aal--padding-top-r-5" fxFlex="0 0 35">
+  <span fxLayout="row" fxLayoutAlign="start center">
+    <mc-help [message]="filterFormConfiguration?.reviewTaskDetails?.help"></mc-help>
+    <span class="mat-title aal--margin-bottom-r0">{{filterFormConfiguration?.reviewTaskDetails?.label}}</span>
+  </span>
+      <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.review_tasks_status"
+                          [bubbleAcceptChanges]="true" [controlConfiguration]="filterFormConfiguration?.review_tasks_status"
+                          [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('review_tasks_status')" [fieldSaveNotApplicable]="true"
+                          [hideConfirmationToolBar]="true" [hideHelp]="true"
+                          [lockMode]="'EDIT'" [mode]="'EDIT'" [valueAsObject]="true" [primaryKeyInValue]="'value'"
+                          class="aal--margin-bottom-r-5" fxFlex="0 0 32"></mc-select-multiple>
+  </div>
+</div>
+

@@ -1,0 +1,23 @@
+<div fxFlex="row" fxLayoutGap="1rem" class="chip-overlay-card" fxLayoutAlign="start center">
+  <mc-chip class="chip-text" *ngIf="solutionItems?.length" fxLayoutAlign="start center"
+           [text]="solutionItems[0]?.name ? solutionItems[0]?.name : solutionItems[0]"
+           [imageURL]="(disableImageUrl) ? '' : (solutionItems[0]?.id ? solutionItems[0]?.id : '') | userImage"></mc-chip>
+  <mc-button-overlay-card *ngIf="solutionItems?.length > 1" fxFlex="1 1 auto"
+                          [buttonType]="'chip'"
+                          [buttonText]="'+' + (solutionItemsOnOverlay?.length ? solutionItemsOnOverlay?.length :
+                                              (solutionItemsOnOverlay?.TotalItems ? solutionItemsOnOverlay?.TotalItems : solutionItems?.length))"
+                          [defaultItemIcon]="'arrow_drop_down'"
+                          id="favourites_overlay"
+                          [headerTitle]="headerTitle"
+                          [showCategories]="showCategories"
+                          [hideSectionDivider]="hideSectionDivider"
+                          [isIconBorder]="false"
+                          [overlayData]="solutionItemsOnOverlay"
+                          [categoryItemsCount]="solutionItemsOnOverlay?.length ? solutionItemsOnOverlay?.length : solutionItems?.length"
+                          [cardSummaryRefForOverlayCard]="cardSummaryRefForOverlayCard"
+                          ></mc-button-overlay-card>
+  <ng-template #cardSummaryRefForOverlayCard let-item>
+    <mc-chip class="chip-text" fxLayoutAlign="start center" [text]="item?.name ? item?.name : item"
+             [imageURL]="(disableImageUrl) ? '' : (item?.id ? item?.id : '') | userImage"></mc-chip>
+  </ng-template>
+</div>

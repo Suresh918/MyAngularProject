@@ -1,0 +1,64 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0.5rem">
+    <mat-icon>edit</mat-icon>
+    <span>{{title}}</span>
+  </div>
+  <mc-button-icon [tooltip]="'close'"
+                  [icon]="'close'"
+                  [color]="'primary'"
+                  [noCheckOnCaseAction]="true"
+                  [isGenericButton]="true"
+                  (buttonClick)="cancel()">
+  </mc-button-icon>
+</div>
+<mat-dialog-content fxLayout="column" class="aal--padding-all-r1 background--off-white info-dialog-content">
+  <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem">
+    <div fxLayout="row" fxFlex="100">
+      <div fxFlex="60%" class="aal--padding-all-r-5 aal--padding-bottom-r0">
+        <mc-select-single [controlConfiguration]="cbRuleSetControlConfiguration"
+                          [selectFormControl]="cbRuleSetFormControl"
+                          [mode]="(cbRulesSaveAction$ | async) ? 'READ': 'PROTECTED'"
+                          [fieldSaveNotApplicable]="true"
+                          (bubbledAcceptChanges)="setRulesForSelectedRuleSet()">
+        </mc-select-single>
+      </div>
+      <div fxFlex="40%" fxLayoutAlign="end" class="aal--padding-all-r1 aal--padding-bottom-r0 mat--font-small"
+           *ngIf=" rulesForSelectedRuleSet?.length !== 0 ">
+        <span>Proposal :</span><span>{{totalCountCbRulesSelected > 0 ? ' Online': ' Offline'}} ({{totalCountCbRulesSelected}} Rules Matching)</span>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div fxLayout="column" fxFlex="100%" class="cb-rules-set-dialog-content">
+      <div *ngIf="selectedCBRuleSet?.rules?.length !== 0 || cbRuleSetFormControl?.value" fxLayout="column" fxFlex="100%">
+        <div fxLayout="row" fxFlex="100%" class="aal--margin-left-r1-5" fxLayoutAlign="space-between center"
+             *ngFor="let rule of rulesForSelectedRuleSet">
+          <div fxFlex="100%" fxLayoutAlign="space-between center" class="aal--margin-bottom-r1">
+            <mc-text fxFlex="90%" [value]="rule?.name" [help]="rule?.help"></mc-text>
+            <mat-slide-toggle color="accent" [disabled]="!(cbRulesSaveAction$ | async)" [checked]="rule?.selected"
+                              (change)="onSelectRule(rule, $event)" fxFlex="10%"></mat-slide-toggle>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!cbRuleSetFormControl?.value">
+        <mc-menu-empty-state-card [title]="'No Rule Set Selected Yet'" [subTitle]="'CB Rule Will Appear Here'"
+                                      [icon]="'list'">
+        </mc-menu-empty-state-card>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="end center">
+  <mc-button-outlined [text]="'Cancel'"
+                      [tooltip]="'Cancel'"
+                      [isGenericButton]="true"
+                      [noCheckOnCaseAction]="true"
+                      (buttonClick)="cancel()">
+  </mc-button-outlined>
+  <mc-button-contained [text]="'Save'"
+                       [tooltip]="'Save CB Rules'"
+                       (buttonClick)="onClickSaveCBRuleSet()"
+                       [noCheckOnCaseAction]="true"
+                       [isLinkedItem]="true"
+                       [caseObject]="data?.caseObject">
+  </mc-button-contained>
+</mat-dialog-actions>

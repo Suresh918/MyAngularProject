@@ -1,0 +1,9 @@
+<mc-project-change-request-cia *ngIf="isProjectCR" [changeRequestFormGroup]="changeRequestFormGroup"
+                                [readOnlyCIAData]="readOnlyCIAData" [changeRequestData]="changeRequestData"></mc-project-change-request-cia>
+<mc-creator-change-request-cia *ngIf="isCreatorCR" [changeRequestFormGroup]="changeRequestFormGroup"
+                               [readOnlyCIAData]="readOnlyCIAData" [changeRequestData]="changeRequestData"></mc-creator-change-request-cia>
+<div *ngIf="showLoader" class="loader-overlay" fxLayout="column" fxLayoutAlign="center">
+  <div [style.margin]="'0 auto'" fxFlex="1 1 10%">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>

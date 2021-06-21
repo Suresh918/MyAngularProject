@@ -1,0 +1,40 @@
+<mc-button-overlay-card fxFlex="1 1 auto"
+                        [buttonType]="'icon'"
+                        id="favourites-overlay-card"
+                        [headerIcon]="'grade'" [headerTitle]="'Favorites'"
+                        [defaultItemIcon]="'grade'" [progressBar]="progressBar"
+                        [showCategories]="false"
+                        [isIconBorder]="false"
+                        [closeOnItemClick]="true"
+                        [isDragDropAllowed]="true"
+                        [overlayData]="favorites"
+                        [categoryItemsCount]="0"
+                        (panelOpened)="getFavoritesList()"
+                        (listItemClicked)="openLinkedAction($event)"
+                        (reOrderedItems)="reOrderedList($event)"
+                        [cardSummaryRefForOverlayCard]="cardSummaryRefForOverlayCard"
+                        [emptyStateTemplateRefForOverlayCard]="emptyStateRefForOverlayCard"></mc-button-overlay-card>
+<ng-template #cardSummaryRefForOverlayCard let-item>
+  <mc-card-summary [item]="item"
+                   [mainDescription]="' &middot; ' + item?.id"
+                   [separator]="'interpunct'" [showActionButtonOnFocus]="true"
+                   [iconImageTemplateRef]="imageDisplayRef"
+                   [actionTemplateRef]="actionRef"
+  ></mc-card-summary>
+  <ng-template #imageDisplayRef let-item>
+    <mat-icon *ngIf="item?.type.toUpperCase()==='CHANGEREQUEST'" [matTooltip]="'Change Request'" mat-list-icon
+              class="icon--medium aal--margin-right-r0" svgIcon="change-request"></mat-icon>
+    <mat-icon *ngIf="item?.type.toUpperCase()==='CHANGENOTICE'" [matTooltip]="'Change Notice'" mat-list-icon
+              class="icon--medium aal--margin-right-r0" svgIcon="change-notice"></mat-icon>
+    <mat-icon *ngIf="item?.type.toUpperCase()==='RELEASEPACKAGE'" [matTooltip]="'Release Package'" mat-list-icon
+              class="icon--medium aal--margin-right-r0" svgIcon="release-package"></mat-icon>
+  </ng-template>
+  <ng-template #actionRef>
+    <mat-icon mat-list-icon class="icon--small" (click)="deleteFavorite(item)">delete</mat-icon>
+  </ng-template>
+</ng-template>
+<ng-template #emptyStateRefForOverlayCard>
+  <aal-empty-state [title]="'No Favorites'"
+                   [subTitle]="'Favorites will appear here, after clicking the favorite icon in a CR / CN / RP'"
+                   [icon]="'grade'"></aal-empty-state>
+</ng-template>

@@ -1,0 +1,21 @@
+.impacted-item-type {
+  ::ng-deep .mat-radio-button .mat-radio-label {
+    color: black;
+    margin-right: 2.5rem;
+    font-weight: bold;
+  }
+}
+
+.impacted-item-id {
+  ::ng-deep .aal-edit-section .prefix-text {
+    height: 20px;
+    width: 35px;
+  }
+}
+.clear-icon-center {
+  ::ng-deep .clear-icon {
+    position: absolute;
+    top: 30%;
+    right: 0;
+  }
+}

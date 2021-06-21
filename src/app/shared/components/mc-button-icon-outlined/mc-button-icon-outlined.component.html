@@ -1,0 +1,8 @@
+<aal-button-icon-outlined *ngIf="(buttonAction$ | async) || noCheckOnCaseAction || buttonDisabled"
+                          [name]="name"
+                          [tooltip]="tooltip"
+                          [disabled]="(!(buttonAction$ | async) && buttonDisabled) || disabled"
+                          [ID]="buttonId ? buttonId : defaultButtonID"
+                          [icon]="icon"
+                          [matBadge]="badgeData"
+                          (onClick)="onButtonClick($event)"></aal-button-icon-outlined>

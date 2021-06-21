@@ -1,0 +1,14 @@
+.cell-cbc-field {
+  padding: 0rem 1rem 0rem 3rem;
+}
+.cbc-section ::ng-deep .aal-read-section {
+    opacity: 1 !important;
+    .mat-caption {
+      opacity: 1 !important;
+      font-weight: 400 !important;
+    }
+}
+.cbc-inner-expansion-panel-content-header ::ng-deep .expansion-panel-header:hover{
+  background: #dcdcdc47!important;
+}
+

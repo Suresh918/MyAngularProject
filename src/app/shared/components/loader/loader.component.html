@@ -1,0 +1,84 @@
+<div [ngSwitch]="type" fxFlex="100">
+  <div *ngSwitchCase="'panel'" class="panels-loader" fxFlex="100">
+    <mc-state-panel-loader [count]="count" [height]="height" [viewType]="viewType"></mc-state-panel-loader>
+  </div>
+
+  <div class="list-loader" fxFlex="100" *ngSwitchCase="'list'">
+    <ngx-skeleton-loader
+      [count]="count"
+      [theme]="{
+    'border-radius': '8px',
+    height: height || '70px',
+    'background-color': '#EDEEF4'
+    }"
+    ></ngx-skeleton-loader>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'case-object-list'">
+    <div *ngFor="let count of countArray">
+      <mc-case-object-list-loader></mc-case-object-list-loader>
+    </div>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'action-list'">
+    <div *ngFor="let count of countArray">
+      <mc-action-list-loader></mc-action-list-loader>
+    </div>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'review-entry-list'">
+    <div *ngFor="let count of countArray">
+      <mc-review-entry-list-loader></mc-review-entry-list-loader>
+    </div>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'review-list'">
+    <div *ngFor="let count of countArray">
+      <mc-review-list-loader></mc-review-list-loader>
+    </div>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'notification-list'">
+    <div *ngFor="let count of countArray">
+      <mc-notification-list-loader></mc-notification-list-loader>
+    </div>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'agenda-list'">
+    <div *ngFor="let count of countArray">
+      <mc-agenda-list-loader [isDashboardWidget]="isDashboardWidget"></mc-agenda-list-loader>
+    </div>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'overlay'">
+    <div *ngFor="let count of countArray">
+<!--      <mc-overlay-loader></mc-overlay-loader>-->
+    </div>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'decisions'" fxLayoutGap="1rem">
+    <mc-decision-loader></mc-decision-loader>
+    <mc-decision-loader></mc-decision-loader>
+    <mc-decision-loader></mc-decision-loader>
+  </div>
+
+  <div *ngIf="type?.includes('dashboard')" fxFlex="100">
+    <mc-dashboard-graph-loader [type]="type" fxFlex="100"></mc-dashboard-graph-loader>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'right-panel-menu-list-items'">
+    <div *ngFor="let count of countArray">
+      <mc-side-panel-right-menu-loader [viewType]="viewType"></mc-side-panel-right-menu-loader>
+    </div>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'comment-reply'">
+    <div *ngFor="let count of countArray">
+      <mc-comment-reply [viewType]="viewType"></mc-comment-reply>
+    </div>
+  </div>
+
+  <div fxFlex="100" *ngSwitchCase="'review-details-table'">
+    <mc-review-details-table [count]="countArray"></mc-review-details-table>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+::ng-deep .overlay-loader {
+  .loader {
+    margin-bottom: 0;
+  }
+}
+
+.overlay-panel {
+  width: 100%;
+  height: 90px;
+  border-radius: 8px;
+  z-index: 1;
+}

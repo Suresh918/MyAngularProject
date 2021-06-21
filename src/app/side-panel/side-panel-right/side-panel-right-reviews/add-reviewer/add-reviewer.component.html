@@ -1,0 +1,30 @@
+<div class="aal--margin-bottom-r1 form-container">
+  <div fxLayout="column" fxLayoutGap="1rem" class="aal--padding-top-right-r-5 aal--padding-bottom-r1">
+    <mc-auto-complete-user-single [controlConfiguration]="reviewerFormConfiguration['reviewer']"
+                                   [control]="reviewerFormGroup.get('assignee')"
+                                   [fieldSaveNotApplicable]="true"
+                                   [mode]="mode === 'add' ? 'EDIT' : 'PROTECTED'" [lockMode]="mode === 'add' ? 'EDIT' : 'PROTECTED'"
+                                   [hideHelp]="true">
+    </mc-auto-complete-user-single>
+    <mc-date-picker fxFlex="100%" class="dateAlign"
+                    [controlConfiguration]="reviewerFormConfiguration['reviewer_due_date']"
+                    [control]="reviewerFormGroup.get('due_date')"
+                    [mode]="'EDIT'" [lockMode]="'EDIT'" [fieldSaveNotApplicable]="true"
+                    [bubbleAcceptChanges]="true"
+                    (bubbledAcceptChanges)="setReviewerDueDate($event)"
+                    [hideHelp]="true">
+    </mc-date-picker>
+  </div>
+  <div class="background-white aal--padding-right-r1 aal--padding-top-bottom-r-5"
+       fxLayoutAlign="end center" fxLayoutGap="1rem" fxLayout="row">
+    <mc-button-outlined [noCheckOnCaseAction]="true"
+                        [isGenericButton]="true"
+                        (buttonClick)="cancelReviewer()"
+                        [text]="'Cancel'"></mc-button-outlined>
+    <mc-button-contained [noCheckOnCaseAction]="true"
+                         [isGenericButton]="true"
+                         [disabled]="reviewerFormGroup?.invalid"
+                         (buttonClick)="mode === 'add' ? addReviewer() : updateReviewer()"
+                         [text]="'Save'"></mc-button-contained>
+  </div>
+</div>

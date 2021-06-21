@@ -1,0 +1,54 @@
+<div fxLayout="column"
+     class="aal--elevation-1 aal--padding-all-r1 background-white fit-into-content" fxFlex="100%" [ngClass]="isItemExpanded ? 'card-border-expanded': 'card-border'">
+  <div fxLayoutGap="1rem" fxLayout="row" fxLayoutAlign="start center"
+       class="fit-into-content">
+    <mc-card-summary fxFlex="46%" [separator]="'interpunct'"
+                     [mainDescriptionCaption]="item?.agenda?.plannedStartDate | aalDate: 'week-day'"
+                     [iconImageTemplateRef]="imageDisplayRef1" [mainDescriptionLink]="item?.agenda?.generalInformation?.title" (mainDescriptionClick)="navigateToAgenda(item?.agenda?.ID)">
+    </mc-card-summary>
+    <ng-template #imageDisplayRef1>
+      <mat-icon class="icon--medium">event</mat-icon>
+    </ng-template>
+    <mc-card-summary fxFlex="35%" [labelCaption]="'Presenter'"
+                     [mainDescription]="item?.agendaItem?.presenter | personName"
+                     [iconImageTemplateRef]="imageDisplayRef2"></mc-card-summary>
+    <ng-template #imageDisplayRef2>
+      <img *ngIf="item?.agendaItem?.presenter?.userID" class="image-circle" aalLoadBlankPortrait
+           [src]="item?.agendaItem?.presenter?.userID | userImage"
+           alt="">
+    </ng-template>
+    <mc-card-summary fxFlex="15%" [labelCaption]="purposeLabel" [mainDescription]="purpose"
+                     [iconImageTemplateRef]="purposeRef"></mc-card-summary>
+    <ng-template #purposeRef>
+      <mat-icon class="icon--medium icon--border" *ngIf="purposeIcon">{{purposeIcon}}</mat-icon>
+    </ng-template>
+    <mc-button-icon fxFlex="4%" [icon]="'keyboard_arrow_down'" [isGenericButton]="true" (buttonClick)="toggleAgendaItemView()"
+                    [noCheckOnCaseAction]="true"
+                    [color]="'accent'"
+                    *ngIf="!isItemExpanded"></mc-button-icon>
+    <mc-button-icon fxFlex="4%" [icon]="'keyboard_arrow_up'" [isGenericButton]="true" (buttonClick)="toggleAgendaItemView()"
+                    [noCheckOnCaseAction]="true"
+                    [color]="'accent'"
+                    *ngIf="isItemExpanded"></mc-button-icon>
+  </div>
+  <div *ngIf="isItemExpanded" animationDuration="1000ms">
+    <div fxLayout="column" class="aal--padding-bottom-r2 aal--padding-top-r1" fxLayoutGap="2rem">
+      <mat-divider></mat-divider>
+      <div fxLayout="row" fxFlex="100%" fxLayoutGap="1rem">
+        <div fxLayout="column" fxFlex="58%" fxLayoutGap="1rem">
+          <mc-text [label]="'Minutes'" [value]="item?.agendaItem?.minutes ? (item?.agendaItem?.minutes?.minutes || '-') : '-'">
+          </mc-text>
+          <mc-cb-rules [cbRulesDataDetails]="item?.agendaItem?.changeBoardRuleSet"
+                       [cbRulesStatus]="'Online'"
+                       [type]="'AgendaItem'"
+                       [Id]="item?.agendaItem?.ID"></mc-cb-rules>
+        </div>
+        <div fxLayout="column" fxFlex="42%">
+          <mc-card-summary [labelCaption]="purposeLabel" [mainDescription]="purposeResultDetails" fxFlex="14%"
+                           [iconImageTemplateRef]="purposeRef" [isMainDescriptionHTML]="true"></mc-card-summary>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

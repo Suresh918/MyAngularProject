@@ -1,0 +1,16 @@
+<mat-form-field fxFill>
+  <input [formControl]="control" [type]="type" [placeholder]="controlConfiguration?.label" [required]="hasValidator()" matInput aalTrimInput>
+  <span matPrefix>{{ controlConfiguration?.prefix }}</span>
+  <span matSuffix>{{ controlConfiguration?.suffix }}</span>
+  <mat-hint align="end" *ngIf="controlConfiguration?.validators?.max_length">
+    {{ control?.value?.length || 0 }}/{{controlConfiguration?.validators?.max_length}}</mat-hint>
+  <mat-error *ngIf="control?.errors?.maxlength">{{ controlConfiguration?.label }} should be less than or equal to
+    {{ control?.errors?.maxlength?.requiredLength }} characters
+  </mat-error>
+  <mat-error *ngIf="control?.errors?.required">{{ controlConfiguration?.label }} is required</mat-error>
+  <mat-error *ngIf="control?.errors?.duplicate && !control?.errors?.required">{{ controlConfiguration?.label }} already exists</mat-error>
+  <mat-icon *ngIf="controlConfiguration?.help" class="tooltip" matSuffix [matTooltip]="controlConfiguration?.help"
+    matTooltipPosition="before">
+    help
+  </mat-icon>
+</mat-form-field>

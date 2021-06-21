@@ -1,0 +1,32 @@
+
+@import '../../../../themes/material/theming';
+
+.caseobject-list-filter {
+  background-color: $aal--mat-surface;
+}
+.sticky-header{
+   top: 0;
+    position: sticky;
+    z-index: 10;
+    background-color: $aal--mat-surface-variant;
+}
+.list-disable--overlay {
+   position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color:#000;
+    opacity: .75;
+    z-index: 1;
+}
+.count-divider {
+  margin: 0 10px 0 16px;
+  height: 25px;
+}
+.mat-icon.active{
+  color: #1C7DDB;
+}
+.mat-icon {
+  color: #858585;
+}

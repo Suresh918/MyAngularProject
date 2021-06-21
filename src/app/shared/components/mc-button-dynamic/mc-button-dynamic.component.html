@@ -1,0 +1,9 @@
+<aal-button-dynamic [state]="currentState"
+                    [name]="name"
+                    [ID]="buttonId ? buttonId : defaultButtonID"
+                    [tooltip]="tooltip"
+                    [stateConfiguration] ="statesConfiguration"
+                    [showStatusToast]="showStatusUpdate"
+                    [disabled]="disabled"
+                    (onClick)="onButtonClick($event)">
+</aal-button-dynamic>

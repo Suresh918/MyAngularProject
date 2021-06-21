@@ -1,0 +1,80 @@
+<mat-table #table [dataSource]="dataSource" matSort>
+  <ng-container [matColumnDef]="'id'">
+    <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10%">
+      <span>{{ caseObjectLabel }} ID</span>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let caseObject" fxFlex="10%">
+      <a *ngIf="caseObjectType === 'ReleasePackage'" [routerLink]="['/'+caseObjectRouterPath , caseObject?.release_package_number]">{{ caseObject?.release_package_number }}</a>
+      <a *ngIf="caseObjectType !== 'ReleasePackage'" [routerLink]="['/'+caseObjectRouterPath , caseObject?.ID || caseObject?.id]">{{ caseObject?.ID || caseObject?.id }}</a>
+    </mat-cell>
+  </ng-container>
+  <ng-container [matColumnDef]="'description'">
+    <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="55%">Description</mat-header-cell>
+    <mat-cell *matCellDef="let caseObject" fxFlex="55%">
+      <span class="context-overflow">{{ caseObject.title }}</span>
+    </mat-cell>
+  </ng-container>
+  <ng-container *ngIf="caseObjectType === 'ReleasePackage'" [matColumnDef]="'project'">
+    <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10%">Project</mat-header-cell>
+    <mat-cell *matCellDef="let releasePackage" fxFlex="10%">
+      <span>{{ releasePackage.project_id }}</span>
+    </mat-cell>
+  </ng-container>
+  <ng-container [matColumnDef]="'status'">
+    <mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="15%">Status</mat-header-cell>
+    <mat-cell *matCellDef="let caseObject" fxFlex="15%">
+      <span>{{ caseObject.statusLabel || caseObject['status_label'] }}</span>
+    </mat-cell>
+  </ng-container>
+  <ng-container [matColumnDef]="'actions'">
+    <mat-header-cell *matHeaderCellDef fxFlex="15%">Completed actions</mat-header-cell>
+    <mat-cell *matCellDef="let caseObject" fxFlex="15%">
+      <a class="completed-actions " href="javascript:void(0)"
+         (click)="openActionsPanel(caseObject,$event)">{{ caseObject.totalCompletedActions || caseObject['completed_actions'] }} /
+        {{ caseObject.totalActions || caseObject['total_actions'] }}</a>
+    </mat-cell>
+  </ng-container>
+  <ng-container [matColumnDef]="'create'" *ngIf="caseObjectType === 'ChangeRequest'">
+    <mat-header-cell *matHeaderCellDef class="primary-btn-theme" fxLayoutAlign="center">
+      <button mat-icon-button color="primary" [matMenuTriggerFor]="menu" fxFlex="5%">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="createChangeRequest('air')">
+          <a>
+            <span>from AIR</span></a>
+        </button>
+        <button mat-menu-item (click)="createChangeRequest('pbs')">
+          <a>
+            <span>from PBS</span></a>
+        </button>
+        <button mat-menu-item (click)="createChangeRequest('new')">
+          <a>
+            <span>from Scratch</span></a>
+        </button>
+      </mat-menu>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let caseObject" fxFlex="5%" fxLayoutAlign="end">
+      <a [href]="'/' + caseObjectRouterPath +'/' + (caseObject.ID || caseObject.id)">
+        <mat-icon>chevron_right</mat-icon>
+      </a>
+    </mat-cell>
+  </ng-container>
+  <ng-container [matColumnDef]="'create'" *ngIf="caseObjectType !== 'ChangeRequest'">
+    <mat-header-cell *matHeaderCellDef fxFlex="5%" fxLayoutAlign="end"></mat-header-cell>
+    <mat-cell *matCellDef="let caseObject" fxFlex="5%" fxLayoutAlign="end">
+      <a [href]="'/' + caseObjectRouterPath +'/' + caseObject.ID">
+        <mat-icon>chevron_right</mat-icon>
+      </a>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"
+           [ngClass]="{'mat-selected-row':selectedRowIndex === row.ID}"></mat-row>
+</mat-table>
+<div *ngIf="!progressBar && dataSource?.data?.length === 0" class="no-result-div">No search results</div>
+<mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate" *ngIf="progressBar">
+</mat-progress-bar>
+<mat-paginator #paginator [length]="resultsLength" [pageIndex]="0" [pageSize]="pageSize" [pageSizeOptions]="[8,15,20]"
+               fxLayoutAlign="end">
+</mat-paginator>

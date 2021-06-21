@@ -1,0 +1,29 @@
+<mat-form-field class="search-full-width" floatPlaceholder="always">
+  <mat-chip-list #userchipList>
+    <mat-chip *ngFor="let userGroup of userGroups; let i = index" [selectable]="selectable" [removable]="userRemovable && !isControlDisabledInitially"
+              [disabled]="isControlDisabledInitially" (removed)="removeChip(i,userGroups)">
+      {{ userGroup.fullName }} - {{ userGroup.abbreviation }}
+      <mat-icon matChipRemove *ngIf="userRemovable">cancel</mat-icon>
+    </mat-chip>
+    <input matInput [placeholder]="getPlaceHolder()" aria-label="State" [matChipInputFor]="userchipList" [matAutocomplete]="auto" aalDisableControl
+      [disableControl]="control?.disabled" [matChipInputAddOnBlur]="'true'" [formControl]="stateCtrl" #userInput/>
+    <mat-icon  matSuffix *ngIf="groups" class="icon--pointer" color="accent" [matTooltip]="'Search Groups'" (click)="openGroupSelect()"
+              matTooltipPosition="before">
+      group
+    </mat-icon>
+    <mat-icon class="tooltip" matSuffix *ngIf="controlConfiguration?.help" [matTooltip]="controlConfiguration?.help"
+              matTooltipPosition="before">
+      help
+    </mat-icon>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addChip($event,userGroups,userInput)">
+      <mat-option *ngFor="let user of filteredUsers$ | async" [value]="user" class="bsnl-user-list">
+        <img [src]="user.photoURL" *ngIf=" !!user.photoURL" (error)="user.photoURL=''" alt="" class="bsnl-user-profile" />
+        <mat-icon class="menu-icon" *ngIf="!user.photoURL" class="bsnl-user-profile">account_circle</mat-icon>
+        <span> {{ user.fullName }} </span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-chip-list>
+  <mat-progress-bar color="primary" class="primary-btn-theme progress-bar__input" mode="indeterminate" color="primary" *ngIf="progressBar">
+  </mat-progress-bar>
+  <mat-error *ngIf="stateCtrl?.errors?.user_required">{{ controlConfiguration?.placeholder }} is required</mat-error>
+</mat-form-field>

@@ -1,0 +1,10 @@
+<aal-chip
+  [removable]="removable || false"
+  [data]="text"
+  [imageURL]="imageURL"
+  [icon]="icon"
+  [hideTooltip]="hideTooltip"
+  (deleteChip)="onRemove($event)"
+  (chipPress)="onChipClick($event)"
+  [noCursor]="noCursor || false">
+</aal-chip>

@@ -1,0 +1,133 @@
+@import "../themes/material/theming";
+
+/* body-container is styles for side navigation component*/
+.main-body {
+  height: 100% !important;
+  width: 100% !important;
+  &.container-wrapper{
+    height: calc(100% - 3.5rem) !important;
+  }
+}
+
+.body-container {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto 0 auto;
+  overflow: hidden;
+  background: inherit;
+}
+
+  .header-index {
+    z-index: 2;
+  }
+
+/* dynamic body width class is used to add margin to  side-panel-content styles on open*/
+
+
+/* dynamic body width class is used to add margin to  side-panel-content styles on open*/
+/*.body-width-on-left-panel-open {
+  margin-left: 33.25rem !important;
+  margin-right: 1rem !important;
+}*/
+
+/*below lines are used to overide side-panel width on open*/
+.mat-drawer.mat-drawer-end {
+  right: 0.5rem;
+  width: 336px;
+}
+
+.mat-drawer.mat-drawer-side.contentDrawer {
+  width: 26rem;
+}
+
+/*:host .body-width-on-left-panel-open ::ng-deep .category-container {
+  width: 100% !important;
+}
+
+:host .body-width-on-left-panel-open ::ng-deep .page-footer {
+  padding: 4px !important;
+}*/
+
+.side-menu {
+  width: 19.5rem;
+  -webkit-transition: width 250ms;
+  transition: width 250ms ease-out;
+}
+
+.icon-menu {
+  width: 4.5rem;
+  -webkit-transition: width 200ms;
+  transition: width 200ms ease-in;
+}
+
+.menu-side-nav-content-on-icon-menu-open {
+  margin-left: 4.5rem !important;
+  -webkit-transition: margin-left 200ms;
+  transition: margin-left 200ms ease-out;
+}
+
+.menu-side-nav-content-on-menu-open {
+  margin-left: 19.5rem !important;
+  -webkit-transition: margin-left 250ms;
+  transition: margin-left 250ms ease-in;
+}
+
+.menu-side-nav-content-on-menu-and-right-panel-open {
+  margin-left: 15rem !important;
+  -webkit-transition: margin-left 250ms;
+  transition: margin-left 250ms ease-out;
+}
+
+.menu-side-nav-content-on-icon-menu-and-right-panel-open {
+  margin-left: 0 !important;
+}
+
+.menu-side-nav-content-on-menu-and-left-panel-open {
+  margin-left: 0 !important;
+}
+
+.menu-side-nav-content-on-icon-menu-and-left-panel-open {
+  margin-left: -1.25rem !important;
+  -webkit-transition: margin-left 200ms;
+  transition: margin-left 200ms ease-in;
+}
+
+.main-side-nav-content-on-icon-menu-open {
+  margin-left: 0 !important;
+}
+
+.main-side-nav-content-on-menu-open {
+  // margin-left: -0.5rem !important;
+  -webkit-transition: margin-left 250ms;
+  transition: margin-left 250ms ease-in;
+}
+
+.main-side-nav-content-on-left-panel-and-icon-menu-open {
+  margin-left: 31.75rem !important;
+  margin-right: 0 !important;
+}
+
+.main-side-nav-content-on-right-panel-open {
+  margin-left: 4.5rem !important;
+}
+
+.main-side-nav-content-on-left-panel-and-menu-open {
+  margin-left: 46.5rem !important;
+  margin-right: 1rem !important;
+}
+
+.main-side-nav-on-icon-menu-open {
+  margin-left: 5.25rem !important;
+  -webkit-transition: margin-left 200ms;
+  transition: margin-left 200ms ease-in;
+}
+
+.main-side-nav-on-menu-open {
+  margin-left: 20rem !important;
+  -webkit-transition: margin-left 250ms;
+  transition: margin-left 250ms ease-out;
+}
+.main-drawer{
+  right: 0 !important;
+}
+

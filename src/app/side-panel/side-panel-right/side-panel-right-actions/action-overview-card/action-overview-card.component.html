@@ -1,0 +1,102 @@
+<mat-card class="action-overview-card mc-card-content">
+  <mat-card-content>
+    <div fxLayout="column">
+      <div fxLayout="row" fxLayoutGap=".5rem" (click)="onClickAction(action)" [style.cursor]="'pointer'">
+        <mc-card-summary fxFlex="100%"
+                         [mainDescriptionLink]="action?.action?.ID" [id]="'action_item_' + action?.action?.ID"
+                         (mainDescriptionClick)="navigateToActions(action?.action?.ID)"
+                         [mainDescriptionCaption]="(action?.action?.generalInformation?.status | titlecase) || (action?.action?.status | titlecase)"
+                         [line1Caption]="action?.action?.deadline | aalDate:'dueDate'"
+                         [separator]="'interpunct'" [showActionButtonOnFocus]="true"
+                         [iconImageTemplateRef]="imageDisplayRef" [actionTemplateRef]="actionRef"></mc-card-summary>
+        <ng-template #imageDisplayRef>
+          <span fxLayout="column" fxLayoutAlign="center center">
+          <span class="notification-badge background-orange"
+                *ngIf="action?.action?.expiry?.toUpperCase() === 'SOON'"></span>
+          <span class="notification-badge background-red"
+                *ngIf="action?.action?.expiry?.toUpperCase() === 'LATE' || action?.action?.expiry?.toUpperCase() === 'PAST'"></span>
+          <span class="notification-badge background-green"
+                *ngIf="action?.action?.expiry?.toUpperCase() === 'OTHER'"></span>
+          <span fxLayoutAlign="center center" class="case-object--border case-object-icon"
+                [ngClass]="{'no--border-radius':caseObjectType === 'ReleasePackage', 'cn--border-radius':caseObjectType === 'ChangeNotice'}">
+                          <mat-icon
+                            *ngIf="!(action?.action?.type === 'REVIEW' || action?.action?.type === 'PROCESS-REVIEW')">assignment
+                          </mat-icon>
+                          <mat-icon
+                            *ngIf="(action?.action?.type === 'REVIEW' || action?.action?.type === 'PROCESS-REVIEW')">rate_review</mat-icon>
+                       </span>
+          </span>
+        </ng-template>
+        <ng-template #actionRef>
+          <div *ngIf="(caseObjectStatus!=='CLOSED')" fxLayout="row"
+               fxFlex="25">
+            <mc-button-icon [icon]="'edit'" *ngIf="action?.action?.isSaveAllowed"
+                            [tooltip]="'Edit'"
+                            [color]="'accent'"
+                            [buttonAction]="'EDIT'"
+                            [noCheckOnCaseAction]="true"
+                            (buttonClick)="editAction(action?.action, $event)"></mc-button-icon>
+            <mc-button-icon [icon]="'delete'" *ngIf="action?.action?.isDeleteAllowed"
+                            [tooltip]="'Delete'"
+                            [buttonAction]="'REMOVE'"
+                            [color]="'accent'"
+                            [noCheckOnCaseAction]="true"
+                            (buttonClick)="updateAction(action?.action,'REMOVE', $event)"></mc-button-icon>
+          </div>
+        </ng-template>
+      </div>
+      <div fxLayout="row" class="aal--margin-bottom-r-5">
+        <mc-text [label]="" [value]="action?.action?.generalInformation?.title || action?.action?.title"></mc-text>
+      </div>
+      <div [style.width]="'100%'">
+        <mc-chip *ngIf="action?.action?.assignee?.fullName" [text]="[action?.action?.assignee?.fullName + ' (' + action?.action?.assignee?.abbreviation +')']"
+                 [disabled]="true" [removable]="false"
+                 [imageURL]="action?.action?.assignee?.userID | userImage"></mc-chip>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="aal--margin-right-left-r-5">
+        <div fxLayout="row" fxLayoutGap=".5rem">
+          <mc-button-icon *ngIf="action?.action?.isAcceptAllowed"
+                          [icon]="'thumb_up'"
+                          [tooltip]="'I Will Work On This'"
+                          [buttonAction]="'ACCEPT'"
+                          [color]="'accent'"
+                          [noCheckOnCaseAction]="true"
+                          (buttonClick)="updateAction(action?.action,'ACCEPT')"></mc-button-icon>
+          <mc-button-icon *ngIf="action?.action?.isRejectAllowed"
+                          [icon]="'thumb_down'"
+                          [tooltip]="'I Am Not Able To Work On This'"
+                          [color]="'accent'"
+                          [buttonAction]="'REJECT'"
+                          [caseObjectType]="'Action'"
+                          [noCheckOnCaseAction]="true"
+                          (buttonClick)="updateAction(action?.action,'REJECT')"></mc-button-icon>
+          <mc-button-icon *ngIf="action?.action?.isCompleteAllowed"
+                          [icon]="'check_circle'"
+                          [tooltip]="'Action Completed'"
+                          [color]="'accent'"
+                          [buttonAction]="'COMPLETE'"
+                          [noCheckOnCaseAction]="true"
+                          (buttonClick)="updateAction(action?.action,'COMPLETE')"></mc-button-icon>
+          <mc-button-icon *ngIf="action?.action?.isRequestDetailsAllowed"
+                          [icon]="'info'"
+                          [tooltip]="'Request For Details'"
+                          [color]="'accent'"
+                          [buttonId]="'action_request_for_details'"
+                          [noCheckOnCaseAction]="true"
+                          (buttonClick)="updateAction(action?.action,'DETAILS-REQUESTED')"></mc-button-icon>
+        </div>
+        <div fxLayout="row" fxLayoutGap="1rem">
+          <mat-divider [vertical]="true" class="comments-divider"></mat-divider>
+          <mc-button-icon [ngClass]="{'hide-badge': !action?.action?.totalNotes}"
+                          [icon]="'mode_comment'"
+                          [tooltip]="'Comments'"
+                          [disabled]="true"
+                          [isBadgeDisabled]="true"
+                          [badgeData]="action?.action?.totalNotes"
+                          [noCheckOnCaseAction]="true"></mc-button-icon>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+

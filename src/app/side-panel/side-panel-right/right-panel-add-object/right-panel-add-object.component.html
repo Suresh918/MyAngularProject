@@ -1,0 +1,22 @@
+<div class="right-panel-add-object">
+  <div class="add-button" fxLayout="row" fxLayoutAlign="space-between center">
+    <mc-button-icon-outlined [buttonAction]="buttonCaseAction"
+                             [text]="'Add'"
+                             [icon]="'add'"
+                             (buttonClick)="add.emit()"></mc-button-icon-outlined>
+    <div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="showBulkEdit">
+      <mc-divider class="aal--margin-right-r-5"
+                  [height]="'2rem'"
+                  [isLinkedItem]="true"
+                  [isVertical]="true"
+                  [buttonAction]="'UPDATE'"
+      ></mc-divider>
+      <mc-button-icon [icon]="'edit'"
+                      [tooltip]="'Edit'"
+                      [buttonAction]="'UPDATE'"
+                      [color]="'accent'"
+                      (buttonClick)="bulkReviewersUpdate.emit()"></mc-button-icon>
+    </div>
+  </div>
+</div>
+<mat-divider class="aal--margin-right-left-r1"></mat-divider>

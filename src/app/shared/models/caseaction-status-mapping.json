@@ -1,0 +1,100 @@
+{
+  "ChangeRequest": [
+    {
+      "caseAction": "DEFINE",
+      "status": "DRAFT"
+    },
+    {
+      "caseAction": "DEFINE-FROM-SCRATCH",
+      "status": "DRAFT"
+    },
+    {
+      "caseAction": "DEFINE-FROM-AIR",
+      "status": "DRAFT"
+    },
+    {
+      "caseAction": "DEFINE-FROM-PBS",
+      "status": "DRAFT"
+    },
+    {
+      "caseAction": "SUBMIT",
+      "status": "NEW"
+    },
+    {
+      "caseAction": "DEFINE-SOLUTION",
+      "status": "SOLUTION-DEFINED"
+    },
+    {
+      "caseAction": "ANALYZE-IMPACT",
+      "status": "IMPACT-ANALYZED"
+    },
+    {
+      "caseAction": "APPROVE",
+      "status": "APPROVED"
+    },
+    {
+      "caseAction": "REJECT",
+      "status": "REJECTED"
+    },
+    {
+      "caseAction": "CLOSE",
+      "status": "CLOSED"
+    },
+    {
+      "caseAction": "OBSOLETE",
+      "status": "OBSOLETED"
+    }
+  ],
+  "ChangeNotice": [
+    {
+      "caseAction": "DEFINE",
+      "status": "DRAFT"
+    },
+    {
+      "caseAction": "SUBMIT",
+      "status": "NEW"
+    },
+    {
+      "caseAction": "COMMIT",
+      "status": "PLANNED"
+    },
+    {
+      "caseAction": "RELEASE",
+      "status": "PLANNED"
+    },
+    {
+      "caseAction": "CLOSE",
+      "status": "IMPLEMENTED"
+    },
+    {
+      "caseAction": "OBSOLETE",
+      "status": "OBSOLETED"
+    }
+  ],
+  "ReleasePackage": [
+    {
+      "caseAction": "SUBMIT",
+      "status": "NEW"
+    },
+    {
+      "caseAction": "CREATE",
+      "status": "CREATED"
+    },
+    {
+      "caseAction": "READY",
+      "status": "READY-FOR-RELEASE"
+    },
+    {
+      "caseAction": "RELEASE",
+      "status": "RELEASED"
+    },
+    {
+      "caseAction": "CLOSE",
+      "status": "CLOSED"
+    },
+    {
+      "caseAction": "OBSOLETE",
+      "status": "OBSOLETED"
+    }
+  ]
+}

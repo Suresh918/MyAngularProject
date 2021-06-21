@@ -1,0 +1,165 @@
+<div fxFlex="1 1 auto" fxLayout="column" class="fit-into-content main-menu-content">
+  <mat-nav-list class="aal--padding-all-r-5 page-body" fxLayoutGap="0.5rem" fxLayout="column">
+    <mat-list-item class="main-menu-create" [matMenuTriggerFor]="menu" [ngClass]="showFullMenu?'open':'close'" id="main_menu_create">
+      <mat-icon mat-list-icon [matTooltip]="'Create'">add</mat-icon>
+      <p mat-line class="aal--padding-right-r2">Create</p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <a mat-list-item routerLink="/dashboard" [routerLinkActive]="['is-active']" id="main_menu_home">
+      <mat-icon mat-list-icon [matTooltip]="'Home'">home</mat-icon>
+      <p mat-line>Home</p>
+    </a>
+    <a mat-list-item routerLink="/change-requests" [routerLinkActive]="['is-active']"
+      [ngClass]="selectedPage?.indexOf('CHANGEREQUEST') > -1 ? 'is-active' : ''" id="main_menu_change_requests">
+      <mat-icon mat-list-icon [matTooltip]="'Change Requests'" svgIcon="change-request"></mat-icon>
+      <p mat-line>Change Requests</p>
+    </a>
+    <a mat-list-item routerLink="/change-notices" [routerLinkActive]="['is-active']"
+      [ngClass]="selectedPage?.indexOf('CHANGENOTICE') > -1 ? 'is-active' : ''" id="main_menu_change_notices">
+      <mat-icon mat-list-icon [matTooltip]="'Change Notices'" svgIcon="change-notice"></mat-icon>
+      <p mat-line>Change Notices</p>
+    </a>
+    <a mat-list-item routerLink="/release-packages" [routerLinkActive]="['is-active']"
+      [ngClass]="selectedPage?.indexOf('RELEASEPACKAGE') > -1 ? 'is-active' : ''" id="main_menu_release_package">
+      <mat-icon mat-list-icon [matTooltip]="'Release Packages'" svgIcon="release-package"></mat-icon>
+      <p mat-line>Release Packages</p>
+    </a>
+    <mat-divider></mat-divider>
+    <a mat-list-item routerLink="/agendas" [routerLinkActive]="['is-active']" id="main_menu_agenda">
+      <mat-icon mat-list-icon [matTooltip]="'Agendas'">event</mat-icon>
+      <p mat-line>Agendas</p>
+    </a>
+    <a mat-list-item routerLink="/reviews" [routerLinkActive]="['is-active']"
+      [ngClass]="selectedPage?.indexOf('review') > -1 ? 'is-active' : ''" id="main_menu_reviews">
+      <mat-icon [matTooltip]="'Reviews'" mat-list-icon>rate_review</mat-icon>
+      <p mat-line>Reviews</p>
+    </a>
+    <a mat-list-item routerLink="/decision-logs" [routerLinkActive]="['is-active']" id="main_menu_decisions">
+      <mat-icon [matTooltip]="'Decisions'" mat-list-icon>gavel</mat-icon>
+      <p mat-line>Decisions</p>
+    </a>
+    <a mat-list-item routerLink="/actions" [routerLinkActive]="['is-active']"
+      [ngClass]="selectedPage?.indexOf('ACTION') > -1 ? 'is-active' : ''" id="main_menu_actions">
+      <mat-icon mat-list-icon [matTooltip]="'Actions'">assignment</mat-icon>
+      <p mat-line>Actions</p>
+    </a>
+    <a mat-list-item routerLink="/trackerboard" [routerLinkActive]="['is-active']" id="main_menu_tracker-board">
+      <mat-icon mat-list-icon [matTooltip]="'Tracker Board'" svgIcon="trackerboard"></mat-icon>
+      <p mat-line>Tracker Board</p>
+    </a>
+    <a mat-list-item routerLink="/reports" [routerLinkActive]="['is-active']" id="main_menu_reports">
+      <mat-icon mat-list-icon [matTooltip]="'Reports'">bar_chart</mat-icon>
+      <p mat-line>Reports</p>
+    </a>
+    <mat-divider></mat-divider>
+    <a mat-list-item routerLink="/settings" [routerLinkActive]="['is-active']"
+      [routerLinkActiveOptions]="{ exact: true }"
+      (click)="isSettingsExpanded = !isSettingsExpanded" id="main_menu_home_settings">
+      <mat-icon mat-list-icon [matTooltip]="'Settings'">settings</mat-icon>
+      <p mat-line>Settings</p>
+      <span [@indicatorRotate]="isSettingsExpanded ? 'expanded': 'collapsed'" *ngIf="showFullMenu"
+        class="expansion-indicator--arrow aal--margin-right-r1">
+      </span>
+    </a>
+    <mat-nav-list class="settings-list" fxLayoutGap="0.5rem" fxLayout="column" *ngIf="isSettingsExpanded">
+      <a mat-list-item routerLink="/settings/user-roles" [routerLinkActive]="['is-active']" id="main_menu_settings_user_roles">
+        <mat-icon mat-list-icon [matTooltip]="'User Roles'">people</mat-icon>
+        <p mat-line>User Roles</p>
+      </a>
+      <a mat-list-item routerLink="/settings/notifications" [routerLinkActive]="['is-active']" id="main_menu_settings_notifications">
+        <mat-icon mat-list-icon [matTooltip]="'Notifications'">notifications</mat-icon>
+        <p mat-line>Notifications</p>
+      </a>
+      <a mat-list-item routerLink="/settings/cb-rule-sets" [routerLinkActive]="['is-active']" id="main_menu_settings_cb_rules">
+        <mat-icon mat-list-icon [matTooltip]="'Agendas'">event</mat-icon>
+        <p mat-line>CB Rules</p>
+      </a>
+    </mat-nav-list>
+    <a mat-list-item routerLink="/admin" [routerLinkActive]="['is-active']" [routerLinkActiveOptions]="{ exact: true }"
+      (click)="isAdminExpanded = !isAdminExpanded" *ngIf="isUserAdmin || isUserChangeSpecialist1 || isUserChangeSpecialist2" id="main_menu_admin">
+      <mat-icon mat-list-icon [matTooltip]="'Admin'">verified_user</mat-icon>
+      <p mat-line>Admin</p>
+      <span [@indicatorRotate]="isAdminExpanded ? 'expanded': 'collapsed'" *ngIf="showFullMenu"
+        class="expansion-indicator--arrow aal--margin-right-r1">
+      </span>
+    </a>
+    <mat-nav-list class="settings-list" fxLayoutGap="0.5rem" fxLayout="column"
+      *ngIf="isAdminExpanded">
+      <a mat-list-item routerLink="/admin/announcements" [routerLinkActive]="['is-active']"  id="main_menu_admin_announcements">
+        <mat-icon mat-list-icon [matTooltip]="'Announcements'">notifications</mat-icon>
+        <p mat-line>Announcements</p>
+      </a>
+      <a mat-list-item routerLink="/admin/help-texts" [routerLinkActive]="['is-active']"  id="main_menu_admin_help_texts">
+        <mat-icon mat-list-icon [matTooltip]="'Help Texts'">help</mat-icon>
+        <p mat-line>Help Texts</p>
+      </a>
+      <a mat-list-item routerLink="/admin/agendas" [routerLinkActive]="['is-active']" id="main_menu_admin_cb_rules" >
+        <mat-icon mat-list-icon [matTooltip]="'CB Rules'">event</mat-icon>
+        <p mat-line>CB Rules</p>
+      </a>
+      <a mat-list-item routerLink="/admin/tags" [routerLinkActive]="['is-active']" id="main_menu_admin_tags" >
+        <mat-icon mat-list-icon [matTooltip]="'Tags'">local_offer</mat-icon>
+        <p mat-line>Tags</p>
+      </a>
+      <a mat-list-item routerLink="/admin/my-team-management" [routerLinkActive]="['is-active']" id="main_menu_admin_my_team_management" >
+        <mat-icon mat-list-icon [matTooltip]="'MyTeam Management'">group</mat-icon>
+        <p mat-line>myTeam Management</p>
+      </a>
+      <a mat-list-item routerLink="/admin/products-affected" [routerLinkActive]="['is-active']" id="main_menu_admin_products_affected" >
+        <mat-icon mat-list-icon [matTooltip]="'Products Affected'">domain</mat-icon>
+        <p mat-line>Products Affected</p>
+      </a>
+    </mat-nav-list>
+  </mat-nav-list>
+
+  <mat-menu #menu="matMenu" [overlapTrigger]="showFullMenu" xPosition="before">
+    <button mat-menu-item [matMenuTriggerFor]="changeRequestMenu" id='main_menu_create_change_request'>
+      <span>Change Request</span>
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="agendaMenu" id='main_menu_create_agenda'>
+      <span>Agenda</span>
+    </button>
+  </mat-menu>
+
+  <mat-menu #changeRequestMenu="matMenu">
+    <mc-button-text [buttonAction]="'CREATE_FROM_AIR'" [style.display]="'block'"
+      class="sub-menu-button"
+      id="menu_cr_define_from_air"
+      [caseObject]="changeRequestCaseObject"
+      [isGenericButton]="true"
+      [noCheckOnCaseAction]="true"
+      (buttonClick)="createChangeRequest('air')"></mc-button-text>
+    <mc-button-text [buttonAction]="'CREATE_FROM_PBS'" [style.display]="'block'"
+      class="sub-menu-button"
+      id="menu_cr_define_from_pbs"
+      [caseObject]="changeRequestCaseObject"
+      [isGenericButton]="true"
+      [noCheckOnCaseAction]="true"
+      (buttonClick)="createChangeRequest('pbs')"></mc-button-text>
+    <mc-button-text [buttonAction]="'CREATE'" [style.display]="'block'"
+      class="sub-menu-button"
+      id="menu_cr_define_from_scratch"
+      [caseObject]="changeRequestCaseObject"
+      [isGenericButton]="true"
+      [noCheckOnCaseAction]="true"
+      (buttonClick)="createChangeRequest('new')"></mc-button-text>
+  </mat-menu>
+  <mat-menu #agendaMenu="matMenu">
+    <mc-button-text [buttonAction]="'DEFINE'" [style.display]="'block'"
+      class="sub-menu-button"
+      [caseObject]="agendaCaseObject"
+      id="menu_agenda_cb_agenda"
+      [text]="'CB Agenda'"
+      [isGenericButton]="true"
+      [noCheckOnCaseAction]="true"
+      (buttonClick)="addAgenda('CB')"></mc-button-text>
+    <mc-button-text [buttonAction]="'DEFINE'" [style.display]="'block'"
+      class="sub-menu-button"
+      id="menu_agenda_ccb_agenda"
+      [text]="'CCB Agenda'"
+      [caseObject]="agendaCaseObject"
+      [isGenericButton]="true"
+      [noCheckOnCaseAction]="true"
+      (buttonClick)="addAgenda('CCB')"></mc-button-text>
+  </mat-menu>
+</div>

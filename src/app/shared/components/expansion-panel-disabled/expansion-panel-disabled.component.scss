@@ -1,0 +1,40 @@
+.expansion-panel {
+  .expansion-panel-header {
+    background: white;
+    border-radius: 0;
+    margin: 0 1rem;
+    padding: 0 0.5rem;
+
+    &:hover {
+      background: white;
+    }
+
+    &.mat-expanded {
+      height: 3.5rem !important;
+    }
+  }
+
+  ::ng-deep {
+    &.mat-expansion-panel-body {
+      .expansion-panel {
+        box-shadow: none !important;
+      }
+    }
+
+    .inner-expansion-panel-content {
+      padding-right: 2.5rem;
+    }
+  }
+}
+
+.disabled-text {
+  opacity: 0.54;
+}
+
+.disabled-chevron {
+  margin-right: -0.4rem;
+  margin-left: 0.5rem;
+}
+
+
+

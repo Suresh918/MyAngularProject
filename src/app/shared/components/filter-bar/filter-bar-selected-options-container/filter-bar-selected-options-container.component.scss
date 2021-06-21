@@ -1,0 +1,41 @@
+
+@import '../../../../../themes/material/theming';
+
+.filter-options--panel {
+  background-color: $aal--mat-surface-variant;
+  &.background-white {
+    background-color: $aal--mat-surface;
+  }
+  span {
+    font-size: 14px;
+  }
+  .list-icon {
+    opacity: 0.38;
+  }
+  .icon-chip {
+    padding: 6px 8px;
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+.filter--chip {
+  background: $aal--mat-priority-4 !important;
+  max-width: none;
+}
+
+.colored-chip {
+  background: #ffdeac !important;
+  .span {
+    z-index: 1 !important;
+  }
+}
+
+.hide-chip {
+  visibility: hidden !important;
+}
+.show-chip {
+  visibility: show !important;
+}

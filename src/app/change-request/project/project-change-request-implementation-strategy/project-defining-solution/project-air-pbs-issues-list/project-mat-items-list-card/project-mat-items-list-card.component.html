@@ -1,0 +1,22 @@
+<div (click)="$event.stopPropagation()" fxLayout="column">
+  <mat-toolbar class="header-toolbar--menu-header">
+    <mat-toolbar-row fxLayoutGap="1rem">
+      <span fxFlex>{{title}}&nbsp;({{listItems?.length}})</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate" *ngIf="showLoader">
+  </mat-progress-bar>
+  <div class="header-toolbar--menu-content aal--padding-top-r1">
+    <div fxLayoutAlign="start start" class="list-item aal--margin-right-left-r1" fxLayoutGap="0.5rem" fxLayout="row"
+         *ngFor="let item of listItems" (click)="onSelectMenuItem(item)">
+      <button mat-fab disabled>{{buttonText}}</button>
+      <div fxLayout="column" fxFlex>
+        <span class="menu-item--title title-color--black">{{item?.ID || item?.number}}</span>
+        <span class="menu-item--content label overflow-ellipsis">
+                {{item?.deliverable || item?.short_description}}</span>
+        <span
+          class="menu-item--content label overflow-ellipsis">{{(type === 'pbs') ? item?.projectID : item?.owner}}</span>
+      </div>
+    </div>
+  </div>
+</div>

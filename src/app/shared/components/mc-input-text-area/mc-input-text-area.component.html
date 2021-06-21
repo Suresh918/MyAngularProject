@@ -1,0 +1,15 @@
+<aal-input-text-area [ID]="fieldConfiguration?.ID"
+                     [control]="control"
+                     [label]="fieldConfiguration?.label"
+                     [placeholder]="fieldConfiguration?.placeholder"
+                     [help]="help" [disableControl]="disableControl"
+                     [isBusy]="isBusy"
+                     [mode]="mode"
+                     [alert]="serverError"
+                     [lockMode]="lockMode"
+                     [maxLength]="fieldConfiguration?.validators?.max_length"
+                     [showLengthHint]="(showLengthHint !== undefined) ? showLengthHint : true"
+                     [hideHelp]="hideHelp"
+                     [confirmToolBarNotApplicable]="hideConfirmationToolBar"
+                     (acceptChanges)="onAcceptChanges($event)" [fontSize]="fontSize">
+</aal-input-text-area>

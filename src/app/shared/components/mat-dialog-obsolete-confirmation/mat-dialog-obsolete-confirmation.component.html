@@ -1,0 +1,16 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <span>Confirm Obsolete</span>
+  <button mat-icon-button color="primary" (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <p class="mat-body-1">Are you sure you want to obsolete?</p>
+</mat-dialog-content>
+
+<mat-dialog-actions class="primary-btn-theme" fxLayout="row" fxLayoutGap=".5rem">
+  <button mat-raised-button class="secondary-action-button"  (click)="onNoClick()" >No, cancel</button>
+  <span fxFlex="1 1 auto"></span>
+  <button mat-raised-button color="primary" (click)="onYesClick()">Yes, proceed</button>
+</mat-dialog-actions>

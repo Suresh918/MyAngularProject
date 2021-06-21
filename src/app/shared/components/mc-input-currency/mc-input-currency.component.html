@@ -1,0 +1,15 @@
+<aal-input-currency [ID]="fieldConfiguration?.ID"
+                    [label]="fieldConfiguration?.label"
+                    [placeholder]="fieldConfiguration?.placeholder"
+                    (acceptChanges)="onAcceptChanges($event)"
+                    [thousandsSeparator]="','"
+                    [hideHelp]="hideHelp"
+                    [control]="control"
+                    [isNegativeCurrency]="isNegativeCurrency"
+                    [currencyCode]="'EUR'"
+                    [help]="help"
+                    [alert]="serverError"
+                    [isBusy]="isBusy"
+                    [mode]="mode"
+                    [fontSize]="fontSize">
+</aal-input-currency>

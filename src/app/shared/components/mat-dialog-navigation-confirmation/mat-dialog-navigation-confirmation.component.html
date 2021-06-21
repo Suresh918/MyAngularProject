@@ -1,0 +1,21 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center" class="aal--padding-right-r-5">
+  <span fxLayoutGap="0.5rem"  fxLayoutAlign="start center">
+    <mat-icon class="icon-grey aal--padding-right-r-5">warning</mat-icon>
+    <span>{{headerTitle}}</span>
+  </span>
+  <button mat-icon-button color="primary" (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <p class="mat-body-1" *ngIf="!isCaseObject">Your changes have not been saved. Are you sure you want to leave this page?</p>
+  <p class="mat-body-1" *ngIf="isCaseObject" [innerHTML]="message"></p>
+</mat-dialog-content>
+
+<mat-dialog-actions class="primary-btn-theme" fxLayout="row" fxLayoutGap=".5rem">
+  <span fxFlex="1 1 auto"></span>
+  <button mat-button class="secondary-action-button" *ngIf="!isFooterButtonsNotRequired" (click)="onNoClick()" >No, cancel</button>
+  <button mat-raised-button color="primary" *ngIf="!isFooterButtonsNotRequired" (click)="onYesClick()" id="'navigation-dialog-proceed'">Yes, proceed</button>
+  <button mat-raised-button color="primary" *ngIf="isFooterButtonsNotRequired" (click)="onYesClick()">{{buttonLabel}}</button>
+</mat-dialog-actions>

@@ -1,0 +1,17 @@
+.items-container-scroll {
+  .disabled-icon {
+    color: #bbbbbb;
+  }
+  .dragable-card {
+    padding: 0 1rem;
+  }
+  .dndPlaceholder {
+    background-color: rgba(0, 0, 0, .1);
+    min-height: 4rem;
+    border: 1px dashed black;
+  }
+  .dndDraggingSource {
+    opacity: .5;
+    transform: scale(.98);
+  }
+}

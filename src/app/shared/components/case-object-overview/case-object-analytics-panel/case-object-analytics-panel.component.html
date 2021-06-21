@@ -1,0 +1,14 @@
+<div>
+<mc-analytics-panel fxFlex="100%"
+                     [cardCountKey]="'count'"
+                     [cardLabelKey]="caseObjectType === 'ReleasePackage' ? 'status_label' : 'state_label'"
+                     [toolTipKey]="'tool_tip'"
+                     [panelData]="caseObjectPanelData"
+                     [mode]="mode"
+                     [panelExpanded]="expandStatePanel"
+                     (panelSelected)="panelClicked($event)"
+                    *ngIf="!isPanelDataLoading"
+                     class="notification-type-panel">
+</mc-analytics-panel>
+<mc-loader [type]="'panel'" *ngIf="isPanelDataLoading" [count]="(caseObjectType === 'ReleasePackage') ? 6 : (caseObjectType === 'ChangeRequest')? 5 : caseObjectPanelData?.length" class="aal--padding-top-bottom-r-5"></mc-loader>
+</div>

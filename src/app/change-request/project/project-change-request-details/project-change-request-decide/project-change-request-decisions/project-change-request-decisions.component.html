@@ -1,0 +1,16 @@
+<div fxLayout="column" fxLayoutGap="1rem">
+  <div *ngFor="let item of decisions">
+    <mc-cr-online-decision [crID]="crID"
+                           [item]="item"
+                           [isExpanded]="isExpanded"
+                           [crTitle]="crTitle"
+                           *ngIf="item?.agendaItem && !HelpersService.isOfflineAgendaItem(item?.agendaItem)"></mc-cr-online-decision>
+    <mc-cr-offline-decision *ngIf="HelpersService.isOfflineAgendaItem(item?.agendaItem) || !item?.agendaItem"
+                            [crID]="crID"
+                            [item]="item"
+                            [crTitle]="crTitle"
+                            [isExpanded]="isExpanded"
+                            (agendaItemLinked)="onAgendaItemLinked($event)"
+                            (decisionUpdated)="onDecisionUpdated()"></mc-cr-offline-decision>
+  </div>
+</div>

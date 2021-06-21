@@ -1,0 +1,12 @@
+/**
+work around proposed as it is solved in angualr material verison
+https://github.com/angular/material2/issues/5269
+*/
+div.mat-expansion-panel-content:not(.mat-expanded) {
+  height: 0 !important;
+  visibility: hidden !important;
+}
+
+.mat-expansion-panel-header  {
+  height: 48px;
+}

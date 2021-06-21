@@ -1,0 +1,11 @@
+@import '../../../../../themes/material/theming';
+.form-container {
+  background-color: $aal--mat-surface-variant !important;
+  border-radius: 8px;
+  padding-top: 0.25rem;
+  box-shadow: 2px 2px 2px #d6d6d6;
+  overflow: hidden;
+}
+.dateAlign {
+  padding-left: 0.3rem;
+}

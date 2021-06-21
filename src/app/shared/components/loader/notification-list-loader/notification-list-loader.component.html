@@ -1,0 +1,17 @@
+<div fxLayout="column" class="aal--margin-bottom-r-5 notification-list-loader">
+  <div fxLayout="row">
+    <div fxFlex="100" fxLayout="column">
+
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="notification-panel aal--elevation-1 aal--padding-all-r1">
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0.5rem" class="aal--padding-all-r-5">
+          <ngx-skeleton-loader [theme]="{ width: '36px', height: '36px' }" appearance="circle"></ngx-skeleton-loader>
+          <div fxLayout="column">
+            <ngx-skeleton-loader
+              [theme]="{ width: '300px', 'border-radius': '8px', height: '14px', 'margin-bottom': '6px', 'margin-top': '6px'}"></ngx-skeleton-loader>
+            <ngx-skeleton-loader [theme]="{ width: '225px', 'border-radius': '8px', height: '14px' }"></ngx-skeleton-loader>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

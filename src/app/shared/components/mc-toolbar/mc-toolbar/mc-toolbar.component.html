@@ -1,0 +1,14 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="tool-bar">
+  <span *ngIf="!showSwitchOwner"></span>
+  <div *ngIf="showSwitchOwner" fxLayout="row" fxFlex fxLayoutGap="1rem">
+    <mc-select-single [selectFormControl]="caseObjectFormGroup?.get('change_owner_type') || caseObjectFormGroup?.get('changeOwnerType')"
+                      [controlConfiguration]="snakeCaseNotRequired ? configuration?.changeOwnerType?.help : configuration?.change_owner_type?.help"
+                      [mode]="'PROTECTED'"></mc-select-single>
+  </div>
+  <mat-button-toggle-group [formControl]="expandCollapseControl" (change)="onChangeExpandState()" [value]="viewState">
+    <mat-button-toggle *ngFor="let enumerationItem of expandCollapseControlConfiguration?.options" color="primary"
+                       mat-raised-button [value]="enumerationItem.value" [matTooltip]="enumerationItem.help">
+      {{ enumerationItem.label }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</div>

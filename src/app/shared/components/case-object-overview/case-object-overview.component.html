@@ -1,0 +1,72 @@
+<div class="page-body" fxLayout="column">
+  <div class="sticky-header">
+    <div class="floating-header aal--elevation-2">
+      <div class="caseobject-list-filter">
+        <mc-filter-bar [caseObjectListCount]="totalItems" [caseObjectFiltersConfiguration]="caseObjectFilterConfiguration" [caseObject]="filterCaseObject"
+                       [title]="filterTitle" (filterUpdated)="triggerFilterChanges($event)" (filterPanelView)="filterPanelView($event)"
+                       [disabledLayerClicked]="disabledLayerClicked" (statePanelView)="statePanelView($event)" [searchInProgress]="searchInProgress">
+        </mc-filter-bar>
+      </div>
+      <mc-case-object-analytics-panel
+        [caseObjectType]="caseObjectType"
+        [filterQuery]="filterQuery"
+        [viewQuery]="viewQuery"
+        [filterUpdate$]="currentFilter$"
+        [mode]="'multiple'"
+        [expandStatePanel]="expandStatePanel"
+        (statePanelSelected)="statePanelSelectAction($event)"
+        [hidden]="(showFilterPanel || !toggleStatePanel) && !disabledLayerClicked">
+      </mc-case-object-analytics-panel>
+    </div>
+  </div>
+  <div fxFlex class="scrollable-wrapper" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()"
+       (scroll)="onScroll($event)" [scrollWindow]="false" #scrollingWrapper>
+    <div fxLayout="row" fxLayoutAlign="space-between" class="aal--margin-all-r-5">
+      <div fxLayout="row" class="aal--margin-left-r1" fxLayoutAlign="start center">
+        <aal-overlay-card-help *ngIf="(caseObjectType === 'ChangeNotice') || (caseObjectType === 'ChangeRequest')" [help]="totalCountHelp"></aal-overlay-card-help>
+        <span class="mat-body-1 aal--margin-bottom-r0">Total:
+          <span>{{totalItems}}</span>
+        </span>
+        <mat-divider class="count-divider" [vertical]="true"></mat-divider>
+        <mc-button-icon
+          [icon]="'list'"
+          [tooltip]="'List view'"
+          [noCheckOnCaseAction]="true"
+          [buttonId]="'case_object_list_listview'"
+          [color]="showTableView ? '#1C7DDB' : '#858585'"
+          (buttonClick)="toggleView(true)"
+        ></mc-button-icon>
+        <mc-button-icon
+          [icon]="'view_stream'"
+          [tooltip]="'Card view'"
+          [noCheckOnCaseAction]="true"
+          [buttonId]="'case_object_list_card_view'"
+          [color]="!showTableView ? '#1C7DDB' : '#858585'"
+          (buttonClick)="toggleView(false)"
+        ></mc-button-icon>
+      </div>
+      <div fxLayout="row" fxLayoutGap="1rem" *ngIf="!showTableView" fxFlex="300px">
+        <mc-menu-sort fxFill [matTooltip]="'Change sort order'"  [sortFromLinkedItem]="true" [sortConfiguration]="sortingConfiguration"
+                      [initialSort]="overviewListActiveSort" [disableSortClear]="true" (sortChange)="triggerOverviewListSortChange($event)"></mc-menu-sort>
+      </div>
+    </div>
+    <div *ngIf="showTableView">
+      <mc-case-object-overview-table [displayedColumns]="displayedColumns"
+                            [caseObjectType]="caseObjectType" [filterUpdated$]="currentFilter$"
+                            [caseObjectLabel]="caseObjectLabel"
+                            [caseObjectRouterPath]="caseObjectRouterPath"
+                            (updateListSortConfiguration)="triggerTableSortConfiguration($event)"
+                            (totalElements)="totalItems = $event">
+      </mc-case-object-overview-table>
+    </div>
+    <div *ngIf="!showTableView">
+      <mc-case-object-overview-card-list [caseObjectRouterPath]="caseObjectRouterPath"
+                                         [caseObjectType]="caseObjectType"
+                                         [caseObjectLabel]="caseObjectLabel"
+                                         [caseObjectList]="caseObjectList" *ngIf="caseObjectList && caseObjectList?.length > 0">
+      </mc-case-object-overview-card-list>
+      <mc-loader *ngIf="progressBar" [count]="(caseObjectList && caseObjectList?.length > 0) ? 3 : 8" [type]="'case-object-list'"></mc-loader>
+    </div>
+    <div *ngIf="showFilterPanel && !disabledLayerClicked" class="list-disable--overlay" (click)="hideFilterPanelEvent()"></div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+<div class="my-team-button--container">
+  <button mat-icon-button [matMenuTriggerFor]="quickFilterMenu" #trigger="matMenuTrigger" [id]="'quick_filter_'+caseObject"
+    [ngClass]="{'is-menuOpen': trigger.menuOpen}" [matTooltip]="'Quick Filters'" (menuOpened)="resetFilterValues()">
+    <mat-icon class="my-team-list--icon quick_filter--icon">filter_list</mat-icon>
+  </button>
+</div>
+<mat-menu #quickFilterMenu="matMenu" class="header-toolbar--menu">
+  <div (click)="$event.stopPropagation()" fxLayout="column">
+    <mat-toolbar class="quick-filter--toolbar">
+      <mat-toolbar-row fxLayoutGap="1rem">
+        <mat-icon class="quick_filter--icon">filter_list</mat-icon>
+        <span fxFlex>Quick Filters</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5"
+      *ngIf="caseObject === 'changeRequest' || caseObject === 'changeNotice' || caseObject === 'releasePackage'"
+      (click)="quickOptionSelected('allUsers','in my team')">My
+      {{caseObjectLabel}}'s</span>
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5"
+      *ngIf="caseObject === 'changeRequest' || caseObject === 'changeNotice' || caseObject === 'releasePackage' || caseObject === 'agenda'"
+      (click)="quickOptionSelected('createdBy', 'Creator')">Created by
+      me</span>
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5" (click)="secondaryFilterOption(caseObject)"
+      *ngIf="caseObject === 'review'">Upcoming 7
+      days</span>
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5" (click)="secondaryFilterOption(caseObject, 'myIncompleteReviewTask')"
+          *ngIf="caseObject === 'review'">My Ongoing Review Tasks</span>
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5" (click)="secondaryFilterOption('agenda')"
+      *ngIf="caseObject === 'agenda'">Upcoming 7
+      days</span>
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5" (click)="secondaryFilterOption('upcomingMeetingsWidget')"
+          *ngIf="caseObject === 'upcomingMeetingsWidget'">myAgendas</span>
+
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5"
+      (click)="secondaryFilterOption('decisionLog', 'REJECTED')" *ngIf="caseObject === 'decisionLog'">Reject</span>
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5" (click)="secondaryFilterOption('decisionLog')"
+      *ngIf="caseObject === 'decisionLog'">Last 7
+      days</span>
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5" *ngIf="caseObject === 'action'"
+      (click)="quickOptionSelected('assignee', 'Assignee')">Assigned to
+      me</span>
+    <span mat-menu-item class="menu-item--title aal--padding-top-r-5" *ngIf="caseObject === 'action'"
+      (click)="secondaryFilterOption('dueDate')">Soon (upcoming 7
+      days)</span>
+    <mat-divider></mat-divider>
+    <mat-list role="list" *ngIf="getKeys(caseObjectFilters)?.length>1">
+      <ng-container *ngFor="let name of getKeys(caseObjectFilters)">
+        <mat-list-item role="listitem" class="user-action--highlight" *ngIf="name !=='currentDefaultFilter'">
+          <div (click)="customOptionSelected(name)" fxLayout="row" fxFlex="100%" fxLayoutAlign="space-between center"
+            class="icon--pointer " fxFill>
+            <span class="mat-body-1 overflow-ellipsis" fxFlex="80%" [matTooltip]="name">{{name}}</span>
+            <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center" fxFlex="20%">
+              <button mat-icon-button color="accent" class="icon--pointer"
+                *ngIf="!(name ==='currentDefaultFilter' || caseObject === 'dashboardNotificationWidget')" (click)="copyToClipBoard(name); $event.stopPropagation()">
+                <mat-icon>
+                  filter_none
+                </mat-icon>
+              </button>
+              <mat-icon color="accent" (click)="removeFilter($event,name)" class="icon--pointer"
+                *ngIf="!(name ==='currentDefaultFilter' || caseObject === 'dashboardNotificationWidget')">
+                delete
+              </mat-icon>
+            </div>
+          </div>
+        </mat-list-item>
+      </ng-container>
+    </mat-list>
+    <mc-empty-state *ngIf="getKeys(caseObjectFilters)?.length === 1"
+                    [title]="'No Saved Filters'"
+                    [icon]="'filter_list'"
+                    [subTitle]="'No filters saved. Go ahead and save your filter'"></mc-empty-state>
+    <mat-divider *ngIf="getKeys(caseObjectFilters)?.length>1"></mat-divider>
+    <div *ngIf="!showInputFilter && caseObject !== 'dashboardNotificationWidget' && caseObject !== 'upcomingMeetingsWidget'" class="aal--margin-all-r1" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
+      <button mat-raised-button color="accent" (click)="openImportFilterDialog($event)">Import</button>
+      <button mat-raised-button color="accent" (click)="showInputFilter = true;">Save Current Filters</button>
+    </div>
+    <div class="aal--margin-all-r1" fxLayout="column" *ngIf="showInputFilter">
+      <mat-form-field floatPlaceholder="always" *ngIf="!isDuplicateFilterName">
+        <input matInput placeholder="Name" type="text" class="mat-body-1" [(ngModel)]="filterName" #name (keyup)="setFocus()"/>
+      </mat-form-field>
+      <p class="mat-body-1 aal--padding-top-r1" *ngIf="isDuplicateFilterName">
+        Quick Filter <span class="bold--text">{{filterName}}</span> already exists. Overwrite it?
+      </p>
+      <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
+        <button class="secondary-action-button" mat-button color="accent" *ngIf="!isDuplicateFilterName"
+          (click)="showInputFilter = false;">Cancel</button>
+        <button class="secondary-action-button" mat-button color="accent" *ngIf="isDuplicateFilterName"
+          (click)="isDuplicateFilterName = false;">No</button>
+        <button mat-raised-button color="accent" *ngIf="!isDuplicateFilterName"
+          (click)="addFilter(filterName, false)">Save</button>
+        <button mat-raised-button color="accent" *ngIf="isDuplicateFilterName"
+          (click)="addFilter(filterName, true)">Yes</button>
+      </div>
+    </div>
+  </div>
+</mat-menu>

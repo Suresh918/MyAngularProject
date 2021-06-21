@@ -1,0 +1,34 @@
+<mat-form-field fxFlex="100%">
+  <mat-select class="input.mat-chip-input" [ngModel]="selectedValue" ngDefaultControl (selectionChange)="changeDateFormat($event, 'noStartEnd')" [placeholder]="controlConfiguration?.label" [required]="hasValidator()">
+    <mat-option> -- None -- </mat-option>
+    <mat-option *ngFor="let enddate of endDateForm" [value]="enddate.date" fxLayout="row" fxLayoutAlign="space-between center">
+      <span>{{ enddate.name }} </span>
+      <span fxFlex="1 1 auto"></span>
+      <span>({{enddate.date| date: 'EEE d MMM yyyy hh:mm OOO'}})</span>
+    </mat-option>
+    <div class="mat-caption aal--margin-left-r1 aal--padding-top-r1"  [innerHTML]="'Start date - End Date'"></div>
+    <mat-option [value]="datePickerSlection" [style.height]="'auto'" class="date-picker aal--padding-top-r1">
+      <mat-form-field [style.width]="'100%'" *ngIf="!(type==='range')">
+        <input matInput [min]="minDate" [formControl]="control" [(ngModel)]="datePickerSlection" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <span [style.visibility]="'hidden'">{{datePickerSlection?.end | date }}</span>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="type==='range'">
+          <mat-date-range-input [rangePicker]="picker"
+                                [formControl]="control"
+                                [(ngModel)]="datePickerSlection" ngDefaultControl>
+            <input matStartDate (dateChange)="changeDateFormat($event, 'start')">
+            <input matEndDate (dateChange)="changeDateFormat($event, 'end')">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker" id="mat-date-picker-custom-toggle-button"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker ></mat-date-range-picker>
+          <!--<span [style.visibility]="'hidden'">{{datePickerSlection?.end | date }}</span>-->
+      </mat-form-field>
+      <div class="value context-overflow" aalChangeFontSize *ngIf="type==='range'">
+       {{ datePickerSlection?.end | date}}
+      </div>
+    </mat-option>
+  </mat-select>
+</mat-form-field>

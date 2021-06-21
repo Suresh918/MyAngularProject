@@ -1,0 +1,31 @@
+.attachment-card{
+  padding: 1rem 0.75rem 0.5rem 0.75rem !important;
+  ::ng-deep .mat-card-header-text {
+    margin-bottom: 0!important;
+  }
+  .content-divider {
+    margin: 0 0.25rem;
+    position: relative;
+  }
+  .expand {
+    text-align: center;
+    width: 100%;
+  }
+  .comments{
+    max-height: 18px;
+    overflow: hidden;
+    padding: 0 0.25rem;
+    &.expanded {
+      max-height: none;
+      height: auto;
+      white-space: pre-wrap;
+    }
+  }
+  .picture-icon{
+    width: 36px;
+    height: 36px;
+    padding: 2px;
+    object-fit: cover;
+    display: block;
+  }
+}

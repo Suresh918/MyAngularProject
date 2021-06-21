@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayoutAlign="start center" class="aal--padding-left-r-5">
+      <button mat-icon-button (click)="toggleMenu()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div [matTooltip]="'Home'" class="header--link-title" fxLayoutAlign="start center">
+        <a routerLink="/dashboard" fxHide.xs="true" fxFlexOffset="1.75rem">
+          <img src="../../../assets/icons/bsnl-logo.png" class="bsnl-logo" alt=""/>
+        </a>
+        <a fxFlexOffset="0.5rem" routerLink="/dashboard">
+          <span [style.color]="'white'">myChange</span>
+        </a>
+      </div>
+    </div>
+    <div fxLayoutGap="1rem" fxLayout="row" class="aal--margin-right-r-5">
+      <mc-global-search></mc-global-search>
+      <mc-favorites></mc-favorites>
+      <mc-external-apps></mc-external-apps>
+      <mc-user-action></mc-user-action>
+      <mc-header-notifications></mc-header-notifications>
+      <mc-task-scheduler></mc-task-scheduler>
+      <mc-user-profile></mc-user-profile>
+
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mc-error-messages-banner></mc-error-messages-banner>
+<mc-banner-role></mc-banner-role>
+<mc-notifications-banner [announcement]="currentBannerAnnouncement"  [showBannerLink]="showBannerLink"
+                         (bannerDismissed)="bannerDismissed($event)" *ngIf="showNotificationBanner"></mc-notifications-banner>
+<mc-app-update-banner></mc-app-update-banner>

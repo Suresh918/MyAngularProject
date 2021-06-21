@@ -1,0 +1,15 @@
+<aal-rich-text-area [ID]="fieldConfiguration?.ID"
+                    [control]="control"
+                    [isHistoryEnabled]="true"
+                    [placeholder]="fieldConfiguration?.placeholder"
+                    [alert]="serverError"
+                    [help]="help"
+                    [showLengthHint]="showLengthHint || true"
+                    [maxLength]="maxLength"
+                    (acceptChanges)="onFormAcceptChanges($event)"
+                    [isBusy]="isBusy"
+                    [mode]="mode"
+                    [label]="fieldConfiguration?.label"
+                    [lockMode]="lockMode"
+                    [fontSize]="fontSize" [hideHelp]="hideHelp" [confirmToolBarNotApplicable]="hideConfirmationToolBar">
+</aal-rich-text-area>

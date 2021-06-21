@@ -1,0 +1,23 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+    <mat-icon>warning</mat-icon>
+    <span *ngIf="!data?.dialogTitle">Delete link</span>
+    <span *ngIf="data?.dialogTitle">{{data?.dialogTitle}}</span>
+      </div>
+  <button mat-icon-button color="primary" mat-dialog-close (click)="onNoClick()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <div fxLayout="column">
+    <p class="mat-body-1" [innerHTML] ="data?.title"></p>
+    <p class="mat-body-l" [style.font-weight]="'bold'" *ngIf="data?.subtitle">{{data.subtitle}}</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="primary-btn-theme" fxLayout="row" fxLayoutGap=".5rem">
+  <span fxFlex="1 1 auto"></span>
+  <button mat-button class="secondary-action-button" (click)="onNoClick()" mat-dialog-close>No, cancel</button>
+  <button mat-raised-button color="primary" (click)="onYes()">Yes, delete</button>
+</mat-dialog-actions>

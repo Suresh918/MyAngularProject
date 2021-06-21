@@ -1,0 +1,35 @@
+<div #myTemCard>
+  <aal-button-overlay-card [overlayMenuYPosition]="yPosition"
+                           [ID]="'my_team_button'"
+                           [showCategories]="false"
+                           [isIconBorder]="true"
+                           [buttonType]="'icon'"
+                           [buttonIcon]="'group'"
+                           [progressBar]="progressBar"
+                           [badgeData]="getBadgeData()"
+                           [badgeType]="'single'"
+                           [hasBadge]="true"
+                           [headerIcon]="'group'"
+                           [headerTitle]="'myTeam'"
+                           [itemTemplateRef]="cardSummaryRef"
+                           [listItemDetails]="usersList"
+                           [showFooterBar]="usersList?.length > 0"
+                           [footerButtonText]="'Show All'"
+                           [footerButtonColor]="'accent'"
+                           [help]="help"
+                           [tooltip]="(isGroupExist || isListView) ? 'myTeam' : 'Assign at least one CUG to select team members'"
+                           (overlayCardOpen)="getMyTeamData()"
+                           (submitClick)="navigateToMyMateView()">
+  </aal-button-overlay-card>
+</div>
+<ng-template #cardSummaryRef let-item>
+  <aal-card-summary [item]="item" [ID]="item?.userID || item?.member?.user?.user_id || item?.user_id" class="card"
+                    [mainDescription]="item?.member?.user || item | personName"
+                    [line1Caption]="item?.member?.roles || item?.roles | userRoleTransform"
+                    [line2Caption]="item?.departmentName || item?.department_name || item?.member?.user?.department_name"
+                    [iconImageTemplateRef]="imageDisplayRef2"></aal-card-summary>
+  <ng-template #imageDisplayRef2>
+    <img aalLoadBlankPortrait class="aal&#45;&#45;padding-right-r-25 image&#45;&#45;circle-large" *ngIf="item?.userID || item?.member?.user?.user_id || item?.user_id"
+         [src]="item?.userID || item?.member?.user?.user_id || item?.user_id | userImage" alt="no picture"/>
+  </ng-template>
+</ng-template>

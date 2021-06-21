@@ -1,0 +1,27 @@
+<div fxLayout="column" class="aal--margin-bottom-r1" fxFlex="100">
+  <div fxLayout="row">
+    <div fxFlex="100" fxLayout="column" class="aal--elevation-1 aal--padding-all-r1 comment-reply-wrapper">
+      <div fxLayout="column" fxLayoutAlign="start start" *ngIf="viewType != 'review'" fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="aal--padding-all-r-5" fxFlex="100%">
+          <ngx-skeleton-loader [theme]="{ width: '50px', height: '50px' }" appearance="circle"></ngx-skeleton-loader>
+          <div fxLayout="column" >
+            <ngx-skeleton-loader [theme]="{ width: '180px', 'border-radius': '8px', height: '12px', 'margin-bottom': '3px', 'margin-top': '8px'}"></ngx-skeleton-loader>
+            <ngx-skeleton-loader [theme]="{ width: '210px', 'border-radius': '8px', height: '12px' }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div fxLayout="column" fxFlex="100%">
+          <ngx-skeleton-loader [theme]="{ width: '500px', 'border-radius': '8px', height: '12px', 'margin-left': '72px' }"></ngx-skeleton-loader>
+          <ngx-skeleton-loader [theme]="{ width: '450px', 'border-radius': '8px', height: '12px', 'margin-left': '72px' }"></ngx-skeleton-loader>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" [style.width]="'100%'" class="aal--margin-top-r1">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem"></div>
+          <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem" >
+            <ngx-skeleton-loader [theme]="{ width: '146px', 'border-radius': '12px', height: '32px' }"></ngx-skeleton-loader>
+            <ngx-skeleton-loader [theme]="{ width: '146px', 'border-radius': '12px', height: '32px' }"></ngx-skeleton-loader>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

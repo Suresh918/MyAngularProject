@@ -1,0 +1,179 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" mat-dialog-title>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0.5rem">
+    <mat-icon class="opacity-54">edit</mat-icon>
+    <span class="aal--padding-left-r-5">{{data?.categoryLabel}} Items</span>
+  </div>
+  <mc-button-icon (buttonClick)="cancel()"
+                  [color]="'primary'"
+                  [icon]="'close'"
+                  [isGenericButton]="true"
+                  [noCheckOnCaseAction]="true"
+                  [tooltip]="'close'">
+  </mc-button-icon>
+</div>
+<mat-dialog-content fxLayout="column" class="aal--padding-all-s aal--padding-top-r0 background--off-white">
+  <div fxLayout="row" fxLayoutAlign="start center" *ngIf="data?.mode === 'EDIT'">
+    <span class="mat-title aal--margin-left-r2 aal--margin-top-r2">{{data?.categoryLabel}} Items In Scope <span
+      *ngIf="data?.item?.sequence && data?.itemsLength > 0">{{data?.item?.sequence}}/{{data?.itemsLength}}</span></span>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="center center" class="aal--padding-bottom-r0"
+       *ngIf="data?.mode === 'ADD'">
+    <div fxLayout="column" fxLayoutGap="1rem" fxFlex="1 1 45%"
+         class="aal--padding-left-right-r2 aal--margin-top-r2 aal--margin-bottom-r1">
+      <mc-button-toggle [selectFormControl]="impactedItemFormGroup?.get('new_existing_toggle')"
+                        [fieldSaveNotApplicable]="true"
+                        [controlConfiguration]="impactedItemFormConfiguration?.new_existing_toggle"
+                        [mode]="'EDIT'" [lockMode]="'EDIT'"
+      ></mc-button-toggle>
+    </div>
+  </div>
+
+  <mat-divider class="aal--margin-top-r-5" [inset]="true" [ngStyle]="{'width': '80%', 'margin' : 'auto'}"></mat-divider>
+  <div class="aal--padding-all-r1" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="100%" fxLayoutGap="1rem" class="aal--padding-bottom-r0">
+      <div fxFlex="100" fxLayout="row" fxLayoutAlign="center center" class="impacted-item-type">
+        <mc-button-radio [mode]="'EDIT'" [lockMode]="'EDIT'" [alignOptionsHorizontally]="true"
+                         [control]="impactedItemFormGroup?.get('type')"
+                         [controlConfiguration]="radioButtonControlConfiguration"
+                         [hideHelp]="true" [disableControl]="data?.mode === 'EDIT' || data?.changeOwnerType === 'PROJECT'" [hideLabel]="true"
+                         [fieldSaveNotApplicable]="true"
+        ></mc-button-radio>
+      </div>
+      <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="center start" class="aal--padding-bottom-r0">
+        <div fxLayout="column" fxLayoutGap="2rem" fxFlex="1 1 48%" class="aal--margin-left-r2 aal--padding-left-right-r2">
+          <mc-auto-complete-impacted-item-type-single [controlConfiguration]="impactedItemFormConfiguration?.name" class="impacted-item-id aal--margin-top-r1"
+                                                        [control]="impactedItemFormGroup?.get('name')" fxFlex="100%"
+                                                        [requestType]="'instance'" [hideDataLoadingIndicator]="bypassSearch || dataFetched || data?.mode === 'EDIT'" [dataFetched]="dataFetched"
+                                                        (bubbledAcceptChanges)="getImpactedItemDetails(impactedItemFormGroup?.get('type')?.value)" [newItem]="impactedItemFormGroup?.get('new_existing_toggle')?.value === 'NEW'"
+                                                        [fieldSaveNotApplicable]="true" [bypassSearch]="bypassSearch || data?.mode === 'EDIT'" [type]="data?.caseObjectType" [itemAction]="data?.mode"
+                                                        [disableControl]="data?.mode === 'EDIT' || impactedItemFormGroup?.get('new_existing_toggle')?.value === 'NEW'"
+                                                        [itemType]="impactedItemFormGroup?.get('type')?.value" [hidePrefix]="data?.mode === 'EDIT' || impactedItemFormGroup?.get('new_existing_toggle')?.value === 'NEW'"
+                                                        [mode]="'EDIT'" [lockMode]="'EDIT'" [isFloatLabel]="true">
+          </mc-auto-complete-impacted-item-type-single>
+          <mc-input-text-area
+            *ngIf="data?.categoryLabel === 'Problem' && impactedItemFormGroup?.get('revision').value && data?.mode === 'EDIT' && impactedItemFormGroup?.get('type').value === 'WORK_INSTRUCTION'"
+            [control]="impactedItemFormGroup?.get('revision')"
+            [controlConfiguration]="impactedItemFormConfiguration?.revision"
+            [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+            [showLengthHint]="true" [disableControl]="true"
+            [hideConfirmationToolBar]="true">
+          </mc-input-text-area>
+          <div fxLayout="row" fxFlex fxLayoutGap="1rem" class="aal--padding-left-r2-5" fxLayoutAlign="start center" *ngIf="data?.mode === 'ADD' ? impactedItemFormGroup?.get('new_existing_toggle').value === 'EXISTING' : true">
+            <mc-button-icon-contained
+              [text]="'Refresh Data'"
+              [icon]="'cached'" [disabled]="!impactedItemFormGroup?.get('name')?.value"
+              [color]="'accent'"
+              [buttonId]="'impacted_item_dialog_fetch_data'"
+              [tooltip]="'Click Refresh Data after filling in and hit save to refresh original data from source'"
+              [isGenericButton]="true"
+              [noCheckOnCaseAction]="true"
+              (buttonClick)="getImpactedItemDetails(impactedItemFormGroup?.get('type')?.value)"
+            ></mc-button-icon-contained>
+          </div>
+          <mc-input-text-area [control]="impactedItemFormGroup?.get('description')"
+                              [controlConfiguration]="impactedItemFormConfiguration?.description"
+                              [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                              [showLengthHint]="true" [disableControl]="disableFieldEdit"
+                              [hideConfirmationToolBar]="true">
+          </mc-input-text-area>
+          <mc-auto-complete-user-single [control]="impactedItemFormGroup?.get('creators')" fxFlex="1 1 80%"
+                                        [mode]="'EDIT'" [lockMode]="'EDIT'" [hideConfirmationToolBar]="'true'"
+                                        [controlConfiguration]="impactedItemFormConfiguration?.creators" [disableControl]="disableFieldEdit"
+                                        [isObjectSnakeCase]="true" [fieldSaveNotApplicable]="true">
+          </mc-auto-complete-user-single>
+          <mc-auto-complete-user-multiple [control]="impactedItemFormGroup?.get('users')" fxFlex="1 1 80%"
+                                          [mode]="'EDIT'" [lockMode]="'EDIT'" [hideConfirmationToolBar]="'true'" [disableControl]="disableFieldEdit"
+                                          [controlConfiguration]="impactedItemFormConfiguration?.users" [isHistoryEnabled]="true"
+                                          [isObjectSnakeCase]="true" [fieldSaveNotApplicable]="true" class="clear-icon-center">
+          </mc-auto-complete-user-multiple>
+          <mc-select-single *ngIf="data?.categoryLabel === 'Scope' && data?.caseObjectType === 'ChangeRequest'"
+                            [controlConfiguration]="impactedItemFormConfiguration?.change_type"
+                            [selectFormControl]="impactedItemFormGroup?.get('change_type')" [mode]="'EDIT'"
+                            [lockMode]="'EDIT'"
+                            [fieldSaveNotApplicable]="true"
+                            [disableControl]="impactedItemFormGroup?.get('new_existing_toggle')?.value === 'NEW' || data?.item?.change_type === 'CREATE-NEW' || disableFieldEdit">
+          </mc-select-single>
+          <mc-select-single *ngIf="data?.caseObjectType !== 'ChangeRequest'"
+            [controlConfiguration]="impactedItemFormConfiguration?.change_type"
+            [selectFormControl]="impactedItemFormGroup?.get('change_type')" [mode]="'EDIT'" [lockMode]="'EDIT'"
+            [fieldSaveNotApplicable]="true"
+            [disableControl]="impactedItemFormGroup?.get('new_existing_toggle')?.value === 'NEW' || data?.item?.change_type === 'CREATE-NEW' || disableFieldEdit">
+          </mc-select-single>
+          <div fxLayout="row" fxLayoutAlign="start center" *ngIf="data?.caseObjectType !== 'ChangeRequest'">
+            <span class="mat-title aal--margin-left-r2-5 aal--margin-top-r1">Assign Release Package</span>
+            <span fxFlex="1 1 auto"></span>
+            <mc-button-contained class="aal--padding-left-r2-5"
+                                 [text]="'New'" [tooltip]="disableRPCreation ? 'Already created a new Release Package' : 'Create a new Release Package'" [caseObject]="caseObject"
+                                 [buttonAction]="'CREATE-RP'" [disabled]="data?.item?.release_package_number ? true : disableRPCreation ? true : false" (buttonClick)="createRP()">
+            </mc-button-contained>
+          </div>
+        </div>
+      </div>
+      <mat-divider class="aal--margin-right-left-r2 aal--margin-top-r-5" [inset]="true" *ngIf="data?.caseObjectType !== 'ChangeRequest'" [style.width]="'90%'"></mat-divider>
+      <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="center center" class="aal--padding-bottom-r0"
+           *ngIf="data?.caseObjectType !== 'ChangeRequest'">
+        <div fxLayout="column" fxLayoutGap="1rem" fxFlex="1 1 48%" class="aal--margin-left-r2 aal--padding-left-right-r2">
+          <mc-select-single
+            [controlConfiguration]="impactedItemFormConfiguration?.release_package_number"
+            [selectFormControl]="impactedItemFormGroup?.get('release_package_number')" [mode]="'EDIT'"
+            [bubbleAcceptChanges]="true" (bubbledAcceptChanges)="getRPDetails(impactedItemFormGroup?.get('release_package_number')?.value)"
+            [lockMode]="'EDIT'" [disableControl]="(data?.item?.release_package_number || disableRPCreation || disableFieldEdit) && !data?.caseActions?.MOVE_SCOPE_ITEM"
+            [fieldSaveNotApplicable]="true">
+          </mc-select-single>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutGap=".5rem">
+  <mc-button-icon-outlined *ngIf="data?.mode === 'EDIT'"
+    [icon]="'keyboard_arrow_left'"
+    [tooltip]="'Previous Item'"
+    [buttonId]="'impacted_item_dialog_previous'"
+    [noCheckOnCaseAction]="true"
+    [disabled]="data?.disablePrevious || data?.mode === 'ADD' || data?.item?.sequence === 1"
+    class="button-left"
+    (buttonClick)="getDetails('PREVIOUS')"
+  >
+  </mc-button-icon-outlined>
+  <mc-button-icon-outlined *ngIf="data?.mode === 'EDIT'"
+    [icon]="'keyboard_arrow_right'"
+    [tooltip]="'Next Item'"
+    [buttonId]="'impacted_item_dialog_next'"
+    [noCheckOnCaseAction]="true"
+    [disabled]="data?.disableNext || data?.mode === 'ADD' || data?.item?.sequence === data?.itemsLength"
+    class="button-right"
+    (buttonClick)="getDetails('NEXT')"
+  >
+  </mc-button-icon-outlined>
+  <span fxFlex="1 1 auto"></span>
+  <div fxLayout="row" fxLayoutGap=".5rem">
+    <mc-button-outlined [text]="'Cancel'"
+                        [tooltip]="'Cancel'"
+                        [buttonId]="'impacted_item_dialog_cancel'"
+                        [isGenericButton]="true"
+                        [noCheckOnCaseAction]="true"
+                        (buttonClick)="cancel()"
+    ></mc-button-outlined>
+    <mc-button-contained
+      [text]="'Save'" *ngIf="data?.mode === 'EDIT'"
+      [buttonId]="'impacted_item_dialog_save'"
+      [tooltip]=""
+      [isGenericButton]="true"
+      [noCheckOnCaseAction]="true"
+      [disabled]="!impactedItemFormGroup.valid"
+      (buttonClick)="saveImpactedItem()"
+    ></mc-button-contained>
+    <mc-button-contained
+      [text]="'Add'" *ngIf="data?.mode === 'ADD'"
+      [buttonId]="'impacted_item_dialog_add'"
+      [tooltip]=""
+      [isGenericButton]="true"
+      [noCheckOnCaseAction]="true"
+      [disabled]="!impactedItemFormGroup.valid"
+      (buttonClick)="saveImpactedItem()"
+    ></mc-button-contained>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,20 @@
+::ng-deep .case-object-list-loader {
+   .loader {
+     margin-bottom: 0;
+   }
+}
+
+.case-object-header {
+  width: 100%;
+  height: 88px;
+  border-radius: 8px;
+  background: white;
+  z-index: 1;
+}
+.case-object-action{
+  width: 98%;
+  height: 48px;
+  border-radius: 8px;
+  background: #fbfbfb;
+  margin: 0 auto;
+}

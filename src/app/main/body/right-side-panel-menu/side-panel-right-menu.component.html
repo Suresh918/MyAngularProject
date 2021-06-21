@@ -1,0 +1,72 @@
+<div class="list-menu-wrapper" fxFlex="100">
+  <mat-nav-list fxLayoutGap="1.75rem" fxLayout="column" fxLayoutAlign="start center"
+                class="action-list-menu aal--margin-top-r1" [disableRipple]="true">
+    <mat-list-item fxLayout="row" fxFill [ngClass]="{'right-menu-item--selected': selectedItem==='actions'}"
+                   fxLayoutAlign="center center" *ngIf="caseObjectSubType !== 'IMS' && caseObjectType !== 'Actions' && caseObjectType !== 'Review'">
+      <mc-button-icon [icon]="'assignment'" [tooltip]="'Actions'"
+                      [isGenericButton]="true" [buttonId]="'side_panel_actions'"
+                      [noCheckOnCaseAction]="true"
+                      [color]="'black'"
+                      [badgeData]="formatCount(caseObjectLinkedItemsCount?.openActionsCount)"
+                      [ngClass]="{'hide-badge': caseObjectLinkedItemsCount?.openActionsCount === 0, 'badge-padding': caseObjectLinkedItemsCount?.openActionsCount > 9}"
+                      (buttonClick)="click('actions')" [badgeSize]="'small'"
+      ></mc-button-icon>
+    </mat-list-item>
+    <mat-list-item fxLayout="row" fxFill [ngClass]="{'right-menu-item--selected': selectedItem==='notes'}"
+                   fxLayoutAlign="center center" *ngIf="caseObjectSubType !== 'IMS'   && caseObjectType !== 'Review'">
+      <mc-button-icon [icon]="'mode_comment'" [tooltip]="'Comments'"
+                      [isGenericButton]="true"
+                      [noCheckOnCaseAction]="true"
+                      [color]="'black'"  [buttonId]="'side_panel_comments'"
+                      [badgeData]="formatCount(caseObjectLinkedItemsCount?.notesCount)"
+                      [ngClass]="{'hide-badge': caseObjectLinkedItemsCount?.notesCount === 0, 'badge-padding': caseObjectLinkedItemsCount?.notesCount > 9}"
+                      (buttonClick)="click('notes')" [badgeSize]="'small'"
+      ></mc-button-icon>
+    </mat-list-item>
+    <mat-list-item fxLayout="row" fxFill [ngClass]="{'right-menu-item--selected': selectedItem==='documents'}"
+                   fxLayoutAlign="center center" *ngIf="caseObjectSubType !== 'IMS' && caseObjectType !== 'AgendaItem' && caseObjectType !== 'Actions' && caseObjectType !== 'Review'">
+      <mc-button-icon [icon]="'insert_drive_file'" [tooltip]="'Documents'"
+                      [isGenericButton]="true"
+                      [noCheckOnCaseAction]="true"
+                      [color]="'black'" [buttonId]="'side_panel_documents'"
+                      [badgeData]="formatCount(caseObjectLinkedItemsCount?.otherAttachmentsCount)"
+                      [ngClass]="{'hide-badge': caseObjectLinkedItemsCount?.otherAttachmentsCount === 0, 'badge-padding': caseObjectLinkedItemsCount?.otherAttachmentsCount > 9}"
+                      (buttonClick)="click('documents')" [badgeSize]="'small'"
+      ></mc-button-icon>
+    </mat-list-item>
+    <mat-list-item fxLayout="row" fxFill [ngClass]="{'right-menu-item--selected': selectedItem==='attachments'}"
+                   fxLayoutAlign="center center" *ngIf="caseObjectType !== 'Review'">
+      <mc-button-icon [icon]="'attachment'" [tooltip]="'All Attachments'"
+                      [isGenericButton]="true"
+                      [noCheckOnCaseAction]="true"
+                      [color]="'black'" [buttonId]="'side_panel_all_attachments'"
+                      [badgeData]="formatCount(caseObjectLinkedItemsCount?.attachmentsCount)"
+                      [ngClass]="{'hide-badge': caseObjectLinkedItemsCount?.attachmentsCount === 0, 'badge-padding': caseObjectLinkedItemsCount?.attachmentsCount > 9}"
+                      (buttonClick)="click('attachments')" [badgeSize]="'small'"
+      ></mc-button-icon>
+    </mat-list-item>
+    <mat-list-item fxLayout="row" fxFill [ngClass]="{'right-menu-item--selected': selectedItem==='attendees'}"
+                   fxLayoutAlign="center center" *ngIf="caseObjectType === 'AgendaItem'">
+      <mc-button-icon [icon]="'group_add'" [tooltip]="'Attendees'"
+                      [isGenericButton]="true"
+                      [noCheckOnCaseAction]="true"
+                      [color]="'black'" [buttonId]="'side_panel_attendees'"
+                      [badgeData]="formatCount(caseObjectLinkedItemsCount?.specialInviteesCount)"
+                      [ngClass]="{'hide-badge': caseObjectLinkedItemsCount?.specialInviteesCount === 0, 'badge-padding': caseObjectLinkedItemsCount?.attachmentsCount > 9}"
+                      (buttonClick)="click('attendees')" [badgeSize]="'small'"
+      ></mc-button-icon>
+    </mat-list-item>
+    <mat-list-item fxLayout="row" fxFill [ngClass]="{'right-menu-item--selected': selectedItem==='reviews'}"
+                   fxLayoutAlign="center center" *ngIf="caseObjectType === 'Review'">
+      <mc-button-icon [icon]="'supervised_user_circle'" [tooltip]="'Review'"
+                      [isGenericButton]="true"
+                      [noCheckOnCaseAction]="true"
+                      [color]="'black'"
+                      [badgeData]="formatCount(caseObjectLinkedItemsCount?.specialInviteesCount)"
+                      [ngClass]="{'hide-badge': caseObjectLinkedItemsCount?.specialInviteesCount === 0, 'badge-padding': caseObjectLinkedItemsCount?.attachmentsCount > 9}"
+                      (buttonClick)="click('reviews')" [badgeSize]="'small'"
+      ></mc-button-icon>
+    </mat-list-item>
+  </mat-nav-list>
+</div>
+

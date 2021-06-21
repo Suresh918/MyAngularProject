@@ -1,0 +1,41 @@
+@import '../../../../themes/material/theming';
+.browse-file {
+  width: 100%;
+  height: 10rem;
+  border: 1px dashed black;
+  background: $aal--mat-priority-5;
+  border-radius: 8px;
+}
+.right-panel-header {
+  min-height: 3.5rem;
+  height: 3.5rem;
+}
+
+.form-container {
+  background-color: $aal--mat-surface-variant !important;
+  border-radius: 8px;
+  padding-top: 0.25rem;
+  box-shadow: 2px 2px 2px #d6d6d6;
+  overflow: hidden;
+}
+.drop-zone-container {
+  top: 0;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  .drop-zone {
+    border: 1px dashed black;
+    height: 91.5%;
+    background: $aal--mat-priority-5 !important;
+  }
+}
+
+.review-drop-zone-container {
+  width:100%;
+  height:100%;
+  .drop-zone {
+    border: 1px dashed black;
+    height: 10rem;
+    background: $aal--mat-priority-5 !important;
+  }
+}

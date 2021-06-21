@@ -1,0 +1,59 @@
+<aal-expansion-panel-overview-card-list
+  [help]="'Info'"
+  [showAddButton]="uploadAllowed && sciaList?.length"
+  [addButtonToolTip]="'Add SCIA'"
+  (addItem)="openCreateSciaDialog()"
+  [header]="'SCIA'"
+  [isBusy]="false"
+  [isExpanded]="isExpanded"
+  [emptyStateTemplateRef]="emptyStateTemplateRef"
+  [expansionPanelListTemplateRef]="expansionPanelListTemplateRef">
+</aal-expansion-panel-overview-card-list>
+<ng-template #expansionPanelListTemplateRef>
+  <div fxLayout="column">
+    <mc-loader *ngIf="showLoader" [type]="'list'" [count]="1"></mc-loader>
+    <div *ngIf="sciaList?.length > 0" fxLayout="column" fxFlex="100" fxLayoutGap="1rem">
+      <div *ngFor="let item of sciaList" fxFlex fxLayout="row" class="clickable">
+        <mc-card-summary fxFlex="100%"
+                         [mainDescriptionLink]="'SCIA ' + caseObject?.id + (item?.revision ? ('/' + item?.revision) : '')"
+                         (mainDescriptionClick)="navigateToSCIA(item?.id)"
+                         [mainDescriptionCaption]="item?.status_label"
+                         [line1Caption] = "(item?.created_on | aalDate:'dueDate')"
+                         [line2Caption]="item?.plm_coordinator?.full_name + ' &#x28;' + item?.plm_coordinator?.abbreviation + '&#x29;'"
+                         [iconImageTemplateRef]="imageDisplayRef"
+                         [showActionButtonOnFocus]="true"
+                         [actionTemplateRef]="actionRef">
+        </mc-card-summary>
+        <ng-template #imageDisplayRef>
+          <mat-icon mat-list-icon class="icon--large" [matTooltip]="'Change Requests'" svgIcon="change-request"></mat-icon>
+        </ng-template>
+        <ng-template #actionRef>
+          <mc-button-icon *ngIf="uploadAllowed"
+                          [icon]="'content_copy'"
+                          [tooltip]="'Copy'"
+                          [color]="'accent'"
+                          [noCheckOnCaseAction]="true"
+                          (buttonClick)="copyScia(item.id)">
+          </mc-button-icon>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #emptyStateTemplateRef>
+  <div *ngIf="!sciaList || sciaList?.length === 0 && !showLoader">
+    <mc-empty-state
+      [title]="'No SCIA Created'"
+      [subTitle]="'SCIA revisions will appear here.'"
+      [svgIcon]="'change-request'"></mc-empty-state>
+    <div *ngIf="uploadAllowed" style="text-align:center; margin: 0.5rem 0rem;">
+      <mc-button-contained
+        [text]="'Create SCIA'"
+        [buttonId]="'create-scia'"
+        [isGenericButton]="true"
+        [noCheckOnCaseAction]="true"
+        (buttonClick)="openCreateSciaDialog()">
+      </mc-button-contained>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,48 @@
+<mat-card class="note-card background-white mc-card-content"
+          (mouseover)="showEditDelete = (noteSummary?.note?.createdBy?.userID === currentUserID)"
+          (mouseleave)="showEditDelete=false">
+  <mat-card-content fxLayout="column" fxLayoutGap="0.5rem">
+    <div fxLayout="row">
+      <mc-card-summary fxFlex="100%"
+                       [mainDescription]="noteSummary?.note?.createdBy?.fullName"
+                       [mainDescriptionCaption]="noteSummary?.note?.createdBy?.abbreviation"
+                       [line1]="noteSummary?.note?.createdOn | aalDate:'dueDate'"
+                       [separator]="'parenthesis'" [showActionButtonOnFocus]="true"
+                       [iconImageTemplateRef]="imageDisplayRef" [actionTemplateRef]="actionRef"></mc-card-summary>
+      <ng-template #imageDisplayRef>
+        <img class="image-circle-medium" [src]="noteSummary?.note?.createdBy?.userID | userImage" alt="">
+      </ng-template>
+      <ng-template #actionRef>
+        <div *ngIf="showEditDelete && noteSummary?.note?.createdBy?.userID === currentUserID" fxLayout="row"
+             fxFlex="25">
+          <mc-button-icon [icon]="'edit'"
+                          [tooltip]="'Edit'"
+                          [color]="'accent'"
+                          [noCheckOnCaseAction]="true"
+                          (buttonClick)="onEditPress()"></mc-button-icon>
+          <mc-button-icon [icon]="'delete'"
+                          [tooltip]="'Delete'"
+                          [color]="'accent'"
+                          [noCheckOnCaseAction]="true"
+                          (buttonClick)="onDeletePress()"></mc-button-icon>
+        </div>
+      </ng-template>
+    </div>
+
+    <span fxFlex class="note-text word-wrap--break-word" [innerHTML]="noteSummary?.note?.note"></span>
+    <mat-divider class="note-divider" *ngIf="noteSummary?.attachments?.length > 0"></mat-divider>
+    <div fxLayout="column" fxLayoutGap="1rem">
+      <div *ngFor="let attachment of noteSummary?.attachments;let i=index" [style.width]="'100%'">
+        <a href="{{ docUrl }}/{{ attachment?.document?.ID }}" *ngIf="caseObjectType !== 'ChangeRequest' && caseObjectType !== 'ReleasePackage'">
+          <mc-chip [text]="attachment?.document?.name"
+                   [disabled]="true" [removable]="false"
+                   [icon]="(attachment?.contentType === 'image/jpeg' || attachment?.contentType ==='image/png') ? 'image' : 'insert_drive_file'"></mc-chip>
+        </a>
+        <mc-chip [text]="attachment?.document?.name" *ngIf="caseObjectType === 'ChangeRequest' || caseObjectType === 'ReleasePackage'"
+                 [disabled]="true" [removable]="false"
+                 (chipClick)="documentClicked(attachment?.document)"
+                 [icon]="(attachment?.contentType === 'image/jpeg' || attachment?.contentType ==='image/png') ? 'image' : 'insert_drive_file'"></mc-chip>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

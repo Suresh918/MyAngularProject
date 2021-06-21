@@ -1,0 +1,20 @@
+<div class="action--divider-top aal--margin-right-left-r1">
+  <mat-expansion-panel class="case-object-action--panel aal--elevation-1" (opened)="getActionList(caseObject); getReviewByReleasePackageID();">
+    <mat-expansion-panel-header class="action-details-header">
+      <mc-action-panel-header [title]="title" fxFill [caseObject]="caseObject" [caseObjectType]="caseObjectType" [caseObjectFrom]="caseObjectFrom">
+      </mc-action-panel-header>
+    </mat-expansion-panel-header>
+    <div fxLayout="column" fxLayoutGap="1rem" class="aal--margin-left-r2 aal--margin-right-r1">
+      <mc-release-package-action-content *ngIf="caseObjectType === 'ReleasePackage'" [caseObject]="caseObject" [review]="review">
+      </mc-release-package-action-content>
+      <mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate" *ngIf="progressBar">
+      </mat-progress-bar>
+      <mc-action-panel-list [actionOverViewList]="actionOverViewList" [caseObjectType]="caseObjectType">
+      </mc-action-panel-list>
+      <mc-empty-state [title]="'No Actions'"
+        [subTitle]="'No Actions are added yet. Please keep watching this space.'" [icon]="'assignment'"
+        *ngIf="actionOverViewList?.length === 0">
+      </mc-empty-state>
+    </div>
+  </mat-expansion-panel>
+</div>

@@ -1,0 +1,16 @@
+::ng-deep .mat-select-panel .date-option{
+  height: 76px !important;
+  padding-top: 1rem;
+  width: 100%;
+  border-top: 1px solid #e4e4e4 ;
+
+  mat-form-field{
+    width: 100%;
+  }
+}
+.date-picker{
+  border-top: 1px solid rgba(228, 226, 226, 0.69);
+  .mat-form-field {
+    width: 100%;
+  }
+}

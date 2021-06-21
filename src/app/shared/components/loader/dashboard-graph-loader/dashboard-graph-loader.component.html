@@ -1,0 +1,48 @@
+<div *ngIf="type=== 'dashboard-analytics'" fxLayout="column" fxLayoutGap="0.5rem" class="aal--margin-top-r5">
+  <ngx-skeleton-loader [theme]="{ width: '100%', 'border-radius': '8px', height: '50px' }"></ngx-skeleton-loader>
+  <ngx-skeleton-loader [theme]="{ width: '100%', 'border-radius': '8px', height: '50px' }"></ngx-skeleton-loader>
+  <ngx-skeleton-loader [theme]="{ width: '100%', 'border-radius': '8px', height: '50px' }"></ngx-skeleton-loader>
+</div>
+
+
+<div *ngIf="type=== 'dashboard-stack-chart'" fxLayout="row" fxLayoutGap="1rem" fxFlex="100%" class="aal--margin-top-r4">
+  <div fxLayout="column" fxLayoutGap="6px" fxFlex="20%">
+    <ngx-skeleton-loader [theme]="{ width: '100%', 'border-radius': '8px', height: '44px' }"></ngx-skeleton-loader>
+    <ngx-skeleton-loader [theme]="{ width: '100%', 'border-radius': '8px', height: '44px' }"></ngx-skeleton-loader>
+    <ngx-skeleton-loader [theme]="{ width: '100%', 'border-radius': '8px', height: '44px' }"></ngx-skeleton-loader>
+    <ngx-skeleton-loader [theme]="{ width: '100%', 'border-radius': '8px', height: '44px' }"></ngx-skeleton-loader>
+  </div>
+  <div fxLayout="column" fxLayoutGap="6px" fxFlex="80%">
+    <ngx-skeleton-loader [theme]="{ width: '100%', height: '44px' }"></ngx-skeleton-loader>
+    <ngx-skeleton-loader [theme]="{ width: '80%', height: '44px' }"></ngx-skeleton-loader>
+    <ngx-skeleton-loader [theme]="{ width: '20%', height: '44px' }"></ngx-skeleton-loader>
+    <ngx-skeleton-loader [theme]="{ width: '40%', height: '44px' }"></ngx-skeleton-loader>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <ngx-skeleton-loader [theme]="{ width: '24px', 'border-radius': '4px', height: '15px' }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader [theme]="{ width: '24px', 'border-radius': '4px', height: '15px' }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader [theme]="{ width: '24px', 'border-radius': '4px', height: '15px' }"></ngx-skeleton-loader>
+    </div>
+  </div>
+
+</div>
+
+
+<div *ngIf="type=== 'dashboard-pie-chart'" fxFlex="100%">
+  <div fxLayout="column" fxFlex="100%">
+    <ngx-skeleton-loader [theme]="{ width: '20%', height: '40px' }"></ngx-skeleton-loader>
+    <div fxLayout="row" fxFlex="100%">
+      <div fxLayout="column" fxFlex="20%" fxLayoutAlign="end center">
+        <ngx-skeleton-loader [theme]="{ width: '70px', height: '60px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader [theme]="{ width: '70px', height: '60px' }"></ngx-skeleton-loader>
+      </div>
+      <div fxLayout="column" fxFlex="60%" fxLayoutAlign="start center">
+        <ngx-skeleton-loader [theme]="{ width: '120px', height: '120px' }" appearance="circle"></ngx-skeleton-loader>
+      </div>
+      <div fxLayout="column" fxFlex="20%" fxLayoutAlign="end center">
+        <ngx-skeleton-loader [theme]="{ width: '70px', height: '60px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader [theme]="{ width: '70px', height: '60px' }"></ngx-skeleton-loader>
+      </div>
+
+    </div>
+  </div>
+</div>

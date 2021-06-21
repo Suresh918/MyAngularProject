@@ -1,0 +1,48 @@
+<mc-expansion-panel [isExpanded]="isExpanded" [header]="'Customer Impact:'"
+                    [headerCaption]="getLabel(changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_impact_result')?.value)">
+  <div fxLayout="row" expansion-panel-content fxLayoutGap="0.5rem"
+       class="inner-expansion-panel-content aal--padding-right-r-5">
+    <div fxFlex fxLayout="column" fxLayoutGap="0.5rem" class="aal--padding-top-r-5">
+      <div fxLayout="column" class="aal--padding-bottom-r-5">
+        <div fxLayout="row">
+
+          <mc-button-toggle fxFlex="100"
+                            [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact?.customer_impact_result"
+                            [selectFormControl]="changeRequestFormGroup.get('impact_analysis.customer_impact.customer_impact_result')"
+                            [mode]="'PROTECTED'">
+          </mc-button-toggle>
+          <mc-alert *ngIf="showCustomerImpactAlert" [message]="'Required field. Fill and try again'"
+                    [level]="'ERROR'"></mc-alert>
+        </div>
+        <div class="aal--padding-left-r3">
+          <mc-button-contained mat-raised-button
+                             [text]="'CIA'"
+                             [tooltip]="'Open CIA'"
+                             [noCheckOnCaseAction]="true"
+                             (buttonClick)="openChangeImpactAssessment(changeRequestFormGroup.get('id')?.value)"
+                             [color]="'accent'"
+                             [buttonId]="'cia-button-contained'"
+                             [caseObject]="caseObject"
+                             (click)="$event.stopPropagation()"></mc-button-contained>
+        </div>
+      </div>
+      <mat-divider class="aal--margin-right-left-r1"></mat-divider>
+      <mc-select-single-input [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_communication')"
+                              [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact?.customer_communication"
+                              [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_communication_details')"
+                              [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.customer_communication_details"
+                              [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+                              [byPassCaseActionCheck]="true"
+                              [isNullable]="true">
+      </mc-select-single-input>
+      <mc-select-single-input [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_approval')"
+                              [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact?.customer_approval"
+                              [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_approval_details')"
+                              [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact?.customer_approval_details"
+                              [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+                              [byPassCaseActionCheck]="true"
+                              [isNullable]="true">
+      </mc-select-single-input>
+    </div>
+  </div>
+</mc-expansion-panel>

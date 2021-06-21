@@ -1,0 +1,30 @@
+<aal-expansion-panel-list [help]="controlConfiguration?.help" [header]="header"
+                          [expansionPanelItemConfigurationList]="expansionPanelItemConfigurationList"
+                          [mainDescriptionTemplateRef]="mainDescriptionTemplate"
+                          [subDescriptionTemplateRef]="subDescriptionTemplate"
+                          [titleTemplateRef]="titleTemplate"
+                          [imageDisplayRef]="imageDisplayTemplate"
+                          [emptyStateData]="emptyStateData"
+                          [defaultItemIcon]="'insert_drive_file'"
+                          [showAddButton]="uploadAllowed"
+                          (itemClick)="downloadFile($event)"
+                          (addItem)="fileUploader.click()"
+                          (actionSubmit)="remove($event)"
+                          [isBusy]="isBusy"
+                          [isExpanded]="isExpanded">
+</aal-expansion-panel-list>
+<input type="file" #fileUploader (change)="onDocumentAdd(fileUploader)" [style.display]="'none'"/>
+<ng-template #mainDescriptionTemplate let-item>
+  {{item?.mainDescription | aalDate}}
+</ng-template>
+<ng-template #subDescriptionTemplate let-item>
+  {{item?.line1}} ({{item.line1Caption}})
+</ng-template>
+<ng-template #titleTemplate let-item>
+  {{item?.title}}
+</ng-template>
+<ng-template #imageDisplayTemplate let-item>
+  <img *ngIf="item?.imageURL" class="image-circle" src="{{item?.imageURL}}" alt="">
+  <mat-icon *ngIf="item?.icon" class="icon">{{item?.icon}}</mat-icon>
+  <mat-icon *ngIf="item?.svgIcon" class="icon" [svgIcon]="item?.svgIcon"></mat-icon>
+</ng-template>

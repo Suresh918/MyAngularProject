@@ -1,0 +1,21 @@
+<mat-form-field fxFill>
+
+  <textarea [formControl]="control" [placeholder]="controlConfiguration?.label" matTextareaAutosize="true"
+            matInput enabled="true" matAutosize="true" [required]="hasValidator()">
+  </textarea>
+
+  <mat-hint align="end" *ngIf="controlConfiguration?.validators?.max_length">
+    {{ getControlLength() }}/{{controlConfiguration?.validators?.max_length}}</mat-hint>
+  <mat-error *ngIf="control?.errors?.maxlength">{{ controlConfiguration?.label }} should be less than or equal to
+    {{ control?.errors?.maxlength?.requiredLength }} characters
+  </mat-error>
+
+  <mat-error *ngIf="control?.errors?.required">{{ controlConfiguration?.label }} is required</mat-error>
+
+
+  <mat-icon *ngIf="controlConfiguration?.help" class="tooltip" matSuffix [matTooltip]="controlConfiguration?.help"
+            matTooltipPosition="before">
+    help
+  </mat-icon>
+
+</mat-form-field>

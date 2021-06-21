@@ -1,0 +1,15 @@
+<div mat-dialog-title fxLayout="row" color="warn" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+  <mat-icon>notifications</mat-icon>
+  <span fxFlex class="overflow-ellipsis" [matTooltip]="data?.announcement?.title">{{ data?.announcement?.title }}</span>
+</div>
+
+<mat-dialog-content>
+  <div class="aal--padding-right-left-r-5 wrap-content" aalStyleInnerHTML [text]="data?.announcement?.message" [customStyle]="'font-weight: bolder'"
+       [specialCharacter]="'*'">
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions class="primary-btn-theme" fxLayout="row" fxLayoutGap=".5rem">
+  <button mat-button class="secondary-action-button" (click)="dismissAnnouncement()">Dismiss</button>
+  <a mat-button (click)="openURL()" *ngIf="!(data.isLinkInfoPresent === false) && data?.announcement?.link" [style.cursor]="'pointer'">{{ data?.announcement?.label }}</a>
+</mat-dialog-actions>
+

@@ -1,0 +1,14 @@
+<div class="empty-state--card aal--padding-all-r2" fxFlex fxLayout="column" fxLayoutAlign="center center"
+  fxLayoutGap="1rem">
+  <mat-icon class="mat-icon" *ngIf="icon">{{icon}}</mat-icon>
+  <span *ngIf="imageTemplateRef">
+    <ng-container [ngTemplateOutlet]="imageTemplateRef"></ng-container>
+  </span>
+  <span class="menu-item--title ">{{title}}</span>
+  <span class="menu-item--content label">
+    {{subTitle}}
+  </span>
+  <span class="menu-item--content label" *ngIf="description">
+    {{description}}
+  </span>
+</div>

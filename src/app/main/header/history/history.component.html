@@ -1,0 +1,27 @@
+<button mat-icon-button [matMenuTriggerFor]="historyMenu" class="header-toolbar--menu-icon" #trigger="matMenuTrigger"
+        [ngClass]="{'is-menuOpen': trigger.menuOpen}">
+  <mat-icon>history</mat-icon>
+</button>
+<mat-menu #historyMenu="matMenu" [overlapTrigger]="false" yPosition="below" xPosition="before"
+          class="header-toolbar--menu">
+  <div (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <mat-toolbar class="header-toolbar--menu-header">
+      <mat-toolbar-row fxLayoutGap="1rem">
+        <mat-icon>history</mat-icon>
+        <span fxFlex>History</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="header-toolbar--menu-content">
+
+    </div>
+    <!-- Footer -->
+    <div class="aal--padding-all-r-5 aal--margin-right-r-5" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
+      <button mat-raised-button type="submit" color="primary">
+        Show All
+      </button>
+    </div>
+  </div>
+</mat-menu>
+
+

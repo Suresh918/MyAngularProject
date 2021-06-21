@@ -1,0 +1,53 @@
+<div class="filter-panel--container" fxFlex>
+  <mat-divider></mat-divider>
+  <div fxLayout="column">
+    <div fxLayout="column" class="filter-panel--overlay" *ngIf="caseObject !== 'myTeamManagement'">
+      <mc-filter-people-panel [caseObject]="caseObject"
+                              [secondaryCaseObjectType]="secondaryCaseObjectType"
+                              [caseObjectFilterConfiguration]="caseObjectFilterConfiguration"
+                              [formArray]="caseObjectCurrentFilterFormGroup?.get('people')"
+                              [caseObjectCurrentFilterFormGroup]="caseObjectCurrentFilterFormGroup"
+                              [historyFormGroup]="filtersHistoryFormGroup"
+                              [filterFormConfiguration]="filterFormConfiguration"
+                              [layoutType]="layoutType">
+      </mc-filter-people-panel>
+      <mat-divider fxFlex="15%" class="aal--margin-bottom-r1" *ngIf="caseObject!=='dashboardWidget' && caseObject!=='dashboardActionWidget'"></mat-divider>
+      <mc-filter-change-details-panel [caseObject]="caseObject"
+                                      [caseObjectFilterConfiguration]="caseObjectFilterConfiguration"
+                                      [changeDetailsPanelHeader]="changeDetailsPanelHeader"
+                                      *ngIf="caseObject!=='dashboardWidget' && caseObject!=='dashboardActionWidget'"
+                                      [caseObjectCurrentFilterFormGroup]="caseObjectCurrentFilterFormGroup"
+                                      [historyFormGroup]="filtersHistoryFormGroup"
+                                      [filterFormConfiguration]="filterFormConfiguration"></mc-filter-change-details-panel>
+      <mat-divider fxFlex="15%" class="aal--margin-bottom-r1" *ngIf="caseObject!=='dashboardWidget'  && caseObject!=='dashboardActionWidget' && caseObject!=='readNotification' && caseObject!=='reviewEntry'"></mat-divider>
+      <mc-filter-urgency-panel [caseObject]="caseObject" [caseObjectFilterConfiguration]="caseObjectFilterConfiguration"
+                               *ngIf="caseObject!=='dashboardWidget' && caseObject!=='dashboardActionWidget' && caseObject!=='myTeam' && caseObject!=='readNotification' && caseObject!=='reviewEntry'"
+                               [caseObjectCurrentFilterFormGroup]="caseObjectCurrentFilterFormGroup"
+                               [filterFormConfiguration]="filterFormConfiguration"></mc-filter-urgency-panel>
+    </div>
+    <div fxLayout="column" class="filter-panel--overlay" *ngIf="caseObject === 'myTeamManagement'">
+      <mc-filter-my-team-management-panel [caseObject]="caseObject" [formArray]="caseObjectCurrentFilterFormGroup?.get('people')"
+                                          [caseObjectFilterConfiguration]="caseObjectFilterConfiguration"
+                                          [caseObjectCurrentFilterFormGroup]="caseObjectCurrentFilterFormGroup"
+                                          [historyFormGroup]="filtersHistoryFormGroup"
+                                          [filterFormConfiguration]="filterFormConfiguration">
+      </mc-filter-my-team-management-panel>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="filter-panel--footer aal--elevation-2">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngIf="caseObject!=='dashboardWidget' && caseObject!=='dashboardActionWidget' && caseObject!=='trackerBoard'">
+        <span fxLayout="row" fxLayoutAlign="start center" fxFlex="0 0 20px">
+          <aal-overlay-card-help [help]="filterHelp" *ngIf="!searchInProgress"></aal-overlay-card-help>
+          <span *ngIf="searchInProgress" class="spinner-wrapper" fxLayoutAlign="start center">
+            <mat-spinner [diameter]="20"></mat-spinner>
+          </span>
+        </span>
+        <span class="aal--subheading-1 aal--margin-all-r0">Total: {{caseObjectListCount ? caseObjectListCount : 0}}</span>
+      </div>
+      <span></span>
+      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
+        <button mat-button class="secondary-action-button" id="filter_panel_cancel" (click)="cancelFilter(); $event.stopPropagation()">Cancel</button>
+        <button mat-raised-button color="accent" id="filter_panel_apply" (click)="applyFilter(); $event.stopPropagation()" [disabled]="caseObject === 'myTeamManagement' && !caseObjectCurrentFilterFormGroup.valid">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>

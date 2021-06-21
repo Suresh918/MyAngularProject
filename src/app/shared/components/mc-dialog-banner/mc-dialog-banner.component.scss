@@ -1,0 +1,10 @@
+.banner {
+  background: #ffffff;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 35rem;
+  z-index: 1;
+}

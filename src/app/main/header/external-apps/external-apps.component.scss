@@ -1,0 +1,30 @@
+@import '../../../../themes/material/theming';
+.external-link-image{
+  width: 4rem;
+  height: 4rem;
+  &.training{
+    border-radius: 50%;
+    box-shadow: inset 0px 0px 0px 6px $aal--mat-primary;
+  }
+  &.launchpad{
+    box-shadow: inset 0px 0px 0px 2px $aal--mat-primary;
+  }
+}
+a {
+  color: black !important;
+}
+.mat-icon.external-link-image{
+  font-size: 4rem;
+  color: $aal--mat-primary;
+}
+.external-app--icon {
+  ::ng-deep .button-icon-rounded {
+     clear: both;
+    color: #ffffff !important;
+    opacity: 0.75 !important;
+    border: 0 !important;
+  }
+  .header-toolbar--menu {
+    width: 300px !important;
+  }
+}

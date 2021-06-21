@@ -1,0 +1,61 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" mat-dialog-title>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0.5rem">
+    <mat-icon class="opacity-54">edit</mat-icon>
+    <span>Create SCIA</span>
+  </div>
+  <mc-button-icon
+    [color]="'primary'"
+    [icon]="'close'"
+    [isGenericButton]="true"
+    [noCheckOnCaseAction]="true"
+    [tooltip]="'close'"
+    (buttonClick)="cancelCreateScia()">
+  </mc-button-icon>
+</div>
+<mat-dialog-content fxLayout="column" class="aal--padding-all-s background--off-white">
+  <div class="aal--margin-left-r4 aal--padding-left-r4 aal--margin-right-r4 aal--padding-right-r4">
+    <mc-card-summary fxFlex="100%"
+      [mainDescription]="'Supply Chain Impact Analysis (SCIA) Creation'"
+      [line1Caption]="'Select the responsible PLM PC and myChange will create the SCIA in the Supply Chain Module Application.'"
+      [wordWrapApplicable]="true"
+      [iconImageTemplateRef]="imageDisplayRef">
+    </mc-card-summary>
+    <ng-template #imageDisplayRef>
+      <mat-icon mat-list-icon class="icon--large" [matTooltip]="'Change Requests'" svgIcon="change-request"></mat-icon>
+    </ng-template>
+  </div>
+  <div class="aal--padding-all-r1 aal--padding-bottom-r4" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex="0 0 560px">
+      <mc-auto-complete-plmpc-single
+        [ngClass]="'aal--margin-top-r1'"
+        [control]="sciaFormGroup.get('plmpcUser')"
+        [controlConfiguration]="sciaFormConfiguration"
+        [plmpcUsers]="plmpcUsers"
+        [lockMode]="'EDIT'"
+        [mode]="'EDIT'"
+        [hideHelp]="false"
+        [fieldSaveNotApplicable]="true"
+        [isObjectSnakeCase]="true">
+      </mc-auto-complete-plmpc-single>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
+  <mc-button-outlined
+    [text]="'Cancel'"
+    [tooltip]="'Cancel'"
+    [buttonId]="'cancel-create-scia'"
+    [isGenericButton]="true"
+    [noCheckOnCaseAction]="true"
+    (buttonClick)="cancelCreateScia()">
+  </mc-button-outlined>
+  <mc-button-contained
+    [text]="'Create'"
+    [buttonId]="'create-scia'"
+    [tooltip]="'Create SCIA'"
+    [disabled]="!sciaFormGroup.get('plmpcUser').value.user_id"
+    [isGenericButton]="true"
+    [noCheckOnCaseAction]="true"
+    (buttonClick)="createScia()">
+  </mc-button-contained>
+</mat-dialog-actions>

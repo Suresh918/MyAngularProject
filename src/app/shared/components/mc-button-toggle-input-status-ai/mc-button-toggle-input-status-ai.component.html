@@ -1,0 +1,64 @@
+<div fxLayout="row" fxLayoutAlign="start start">
+  <div class="aal--padding-top-r-5">
+    <mat-icon *ngIf="(decisionIcon !== 'help_outline') && !isBusy"
+              [ngClass]="{'icon--medium': true, 'icon--border' : true}">{{decisionIcon}}</mat-icon>
+    <img *ngIf="(decisionIcon === 'help_outline') && !isBusy"
+         [src]="'../../../assets/icons/help-icon.png'" aalLoadBlankPortrait
+         alt=""
+         class="image-circle-medium">
+  </div>
+
+  <aal-button-toggle [useDefaultHelpDisplay]="false"
+                     *ngIf="!descriptionControl"
+                     [ngClass]="{'' : !!selectControl?.value}"
+                     [ID]="fieldConfiguration?.ID + '_' + agendaItemData?.ID"
+                     [placeholder]="fieldConfiguration?.placeholder"
+                     [label]="fieldConfiguration?.label"
+                     [optionValueField]="'value'"
+                     [optionLabelField]="'label'"
+                     [options]="enumeration"
+                     [control]="selectControl"
+                     [layout]="'column'"
+                     [help]="help"
+                     [alert]="serverError"
+                     [isBusy]="isBusy"
+                     [mode]="decisionMode"
+                     [hideHelp]="!isBusy"
+                     (acceptChanges)=onAcceptStatusChanges($event) [fontSize]="fontSize">
+  </aal-button-toggle>
+  <aal-button-toggle-input fxFlex="100%" *ngIf="descriptionControl && agendaItemData?.purpose"
+                           (acceptChanges)="onAcceptStatusChanges($event)"
+                           (acceptSecondaryControlChanges)="onAcceptSecondaryControlChanges($event)"
+                           (revertSecondaryControlChanges)="onRevertedChanges($event)"
+                           [useDefaultHelpDisplay]="false"
+                           [hideHelp]="!isBusy"
+                           [ID]="fieldConfiguration?.ID + '_' + agendaItemData?.ID"
+                           [alert]="statusError"
+                           [control]="selectControl"
+                           [help]="help"
+                           [layout]="'column'"
+                           [optionLabelField]="'label'"
+                           [optionValueField]="'value'"
+                           [options]="enumeration"
+                           [placeholder]="fieldConfiguration?.placeholder"
+                           [label]="fieldConfiguration?.label"
+                           [secondaryControlAlert]="serverError"
+                           [isBusy]="isBusy"
+                           [mode]="decisionMode"
+                           [secondaryControlHelp]="descriptionControlConfiguration?.help"
+                           [secondaryControlID]="descriptionControlConfiguration?.ID"
+                           [secondaryControlIsHistoryEnabled]="secondaryControlIsHistoryEnabled"
+                           [secondaryControlMaxLength]="descriptionControlConfiguration?.validators?.max_length"
+                           [secondaryControlMinLength]="descriptionControlConfiguration?.validators?.min_length"
+                           [secondaryControlPlaceholder]="descriptionControlConfiguration?.label"
+                           [secondaryControlLabel]="descriptionControlConfiguration?.label"
+                           [secondaryControl]="descriptionControl"
+                           [isSecondaryControlValueHTML]="true"
+                           [secondaryShowLengthHint]="true"
+                           [valuesWhereSecondaryControlIsApplicable]="['APPROVED', 'REJECTED', 'DISCUSSED', 'POSTPONED']"
+                           [fontSize]="fontSize">
+  </aal-button-toggle-input>
+
+
+</div>
+

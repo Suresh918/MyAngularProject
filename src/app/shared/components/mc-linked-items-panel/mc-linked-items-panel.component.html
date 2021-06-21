@@ -1,0 +1,56 @@
+<mc-button-overlay-tabbed [headerIcon]="'link'"
+                          [headerTitle]="'Linked Items'"
+                          [tooltip]="'Linked Items'"
+                          [buttonType]="'icon'"
+                          [defaultItemIcon]="'link'"
+                          [isIconBorder]="true"
+                          [progressBar]="progressBar"
+                          [overlayData]="linkedItems"
+                          [closeOnItemClick]="true"
+                          [selectedTabIndex]="selectedTabIndex"
+                          [showAllForTabs]="['RP']"
+                          [sortMenuForTabs]="['RP']"
+                          (listItemClicked)="onOverLayTabbedListItemClick($event)"
+                          (panelOpened)="onPanelOpened()"
+                          (triggerOverviewListSortChangeClick)="triggerOverviewListSortChange($event)"
+                          (selectedTab)="openSelectedTab($event)"
+                          (showAllItems)="showAll()"
+                          [cardSummaryRef]="cardSummaryRef"
+                          [menuSortRefr]="menuSortRefr"
+                          [emptyStateRef]="emptyStateRef"
+                          [objectAsSnakeCase]="objectAsSnakeCase"
+></mc-button-overlay-tabbed>
+
+
+<ng-template #cardSummaryRef let-item>
+  <aal-card-summary *ngIf="item" [item]="item" [ID]="item?.id || item['link']?.ID " [label]="(item?.id && item?.type !== 'ECN' || item['link']?.ID && item['link']?.type !== 'ECN') ? item?.id || item['link'].ID : ''"
+                    [labelCaption]="item['link']?.status"
+                    [mainDescription]="item['link']?.title || item?.title"
+                    [line1]="(item.plannedDuration  ?  (item.plannedDuration | aalDuration) : '')"
+                    [separator]="'interpunct'"
+                    [iconImageTemplateRef]="imageDisplayRef" fxFlex="100%"></aal-card-summary>
+  <ng-template #imageDisplayRef>
+    <mat-icon *ngIf="item?.type?.toUpperCase()==='CHANGEREQUEST' || (item['link'] && item['link'].type.toUpperCase()==='CHANGEREQUEST')" [matTooltip]="'Change Request'" mat-list-icon
+              class="icon--medium aal--margin-right-r0" svgIcon="change-request"></mat-icon>
+    <mat-icon *ngIf="item?.type?.toUpperCase()==='CHANGENOTICE' ||  item['link'] && item['link'].type.toUpperCase()==='CHANGENOTICE'" [matTooltip]="'Change Notice'" mat-list-icon
+              class="icon--medium aal--margin-right-r0" svgIcon="change-notice"></mat-icon>
+    <mat-icon *ngIf="item?.type?.toUpperCase()==='RELEASEPACKAGE' || item['link'] && item['link'].type.toUpperCase()==='RELEASEPACKAGE'" [matTooltip]="'Release Package'" mat-list-icon
+              class="icon--medium aal--margin-right-r0" svgIcon="release-package"></mat-icon>
+    <mat-icon *ngIf="item?.type?.toUpperCase()==='AIR' || item['link'] && item['link'].type.toUpperCase()==='AIR'" [matTooltip]="'AIR'" mat-list-icon
+              class="icon--medium aal--margin-right-r0" svgIcon="air"></mat-icon>
+    <mat-icon *ngIf="item?.type?.toUpperCase()==='PBS' || item['link'] && item['link'].type.toUpperCase()==='PBS'" [matTooltip]="'PBS'" mat-list-icon
+              class="icon--medium aal--margin-right-r0" svgIcon="pbs"></mat-icon>
+  </ng-template>
+</ng-template>
+<ng-template #menuSortRefr>
+  <mc-menu-sort fxFill [sortFromLinkedItem]="true" [matTooltip]="'Change sort order'"
+                [sortConfiguration]="sortingConfiguration" [initialSort]="selectedSortItem"
+                [disableSortClear]="true"
+                (sortChange)="triggerOverviewListSortChange($event)"></mc-menu-sort>
+</ng-template>
+<ng-template #emptyStateRef let-tab>
+  <mc-menu-empty-state-card [title]="'No ' + (tab && tab['name'] ? tab['name'] : 'Linked') + ' items'"
+                                [subTitle]="'All ' + (tab && tab['name'] ? tab['name'] : 'Linked') + ' items will appear here.'"
+                                [icon]="'list'">
+  </mc-menu-empty-state-card>
+</ng-template>

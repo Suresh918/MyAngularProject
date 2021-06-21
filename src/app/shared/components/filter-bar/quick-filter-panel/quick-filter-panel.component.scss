@@ -1,0 +1,16 @@
+@import '../../../../../themes/material/theming';
+.quick-filter--toolbar {
+  background: #e0e0e0;
+}
+.user-action--highlight:hover{
+  background: mat-color($mat-grey, 100) !important;
+}
+.my-team-list--icon {
+    border: 2px solid #1c7ddb;
+    color: #1c7ddb;
+    border-radius: 50%;
+    padding: 0.25rem;
+}
+.quick_filter--icon {
+  transform: rotate(180deg);
+}

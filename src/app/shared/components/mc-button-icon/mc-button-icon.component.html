@@ -1,0 +1,12 @@
+<aal-button-icon [icon]="icon"
+                 *ngIf="(buttonAction$ | async) || noCheckOnCaseAction || buttonDisabled"
+                 [iconSize]="iconSize"
+                 [color]="color"
+                 [tooltip]="(!(buttonAction$ | async) && buttonDisabled) ? tooltipForDisabled : tooltip"
+                 [badgeData]="badgeData"
+                 [hasBadge]="!!badgeData"
+                 [disabled]="(!(buttonAction$ | async) && buttonDisabled) || disabled"
+                 [isBadgeDisabled]="isBadgeDisabled"
+                 [ID]="buttonId ? buttonId : (isGenericButton ? caseObjectType + icon : defaultButtonID)"
+                 (onClick)="$event.stopPropagation(); onButtonClick($event)" [badgeSize]="badgeSize">
+</aal-button-icon>

@@ -1,0 +1,30 @@
+<div fxLayout="column"
+       fxLayoutGap="0.5rem" fxFlexAlign="space-between" *ngIf="show" class="aal--elevation-3 notification--banner">
+    <mat-card>
+      <mat-card-content fxLayout="column">
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutAlign="space-between start">
+            <div fxLayout="row" fxLayoutGap="1rem">
+              <mat-icon class="icon--medium">notifications</mat-icon>
+              <div fxLayout="column" fxLayoutGap="0.3rem" class="aal--margin-top-r-5">
+                <span class="mat-subheading-2">{{ announcement?.title }}</span>
+                <mat-card-subtitle> {{ announcement?.createdOn | date: 'E d LLL y HH:mm' }}</mat-card-subtitle>
+              </div>
+            </div>
+          </div>
+          <div class="aal--margin-top-r-5">
+            <div fxFlexOffset="15" class="wrap-content" aalStyleInnerHTML [text]="announcement?.message"
+                 [customStyle]="'font-weight: bolder'" [specialCharacter]="'*'">
+            </div>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <a (click)="dismissAnnouncement()" mat-button>Dismiss</a>
+          <a (click)="openURL()" mat-button
+                  *ngIf="announcement?.label && showBannerLink && announcement?.link">{{ announcement?.label }}
+          </a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+

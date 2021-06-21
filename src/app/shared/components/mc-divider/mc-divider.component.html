@@ -1,0 +1,6 @@
+<div *ngIf="(buttonAction$ | async)">
+  <mat-divider [vertical]="isVertical"
+               [style.height]="height ? height : ''"
+               [style.width]="width ? width : ''"
+  ></mat-divider>
+</div>

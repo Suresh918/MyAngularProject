@@ -1,0 +1,26 @@
+<div fxLayout="column" fxLayoutGap="0.5rem" fxFill>
+  <mat-form-field floatLabel="{{floatLabel}}">
+    <mat-label *ngIf="floatLabel==='always'">{{controlConfiguration?.label}}</mat-label>
+    <mat-select [formControl]="control" [placeholder]="controlConfiguration?.label" [required]="hasValidator()"
+                (selectionChange)="selectionChange($event)" #selectRef>
+      <ng-container *ngIf="showOptionsHistory">
+        <mat-option *ngFor="let option of historyFormControl?.value" [value]="option?.name">
+          <mat-icon *ngIf="selectRef.panelOpen">history</mat-icon>
+          <span>{{ option.label }}</span>
+        </mat-option>
+      </ng-container>
+      <mat-option> -- None -- </mat-option>
+      <mat-option *ngFor="let enumerationItem of controlConfiguration?.options" [value]="enumerationItem?.value">
+        {{ enumerationItem.label }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="control?.errors?.required">{{ controlConfiguration?.label }} is required</mat-error>
+    <mat-icon *ngIf="controlConfiguration?.help" class="tooltip" matSuffix [matTooltip]="controlConfiguration?.help"
+              matTooltipPosition="before">
+      help
+    </mat-icon>
+  </mat-form-field>
+  <mc-mat-input-text-area fxFlex *ngIf="control?.value && control?.value?.length>0 && descriptionControl &&  showDescriptionForOptions?.indexOf(control?.value) !== -1"
+                          [control]="descriptionControl" [controlConfiguration]="descriptionControlConfiguration">
+  </mc-mat-input-text-area>
+</div>

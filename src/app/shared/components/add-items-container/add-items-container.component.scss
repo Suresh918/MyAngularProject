@@ -1,0 +1,18 @@
+@import '../../../../themes/material/theming';
+button{
+  height: fit-content !important;
+}
+
+.sort-icon-flipped{
+  transform: rotate(180deg);
+}
+
+.item-container--card {
+  .item-content-scroll {
+    height: 25vh;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    padding-top: 1rem;
+  }
+}
+

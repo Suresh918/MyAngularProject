@@ -1,0 +1,47 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": ["https://**.bsnl.com/api/config/v0.1/service-parameters",
+      "https://**.bsnl.com/api/configuration-service/forms",
+        "https://**.bsnl.com/api/user-service/states",
+        "https://**.bsnl.com/api/user-service/profiles",
+        "https://**.bsnl.com/api/configuration-service/links",
+        "https://**.bsnl.com/api/user-service/preferred-roles"],
+      "cacheConfig": {
+        "maxSize": 100,
+        "maxAge": "1h",
+        "timeout": "0u",
+        "strategy": "freshness"
+      }
+    }
+  ],
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    }, {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+        ],
+        "urls": [
+        ]
+      }
+    }
+  ]
+}

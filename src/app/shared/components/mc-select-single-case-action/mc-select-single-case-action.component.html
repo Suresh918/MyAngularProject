@@ -1,0 +1,13 @@
+<aal-select-single [ID]="fieldConfiguration?.ID"
+                   [control]="selectControl"
+                   [isHistoryEnabled]="false"
+                   [help]="help"
+                   [optionValueField]="isInstanceType ? 'label' : 'value'" [optionLabelField]="'label'"
+                   [options]="optionsList"
+                   [placeholder]="fieldConfiguration?.placeholder"
+                   [label]="fieldConfiguration?.label"
+                   [isBusy]="isBusy"
+                   [alert]="serverError"
+                   [mode]="optionsList.length > 0 ? mode : 'PROTECTED'"
+                   (acceptChanges)=onAcceptChanges($event)>
+</aal-select-single>

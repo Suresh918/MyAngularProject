@@ -1,0 +1,27 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+    <span fxLayoutAlign="start center">
+      <mat-icon class="aal--margin-right-r1">group</mat-icon>
+      <span>Add Users</span>
+    </span>
+  <mc-button-icon [noCheckOnCaseAction]="true"
+                  [isGenericButton]="true"
+                  (buttonClick)="close()"
+                  [icon]="'close'"
+                  [tooltip]="'Close'"></mc-button-icon>
+</div>
+
+<mat-dialog-content fxLayout="column" fxLayoutGap="0.5rem">
+  <div class="aal--padding-bottom-r1">Add collegues that are not listed in the Closed User Group (CUG)</div>
+  <mc-auto-complete-user-multiple [control]="userSearchControl"
+                                  [controlConfiguration]="usersControlConfiguration['myTeam']?.addMyTeamMember"
+                                  [lockMode]="'EDIT'" [mode]="'EDIT'"
+                                  [hideHelp]="false" [isHistoryEnabled]="true"
+                                  [hideConfirmationToolBar]="true"
+                                  [fieldSaveNotApplicable]="true"
+  ></mc-auto-complete-user-multiple>
+</mat-dialog-content>
+
+<mat-dialog-actions class="primary-btn-theme" fxLayoutAlign="end center" fxLayoutGap=".5rem">
+  <button mat-button class="secondary-action-button" id="user-search-dialog-cancel" (click)="close()">Cancel</button>
+  <button mat-raised-button color="primary" id="user-search-dialog-add" (click)="setUserList()">Add User</button>
+</mat-dialog-actions>

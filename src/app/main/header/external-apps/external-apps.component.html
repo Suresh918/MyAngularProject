@@ -1,0 +1,37 @@
+<mc-button-overlay-icon
+  [headerIcon]="'apps'"
+  [headerTitle]="'External Links'"
+  [name]="'apps'"
+  [tooltip]="'External Links'"
+  [menuContentRef]="menuContentRef" class="external-app--icon">
+</mc-button-overlay-icon>
+<ng-template #menuContentRef let-item>
+    <div class="external-links header-toolbar&#45;&#45;menu-content">
+      <div fxLayout="column" class="aal--padding-all-r1 aal--margin-top-bottom-r-5" fxLayoutGap="1.5rem" fxLayoutAlign="flex-start center">
+        <div fxLayout="row" [style.width]="'100%'">
+          <ng-container *ngFor="let externalLink of firstSet">
+            <div fxFlex [matTooltip]="externalLink?.hint">
+              <a fxLayout="column" fxLayoutAlign="center center" href="{{externalLink?.url}}" target="_blank">
+                <mat-icon class="external-link-image training" *ngIf="externalLink?.name === 'TrainingVideos'">play_arrow</mat-icon>
+                <mat-icon class="external-link-image" *ngIf="externalLink?.name === 'FAQ'">help</mat-icon>
+                <mat-icon class="external-link-image" *ngIf="externalLink?.name === 'ServiceNow'">cloud_done</mat-icon>
+                <span class="aal&#45;&#45;padding-top-r-5">{{externalLink?.label}}</span>
+              </a>
+            </div>
+          </ng-container>
+        </div>
+        <div fxLayout="row" [style.width]="'100%'">
+          <ng-container *ngFor="let externalLink of secondSet">
+            <div fxFlex [matTooltip]="externalLink?.hint">
+              <a fxLayout="column" fxLayoutAlign="center center" href="{{externalLink?.url}}" target="_blank">
+                <mat-icon class="external-link-image launchpad" *ngIf="externalLink?.name === 'BSNLLaunchPad'">apps</mat-icon>
+                <img class="external-link-image" *ngIf="externalLink?.name != 'SBNLLaunchPad'"
+                     src="\assets\icons\{{externalLink?.name | lowercase}}-logo.svg" alt="">
+                <span class="aal&#45;&#45;padding-top-r-5">{{externalLink?.label}}</span>
+              </a>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+</ng-template>

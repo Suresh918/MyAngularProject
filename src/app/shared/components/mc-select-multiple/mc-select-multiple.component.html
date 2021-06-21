@@ -1,0 +1,23 @@
+<aal-select-multiple (acceptChanges)=onAcceptChanges($event)
+                     [ID]="fieldConfiguration?.ID"
+                     [alert]="serverError"
+                     [primaryKeyInValue]="primaryKeyInValue"
+                     [confirmToolBarNotApplicable]="hideConfirmationToolBar"
+                     [control]="selectControl" [fontSize]="fontSize"
+                     [help]="help"
+                     [hideHelp]="hideHelp"
+                     [disableControl]="disableControl"
+                     [isBusy]="isBusy"
+                     [isHistoryEnabled]="'true'"
+                     [lockMode]="lockMode"
+                     [mode]="mode"
+                     [label]="fieldConfiguration?.label"
+                     [optionLabelField]="'label'"
+                     [optionValueField]="valueAsObject ? '' : (valueAsLabel ? 'label' : 'value')"
+                     [options]="fieldConfiguration?.options"
+                     [placeholder]="fieldConfiguration?.placeholder" [sectionTag]="sectionTag"
+                     [disabledOptionsList]="disabledOptionsList"
+                     [valuesWhereOtherOptionsDisabled]="valuesWhereOtherOptionsDisabled"
+                     [showSections]="showSection">
+</aal-select-multiple>
+

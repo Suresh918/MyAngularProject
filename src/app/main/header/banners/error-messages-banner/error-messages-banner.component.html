@@ -1,0 +1,15 @@
+<div class="aal--elevation-3 banner  aal--margin-bottom-r-5" fxLayout="row"
+     fxLayoutGap="0.5rem" fxFlex="45rem" fxFlexAlign="space-between" *ngIf="messages?.length>0">
+
+  <div fxFlex="1 1 36rem" fxLayout="column">
+    <div @items class="error-message aal--padding-all-r-5" *ngFor="let message of messages;let i=index "
+         fxLayout="column" >
+      <mat-divider *ngIf="i !==0 || i==messages.length"></mat-divider>
+      <div [innerHTML]="message?.errorMessage" class="aal--padding-all-r-5"></div>
+    </div>
+  </div>
+  <button fxFlex fxFlexAlign="end" mat-button color="accent" (click)="close()">Close</button>
+</div>
+
+
+

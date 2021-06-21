@@ -1,0 +1,24 @@
+<mat-expansion-panel [expanded]="false" [disabled]="true" class="aal--elevation-1 expansion-panel">
+  <mat-expansion-panel-header class="expansion-panel-header" [ngClass]="{'aal--margin-left-r0': showHelpMessage}">
+    <mat-panel-title fxFlex="100%" class="aal--margin-right-r0">
+      <div fxFlex="100%" fxLayout="row" fxLayoutAlign="space-between">
+        <div fxLayout="row" fxLayoutAlign="start center" class="mat-title aal--margin-bottom-r0 disabled-text">
+          <span>
+            <mc-help *ngIf="showHelpMessage" [message]="helpMessage"></mc-help>
+          </span>
+          <div>{{header}}</div>
+        </div>
+        <div fxLayout="row" fxLayoutGap="0.5rem">
+          <div [matTooltip]="addButtonTooltip || 'Add'">
+            <button mat-icon-button color="accent" *ngIf="showAddButton" [disabled]="true" [id]="'expansion_panel_disabled_add' + header">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-panel-title>
+    <span fxLayout="row" fxLayoutAlign="center center" class="disabled-chevron"><mat-icon>expand_more</mat-icon></span>
+  </mat-expansion-panel-header>
+
+</mat-expansion-panel>
+

@@ -1,0 +1,20 @@
+<mat-expansion-panel [expanded]="isExpanded" class="aal--elevation-1 expansion-panel">
+  <mat-expansion-panel-header class="expansion-panel-header">
+    <mat-panel-title>
+      <div [style.width]="'100%'" fxLayout="row" fxLayoutAlign="space-between">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+          <div>{{header}}</div>
+          <div class="status-text">{{headerStatus}}</div>
+        </div>
+        {{fontSize}}
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div aalChangeFontSize [fontSize]="fontSize">{{headerCost ? headerCost : ''}}</div>
+        </div>
+      </div>
+    </mat-panel-title>
+    <mat-panel-description fxLayoutAlign="end end">
+      <ng-content class="expansion-panel-description" select="[expansion-panel-description]"></ng-content>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <ng-content class="expansion-panel-content" select="[expansion-panel-content]"></ng-content>
+</mat-expansion-panel>

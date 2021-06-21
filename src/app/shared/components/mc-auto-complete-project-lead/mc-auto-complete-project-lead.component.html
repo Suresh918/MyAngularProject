@@ -1,0 +1,5 @@
+<div fxLayout="row" fxLayoutAlign="space-between" fxFlex="100%">
+<mc-auto-complete-user-single [mode]="'PROTECTED'" fxFlex="100%" [isBusy]="isBusy" [controlConfiguration]="controlConfiguration"
+                              [control]="control"></mc-auto-complete-user-single>
+<aal-overlay-card-alert [alert]="serverError" *ngIf="serverError"></aal-overlay-card-alert>
+</div>

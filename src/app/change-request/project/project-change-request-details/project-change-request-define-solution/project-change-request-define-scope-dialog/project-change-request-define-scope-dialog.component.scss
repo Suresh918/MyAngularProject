@@ -1,0 +1,45 @@
+@import '../../../../../../themes/material/theming';
+
+.inActiveStep {
+  ::ng-deep .mat-horizontal-stepper-header {
+    pointer-events: none !important;
+
+    ::ng-deep .mat-step-label-active, mat-step-icon-state-number {
+      color: rgba(0, 0, 0, 0.54);
+      font-weight: 400;
+
+    }
+  }
+}
+
+::ng-deep .flow-stepper {
+  .mat-step-header.step-disabled{
+    pointer-events: none;
+    opacity: 0.54;
+  }
+  .mat-step-header.step-enabled{
+    pointer-events: auto;
+    opacity: 1;
+  }
+}
+
+.scope-details-content {
+  padding: 2rem 12rem !important;
+  display: block !important;
+}
+
+.scope-details-align {
+  display: block !important;
+}
+
+::ng-deep .setPositionCkEditor {
+  .ck.ck-editor {
+    position: absolute;
+  }
+}
+
+::ng-deep .reSetPositionCkEditor  {
+  .ck.ck-editor {
+    position: relative;
+  }
+}

@@ -1,0 +1,94 @@
+<mc-expansion-panel [isExpanded]="isExpanded" [header]="'Scope Items'" [headerHelp]="helpMessage?.help"
+                    class="panel-off-white panel">
+  <div expansion-panel-description fxLayout="row" fxLayoutGap="1rem" fxFlexAlign="end center"
+       class="aal--margin-right-r1">
+    <mc-menu-sort *ngIf="solutionItemsList?.length !== 0" [matTooltip]="'Change sort order'"
+                  [sortFromLinkedItem]="false"
+                  [sortConfiguration]="sortConfiguration" [initialSort]="scopeItemsListActiveSort"
+                  [disableSortClear]="true" class="sort-button"
+                  (sortChange)="sortSolutionItemsList($event)"></mc-menu-sort>
+    <mat-divider *ngIf="solutionItemsList?.length !== 0 ||
+                        ((caseObjectType === 'ChangeRequest' && (isProject ? changeRequestFormGroup?.get('issue_types')?.value.includes('PROCEDURE') : true) &&
+                         (changeRequestFormGroup?.get('status')?.value === 2 || changeRequestFormGroup?.get('status')?.value === 3 || changeRequestFormGroup?.get('status')?.value === 4))
+                         || (caseObjectType === 'ChangeNotice' && isContainerCreated && changeNoticeFormGroup?.get('generalInformation.status')?.value !== 'IMPLEMENTED'))"
+                 [vertical]="true" [style.height]="'2.5rem'"></mat-divider>
+    <mc-button-icon-outlined *ngIf="(caseObjectType === 'ChangeRequest' && (isProject ? changeRequestFormGroup?.get('issue_types')?.value.includes('PROCEDURE') : true) &&
+                                    (changeRequestFormGroup?.get('status')?.value === 2 || changeRequestFormGroup?.get('status')?.value === 3 || changeRequestFormGroup?.get('status')?.value === 4))
+                                 || (caseObjectType === 'ChangeNotice' && isContainerCreated && changeNoticeFormGroup?.get('generalInformation.status')?.value !== 'IMPLEMENTED')"
+                             [icon]="'add'" [text]="'Add'"
+                             [noCheckOnCaseAction]="true"
+                             [isGenericButton]="true"
+                             [disabled]="caseObjectType === 'ChangeNotice' && !enableAddScopeItem"
+                             (buttonClick)="openSolutionItemsDialog();$event.stopPropagation()"></mc-button-icon-outlined>
+    <mc-button-contained *ngIf="!isContainerCreated && caseObjectType === 'ChangeNotice'
+                                && changeNoticeFormGroup?.get('generalInformation.status')?.value !== 'IMPLEMENTED'"
+                         [text]="'Re-Import'"
+                         [noCheckOnCaseAction]="true"
+                         [disabled]="!enableAddScopeItem"
+                         (buttonClick)="reImportItemsContainer(); $event.stopPropagation()">
+    </mc-button-contained>
+    <mat-divider [vertical]="true" [style.height]="'2.5rem'"></mat-divider>
+    <!--<mc-alert [message]="loadErrorMessage" *ngIf="loadErrorMessage"></mc-alert>-->
+  </div>
+  <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem"
+       class="inner-expansion-panel-content aal--padding-right-r-5">
+    <div (dndDrop)="onDropSolutionItem($event)" dndEffectAllowed="move" [dndDropzone]="['solutionItem']"
+         [style.min-height]="'0.5rem'" class="aal--margin-bottom-r1" fxLayoutGap="1rem" fxFlex="100%"
+         fxLayout="column">
+      <div class="dndPlaceholder" dndPlaceholderRef>Drop Item here</div>
+
+      <div *ngFor="let solutionItem of solutionItemsList; let index = index" [dndDraggable]="solutionItem"
+           [dndType]="'solutionItem'"
+           [dndDisableIf]="solutionItemsList.length <= 1 || caseObjectType === 'ChangeNotice'"
+           (dndStart)="itemDragStarted(index)" (dndEnd)="onItemDragEnd()"
+           dndEffectAllowed="move" class="dragable-card">
+        <div fxLayout="row" fxFlex="1 1 100%" class="card-item">
+          <div class="aal--padding-left-r1 aal--padding-top-bottom-r1 aal--margin-top-r1">
+            <mc-button-icon *ngIf="caseObjectType !== 'ChangeNotice'" fxFlex="3%"
+                            [icon]="'drag_handle'"
+                            [tooltip]="'Reorder the scope item'"
+                            [noCheckOnCaseAction]="true" mat-list-icon dndHandle
+                            [ngClass]="{'visible-on-hover': true}"></mc-button-icon>
+
+            <span *ngIf="caseObjectType !== 'ChangeNotice'"
+                  [ngClass]="{'hide-on-hover': caseObjectType !== 'ChangeNotice'}"
+                  class="list-number aal--padding-right-r1">{{solutionItem?.sequence}}</span>
+          </div>
+          <mc-solution-items-overview-card fxFlex="0 0 92%" fxFill
+                                           [solutionItem]="solutionItem"
+                                           [caseAction]="caseActions && caseActions[index]"
+                                           [updateChangeOwnerAllowed]="updateChangeOwnerAllowed"
+                                           (solutionItemEdit)="onEditSolutionItem($event)" [caseObject]="caseObject"
+                                           [caseObjectType]="caseObjectType"
+                                           [changeRequestFormGroup]="changeRequestFormGroup"
+                                           [changeNoticeFormGroup]="changeNoticeFormGroup"
+                                           (ownerChange)="onOwnerChange($event)">
+          </mc-solution-items-overview-card>
+          <div fxFlex="6%" fxLayout="row" class="aal--padding-top-bottom-r-5 aal--margin-top-r1 aal--padding-left-r1">
+            <div fxFlex="50%">
+              <mc-button-icon *ngIf="!solutionItem?.deleteInProgress"
+                              [icon]="'delete'"
+                              [color]="'accent'"
+                              [buttonAction]="'DELETE_SCOPE_ITEM'"
+                              [isLinkedItem]="true"
+                              [tooltipForDisabled]="solutionItem?.is_change_owner ? 'Cannot Delete, Change Owner Selected' :
+                              ((!caseActions[index]?.DELETE_SCOPE_ITEM && solutionItem?.change_object_type === 'RELEASEPACKAGE') ? 'Cannot Delete, Release Package Status is Invalid' : 'Cannot Delete, Change Request is not in valid status')"
+                              [caseObject]="solutionItem && solutionItem['caseObject']"
+                              [isGenericButton]="true"
+                              [disabled]="solutionItem?.is_change_owner"
+                              (buttonClick)="onDeleteItem(solutionItem)"></mc-button-icon>
+              <span *ngIf="solutionItem?.deleteInProgress" class="spinner-wrapper" fxLayoutAlign="center center">
+                <mat-spinner [diameter]="20"></mat-spinner>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <mc-empty-state *ngIf="solutionItemsList?.length === 0"
+                      [title]="'Scope Items'"
+                      [svgIcon]="''"
+                      [subTitle]="'Added Scope Items Will Appear Here'">
+      </mc-empty-state>
+    </div>
+  </div>
+</mc-expansion-panel>

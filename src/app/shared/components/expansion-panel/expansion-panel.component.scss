@@ -1,0 +1,27 @@
+.expansion-panel{
+  .expansion-panel-header{
+    background: white;
+    border-radius: 0;
+    margin: 0 1rem;
+    padding: 0 0.5rem;
+    &:hover{
+      background: white;
+    }
+    &.mat-expanded{
+      height: 3.5rem !important;
+    }
+  }
+  ::ng-deep {
+    &.mat-expansion-panel-body{
+      .expansion-panel{
+        box-shadow: none !important;
+      }
+    }
+    .inner-expansion-panel-content{
+     padding:0;
+    }
+  }
+}
+
+
+

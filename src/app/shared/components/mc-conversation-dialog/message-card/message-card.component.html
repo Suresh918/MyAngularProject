@@ -1,0 +1,66 @@
+<div fxLayout="column" fxLayoutGap="1rem" class="message-card">
+  <mat-card class="aal--elevation-1">
+    <mat-card-content>
+      <div fxLayout="column">
+        <div fxLayout="row" fxLayoutGap=".5rem">
+          <mc-card-summary fxFlex="100%"
+                           [mainDescription]="messageFormGroup?.get('creator')?.value | personName"
+                           [line1Caption]=" messageFormGroup?.get('created_on')?.value | aalDate"
+                           [separator]="'interpunct'" [showActionButtonOnFocus]="true"
+                           [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+          <ng-template #imageDisplayRef>
+            <img aalLoadBlankPortrait class="aal--padding-right-r-25 image--circle-large"
+                 [src]="messageFormGroup?.get('creator')?.value?.user_id | userImage" alt="no picture"/>
+          </ng-template>
+          <div fxFlex="18" fxLayout="row" fxLayoutAlign="end center">
+            <mc-button-icon [isLinkedItem]="true"
+                            [buttonAction]="'CREATE_COMMENT'"
+                            [caseObject]="reviewEntryCaseObject"
+                            [icon]="'reply'"
+                            [tooltip]="'Reply'"
+                            [disabled]="mode === 'replying'"
+                            [color]="'accent'"
+                            (buttonClick)="reply()"
+                            *ngIf="type === 'comment'"
+            ></mc-button-icon>
+            <mc-button-icon [isLinkedItem]="true"
+                            [buttonAction]="'UPDATE'"
+                            [caseObject]="caseObject"
+                            [icon]="'edit'"
+                            [tooltip]="'Edit'"
+                            [color]="'accent'"
+                            (buttonClick)="editComment()"
+            ></mc-button-icon>
+            <mc-button-icon *ngIf="messageFormGroup?.get('status')?.value === 1"
+                            [isLinkedItem]="true"
+                            [buttonAction]="'DELETE'"
+                            [caseObject]="caseObject"
+                            [icon]="'delete'"
+                            [tooltip]="'Delete'"
+                            [color]="'accent'"
+                            (buttonClick)="deleteComment()"
+            ></mc-button-icon>
+            <mc-button-icon *ngIf="messageFormGroup?.get('status')?.value !== 1"
+                            [isLinkedItem]="true"
+                            [buttonAction]="'REMOVE'"
+                            [caseObject]="caseObject"
+                            [icon]="'delete'"
+                            [tooltip]="'Delete'"
+                            [color]="'accent'"
+                            (buttonClick)="deleteComment()"
+            ></mc-button-icon>
+          </div>
+        </div>
+        <div fxLayout="row" class="aal--margin-bottom-r-5 comment-text" *ngIf="messageFormGroup?.get('comment_text')?.value">
+          <mc-text [label]="" [value]="messageFormGroup?.get('comment_text')?.value" [showFullText]="true"></mc-text>
+        </div>
+        <div fxLayout="row wrap" fxFlex fxLayoutGap=".5rem grid" fxLayoutAlign="end center">
+          <mc-chip  [text]="document?.name"
+                    [disabled]="true" [removable]="false"
+                    [icon]="'note'" *ngFor="let document of messageFormGroup?.get('documents')?.value" (chipClick)="documentClicked(document)"
+                    [noCursor]="false"></mc-chip>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

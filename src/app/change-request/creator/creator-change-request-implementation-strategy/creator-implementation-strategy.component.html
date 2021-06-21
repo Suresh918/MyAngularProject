@@ -1,0 +1,106 @@
+<div fxLayout="row" class="full-height">
+  <div fxFlex="1 1 auto" class="page-body" fxLayout="column">
+    <mc-title-bar [formGroup]="changeRequestFormGroup" [formConfiguration]="changeRequestConfiguration"
+                  [service]="'ImplementationStrategy'" [hideEditOptions]="true" [currentStatusLabel]="currentStatusLabel">
+      <div fxLayout="row" fxLayoutGap="1rem" title-bar-actions>
+        <button mat-raised-button type="button" color="accent" aalToggleFullScreen (toggleButtonEvent)="toggleButton()">
+          <span *ngIf="showFullScreenButton" fxLayout="row"><mat-icon class="aal--margin-right-r-5"
+                                                                      [style.align-self]="'center'">fullscreen</mat-icon>Full Screen</span>
+          <span *ngIf="!showFullScreenButton" fxLayout="row"><mat-icon class="aal--margin-right-r-5"
+                                                                       [style.align-self]="'center'">fullscreen_exit</mat-icon>Exit Full Screen</span>
+        </button>
+      </div>
+    </mc-title-bar>
+    <form novalidate>
+      <mat-tab-group #imsTabGroup class="tab_label--background ims-page" mat-align-tabs="center">
+        <mat-tab label="Solution Definition">
+          <ng-template mat-tab-label>
+            <div class="aal--padding-all-r-5" fxLayout="column" fxLayoutAlign="center center">
+              <span>Defining Solution </span>
+            </div>
+          </ng-template>
+          <div class="aal--margin-all-r1">
+            <mc-tab-header-bar [fontSize]="fontSize" [changeRequestData]="changeRequestData" [viewState]="viewState"
+                               (onChangeFont)="fontSizeChanged($event)" (onLayoutChange)="onLayoutChange($event)"
+                               (editCaseObject)="editCaseObject(1)" [changeRequestConfiguration]="changeRequestConfiguration" [changeOwnerControl]="changeRequestFormGroup?.get('change_owner_type')"
+                               [selectedTabOnImplementedStrategy]="'defining-solution'"></mc-tab-header-bar>
+            <mc-creator-defining-solution [changeRequestFormGroup]="changeRequestFormGroup"
+                                          [changeRequestConfiguration]="changeRequestConfiguration"
+                                          [changeRequestData]="changeRequestData" [fontSize]="fontSize"
+                                          [pictureUrl]="pictureUrl" [isExpanded]="isExpanded"
+                                          [getLabel]="getLabel.bind(this)" [AIRItems]="AIRItems" [PBSItem]="PBSItem"
+                                          [getLabelAndDescription]="getLabelAndDescription.bind(this)"></mc-creator-defining-solution>
+          </div>
+        </mat-tab>
+        <mat-tab label="Impact Analysis">
+          <ng-template mat-tab-label>
+            <div class="aal--padding-all-r-5" fxLayout="column" fxLayoutAlign="center center">
+              <span>Analyzing Impact</span>
+            </div>
+          </ng-template>
+          <div class="aal--margin-all-r1">
+            <mc-tab-header-bar [fontSize]="fontSize" [changeRequestData]="changeRequestData" [viewState]="viewState"
+                               (onChangeFont)="fontSizeChanged($event)" (onLayoutChange)="onLayoutChange($event)"
+                               (editCaseObject)="editCaseObject(2)" [changeRequestConfiguration]="changeRequestConfiguration" [changeOwnerControl]="changeRequestFormGroup?.get('change_owner_type')"
+                               [selectedTabOnImplementedStrategy]="'analyze-impact'"></mc-tab-header-bar>
+            <mc-creator-analyze-impact [changeRequestFormGroup]="changeRequestFormGroup"
+                                       [changeRequestConfiguration]="changeRequestConfiguration"
+                                       [changeRequestData]="changeRequestData" [fontSize]="fontSize"
+                                       [isExpanded]="isExpanded"
+                                       [getLabel]="getLabel.bind(this)"
+                                       [getLabelAndDescription]="getLabelAndDescription.bind(this)"
+                                       [isUpgradeExpanded]="isUpgradeExpanded"></mc-creator-analyze-impact>
+          </div>
+        </mat-tab>
+        <mat-tab label="Complete Business Case">
+          <ng-template mat-tab-label>
+            <div class="aal--padding-all-r-5" fxLayout="column" fxLayoutAlign="center center">
+              Complete Business Case
+            </div>
+          </ng-template>
+          <div class="aal--margin-all-r1" fxLayout="column">
+            <mc-tab-header-bar [fontSize]="fontSize" [changeRequestData]="changeRequestData" [viewState]="viewState"
+                               (onChangeFont)="fontSizeChanged($event)" (onLayoutChange)="onLayoutChange($event)"
+                               (editCaseObject)="editCaseObject(0)" [changeRequestConfiguration]="changeRequestConfiguration"
+                               [selectedTabOnImplementedStrategy]="'cbc'" [changeOwnerControl]="changeRequestFormGroup?.get('change_owner_type')"></mc-tab-header-bar>
+            <div fxLayout="column" fxLayoutGap="1rem">
+              <div fxLayout="row" fxLayoutGap="1rem">
+                <div fxLayout="column" fxFlex="50%" fxFlex.xs="100%" fxLayoutGap="1rem">
+                  <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Investments ' + ((toNumber(changeRequestFormGroup.get('complete_business_case.fs_tooling_investments')?.value) +
+                    toNumber(changeRequestFormGroup.get('complete_business_case.factory_investments')?.value)) | currency: 'EUR' : 'symbol' : '1.0') ">
+                    <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+                      <mc-input-currency
+                        [control]="changeRequestFormGroup?.get('complete_business_case.factory_investments')"
+                        [controlConfiguration]="changeRequestConfiguration?.complete_business_case?.factory_investments"
+                        [instanceId]="changeRequestFormGroup?.get('id')?.value"
+                        [mode]="'PROTECTED'" [fontSize]="fontSize"
+                        [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined">
+                      </mc-input-currency>
+                      <mc-input-currency
+                        [control]="changeRequestFormGroup?.get('complete_business_case.fs_tooling_investments')"
+                        [controlConfiguration]="changeRequestConfiguration?.complete_business_case?.fs_tooling_investments"
+                        [instanceId]="changeRequestFormGroup?.get('id')?.value"
+                        [mode]="'PROTECTED'" [fontSize]="fontSize"
+                        [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined">
+                      </mc-input-currency>
+                    </div>
+                  </mc-expansion-panel>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+      <div class="loader-overlay" fxLayout="column" fxLayoutAlign="center" *ngIf="showLoader">
+        <div fxFlex="1 1 10%" [style.margin]="'0 auto'">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div fxLayout="column">
+    <mc-side-panel-right-menu [caseObjectType]="'ChangeRequest'" [caseObjectId]="CRId"
+                              [caseObjectSubType]="'IMS'" fxFlex="100"></mc-side-panel-right-menu>
+  </div>
+</div>

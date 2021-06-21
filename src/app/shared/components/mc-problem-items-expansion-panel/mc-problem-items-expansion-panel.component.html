@@ -1,0 +1,99 @@
+<mc-expansion-panel [isExpanded]="isExpanded" [header]="'Problem Items'"
+                    [headerHelp]="helpMessage" [showButton]="true">
+  <div expansion-panel-description fxLayout="row" fxFlexAlign="end center" class="aal--margin-right-r1">
+    <mc-button-icon *ngIf="changeRequestFormGroup?.get('status')?.value === 1"
+                    [icon]="'add'"
+                    [color]="'accent'"
+                    [noCheckOnCaseAction]="true"
+                    [isGenericButton]="true"
+                    (buttonClick)="openProblemItemDialog({}, 'ADD');$event.stopPropagation()"></mc-button-icon>
+    <!--<mc-alert [message]="loadErrorMessage" *ngIf="loadErrorMessage"></mc-alert>-->
+  </div>
+  <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem"
+       class="inner-expansion-panel-content aal--padding-right-r-5">
+    <div *ngFor="let problemItem of problemItemsData; let i = index">
+      <div fxLayout="column" class="problem-item-list">
+        <mc-card-summary [mainDescription]="problemItem?.name"
+                         [separator]="'parenthesis'"
+                         [line1Caption]="problemItem?.description"
+                         [line2Caption]="'Creator:' + ' ' + (problemItem?.creators[0] | personName)"
+                         [line3Caption]="'User(s):' + ' ' + problemItem['displayedUsers']"
+                         [actionTemplateRef]="actionRef"
+                         [iconImageTemplateRef]="imageDisplayRef" [fontsize]="'small'"></mc-card-summary>
+        <ng-template #imageDisplayRef>
+          <mat-icon mat-list-icon class="icon--medium aal--margin-right-r1"
+                    [svgIcon]="problemItem?.type === 'PROCESS' ? 'problem-items-pr' :
+                                                  (problemItem?.type === 'OPERATION' ? 'problem-items-op' :
+                                                  (problemItem?.type === 'WORK_INSTRUCTION' ? 'problem-items-wi' : ''))"></mat-icon>
+        </ng-template>
+        <ng-template #actionRef>
+          <div fxLayout="row" class="aal--elevation-1 action-bar edit-problem-item" >
+            <mc-button-icon [tooltip]="''"
+                            [noCheckOnCaseAction]="true"
+                            [icon]="'people'" #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="usersListMenu"
+                            [color]="'accent'"
+                            [isGenericButton]="true"
+                            (buttonClick)="menuTrigger.openMenu()"
+            ></mc-button-icon>
+            <mc-button-icon [buttonAction]="'UPDATE_PROBLEM_ITEM'"
+                            [isLinkedItem]="true"
+                            [caseObject]="problemItem && problemItem['caseObject']"
+                            [icon]="'edit'"
+                            [color]="'accent'"
+                            [isGenericButton]="true"
+                            (buttonClick)="openProblemItemDialog(problemItem, 'EDIT')"
+            ></mc-button-icon>
+            <mc-button-icon [buttonAction]="'DELETE_PROBLEM_ITEM'"
+                            [isLinkedItem]="true"
+                            [caseObject]="problemItem && problemItem['caseObject']"
+                            [icon]="'delete'"
+                            [color]="'accent'"
+                            [isGenericButton]="true"
+                            [disabled]="problemItem?.is_change_owner"
+                            (buttonClick)="deleteProblemItem(problemItem?.id)"
+            ></mc-button-icon>
+          </div>
+        </ng-template>
+      </div>
+      <div class="change-owner-section aal--padding-top-bottom-r-5 aal--padding-left-r1 aal--elevation-1"
+           [ngClass]="{'owner': problemItem?.is_change_owner}" *ngIf="!hideChangeOwnerPanel">
+        <mat-radio-button [class.mat-radio-checked]="problemItem?.is_change_owner"
+                          [checked]="problemItem?.is_change_owner"
+                          [disabled]="!problemItemsCaseActionsList[i]?.UPDATE_PROBLEM_ITEM"
+                          (change)="onChangeOwner(problemItem)">
+          Change Owner
+        </mat-radio-button>
+      </div>
+      <mat-menu #usersListMenu="matMenu" [overlapTrigger]="false" yPosition="above" xPosition="before">
+        <div class="aal--padding-all-r-5">
+          <div class="mat-caption aal--padding-left-r-5">User (s)</div>
+          <div *ngFor="let user of problemItem?.users">
+            <mc-card-summary [mainDescription]="user | personName"
+                             [fontsize]="''"
+                             [iconImageTemplateRef]="imageDisplayRef1"></mc-card-summary>
+            <ng-template #imageDisplayRef1>
+              <img aalLoadBlankPortrait class="aal--margin-right-r-25 image--circle-small"
+                 [src]="user?.user_id | userImage" alt="no picture"/>
+            </ng-template>
+          </div>
+          <mat-divider class="aal--margin-top-bottom-r1"></mat-divider>
+          <div class="mat-caption aal--padding-left-r-5">Creator (s)</div>
+          <div *ngFor="let creator of problemItem?.creators">
+            <mc-card-summary [mainDescription]="creator | personName"
+                             [fontsize]="''"
+                             [iconImageTemplateRef]="imageDisplayRef2"></mc-card-summary>
+            <ng-template #imageDisplayRef2>
+              <img aalLoadBlankPortrait class="aal--margin-right-r-25 image--circle-small"
+                   [src]="creator?.user_id | userImage" alt="no picture"/>
+            </ng-template>
+          </div>
+        </div>
+      </mat-menu>
+    </div>
+    <mc-empty-state *ngIf="problemItemsData?.length === 0"
+                    [title]="'No Problem Items'"
+                    [svgIcon]="''"
+                    [subTitle]="'Added Problem Items Will Appear Here'">
+    </mc-empty-state>
+  </div>
+</mc-expansion-panel>

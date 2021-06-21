@@ -1,0 +1,82 @@
+<div *ngIf="selectedIndex===2" fxLayout="column" fxLayoutGap="1rem">
+    <!--  impact-analysis section -->
+    <div fxLayout="row" fxFlex fxLayoutAlign="start center" fxLayoutGap="2rem" class="agenda-item--section">
+      <span fxFlex>
+        <mat-divider></mat-divider>
+      </span>
+      <div fxLayout="row" fxLayoutGap="0.5rem" (click)="isImpactAnalysisPanelExpanded = !isImpactAnalysisPanelExpanded">
+        <span class="mat-title bold--text aal--margin-bottom-r0">Impact Analysis</span>
+        <span class="mat-title bold--text aal--margin-bottom-r0"
+              [@indicatorRotate]="isImpactAnalysisPanelExpanded ? 'expanded': 'collapsed'"
+              class="expansion-indicator--arrow aal--margin-right-r1"></span>
+      </div>
+      <span fxFlex>
+        <mat-divider></mat-divider>
+      </span>
+    </div>
+    <mc-creator-change-request-impact-analysis *ngIf="isImpactAnalysisPanelExpanded"
+                                       [isExpanded]="isExpanded"
+                                       [isUpgradeExpanded]="isUpgradeExpanded"
+                                       [changeRequestFormGroup]="changeRequestFormGroup"
+                                       [changeRequestConfiguration]="changeRequestConfiguration"
+                                       [implementationRangesSaveInProgress]="implementationRangesSaveInProgress"
+                                       [implementationRangesUpdateError]="implementationRangesUpdateError"
+                                       [implementationRangesFCOSelected]="implementationRangesFCOSelected"
+                                       (updateImplementationRangesImpactAnalysis)="onUpdateImplementationRanges($event)"
+                                       (fieldUpdateImpactAnalysis)="onCheckFieldUpdate($event)">
+    </mc-creator-change-request-impact-analysis>
+    <mat-divider></mat-divider>
+
+    <!--  complete-business-case section -->
+    <div fxLayout="column" fxFlex fxLayoutGap="1rem" class="agenda-item--section">
+      <div fxLayout="row" fxFlex fxLayoutAlign="start center" fxLayoutGap="2rem" class="agenda-item--section">
+          <span fxFlex>
+            <mat-divider></mat-divider>
+          </span>
+        <div fxLayout="row" fxLayoutGap="0.5rem" (click)="isCompleteBusinessCasePanelExpanded = !isCompleteBusinessCasePanelExpanded">
+          <span class="mat-title bold--text aal--margin-bottom-r0">Complete Business Case</span>
+          <span class="mat-title bold--text aal--margin-bottom-r0"
+                [@indicatorRotate]="isCompleteBusinessCasePanelExpanded ? 'expanded': 'collapsed'"
+                class="expansion-indicator--arrow aal--margin-right-r1"></span>
+        </div>
+        <span fxFlex>
+            <mat-divider></mat-divider>
+        </span>
+      </div>
+      <div id="cbc">
+        <div fxLayout="column" fxLayoutGap="1rem" *ngIf="isCompleteBusinessCasePanelExpanded">
+          <div fxLayout="row" fxLayoutGap="1rem">
+            <div fxLayout="column" fxFlex="50%" fxFlex.xs="100%" fxLayoutGap="1rem">
+              <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Investments ' + ((toNumber(changeRequestFormGroup.get('complete_business_case.fs_tooling_investments')?.value) +
+                toNumber(changeRequestFormGroup.get('complete_business_case.factory_investments')?.value)) | currency: 'EUR' : 'symbol' : '1.0') ">
+                <div fxLayout="column" expansion-panel-content fxLayoutGap="0.5rem">
+                  <mc-input-currency [control]="changeRequestFormGroup.get('complete_business_case.factory_investments')"
+                                     [controlConfiguration]="changeRequestConfiguration?.complete_business_case?.factory_investments"
+                                     [instanceId]="changeRequestFormGroup?.get('complete_business_case.id')?.value" [requestType]="'instance'">
+                  </mc-input-currency>
+                  <mc-input-currency [control]="changeRequestFormGroup.get('complete_business_case.fs_tooling_investments')"
+                                     [controlConfiguration]="changeRequestConfiguration?.complete_business_case?.fs_tooling_investments"
+                                     [instanceId]="changeRequestFormGroup?.get('complete_business_case.id')?.value" [requestType]="'instance'">
+                  </mc-input-currency>
+                </div>
+              </mc-expansion-panel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  complete-business-case section -->
+  <mat-divider></mat-divider>
+    <mc-creator-change-request-customer-impact
+      [changeRequestFormGroup]="changeRequestFormGroup"
+      [changeRequestConfiguration]="changeRequestConfiguration"
+      [isExpanded]="isExpanded"
+      [showCustomerImpactAlert]="showCustomerImpactAlert"
+      [caseObject]="caseObject"
+      [buttonAction$]="buttonAction$"
+      [mandatoryFields]="mandatoryFields"
+      [readOnlyFields]="readOnlyFields"
+      [showOtherPartsQuestions]="showOtherPartsQuestions"
+      (changeRequestDataChanged)="changeRequestChanged($event)"
+      [showPartsQuestion]="showPartsQuestion"></mc-creator-change-request-customer-impact>
+</div>

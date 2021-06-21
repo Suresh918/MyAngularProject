@@ -1,0 +1,25 @@
+<div fxLayout="row" fxLayoutAlign="space-between">
+  <aal-auto-complete-single [control]="control" [style.width]="'100%'"
+                            [ID]="fieldConfiguration?.ID"
+                            [placeholder]="fieldConfiguration?.placeholder"
+                            [label]="fieldConfiguration?.label"
+                            [help]="fieldConfiguration?.help"
+                            [dataSource]="dataSource"
+                            [isBusy]="!bypassSearch && isBusy"
+                            [mode]="mode" [hideDataLoadingIndicator]="hideDataLoadingIndicator"
+                            [lockMode]="lockMode"
+                            [itemValueField]="(requestType === 'instance' ? 'id' : 'ID')"
+                            [itemDisplayField]="(requestType === 'instance' ? 'id' : 'ID')"
+                            [itemIcon]="'account_circle'"
+                            [isHistoryEnabled]="false"
+                            [alert]="serverError"
+                            [inputPrefix]="!hidePrefix && (itemType === 'OPERATION' ? 'OP - ' : itemType === 'PROCESS' ? 'PR - ' : 'WI - ')"
+                            [disablePrefix]="true"
+                            [hint]="'Enter at least 6 characters'"
+                            [minCharacters]="6"
+                            [floatLabel]="isFloatLabel"
+                            [disableControl]="disableControl"
+                            (acceptChanges)="onAcceptChanges($event)"
+  ></aal-auto-complete-single>
+  <aal-overlay-card-alert [alert]="fetchError" *ngIf="fetchError && !serverError"></aal-overlay-card-alert>
+</div>

@@ -1,0 +1,8 @@
+.history-menu--item-delete-icon {
+  display: none;
+  margin-right: 0px;
+}
+
+.history-menu--item:hover .history-menu--item-delete-icon {
+  display: block;
+}

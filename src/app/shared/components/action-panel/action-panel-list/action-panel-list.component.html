@@ -1,0 +1,32 @@
+<div fxLayoutGap="1rem" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="action-panel-list-item" (click)="openActions(action.ID)"
+       *ngFor="let action of actionOverViewList">
+    <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center" fxFlex="1 1 38%">
+      <mc-action-panel-icon [caseObjectType]="caseObjectType" [action]="action"></mc-action-panel-icon>
+      <span class="mat-subheading-2 aal--margin-bottom-r0 overflow-ellipsis" [matTooltip]="action?.title">{{action?.ID}}
+        <span *ngIf="action?.title">&nbsp;&middot;&nbsp;</span>{{action?.title}}</span>
+    </div>
+    <div fxFlex="1 1 3%"></div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 1 27%">
+      <div class="mat-subheading-2 aal--margin-bottom-r0 label">
+        <span>{{action?.statusLabel}}</span>
+        <span *ngIf="action?.deadline">&nbsp;&middot;&nbsp;</span>
+        <span>{{action?.deadline | aalDate}}</span>
+        <span *ngIf="isEnDateGreater(action?.deadline)"> in {{getEnDateDaysLeft(action?.deadline)}} days</span>
+      </div>
+    </div>
+    <div fxFlex="1 1 2%"></div>
+    <div fxFlex="1 1 23%" fxFlexAlign="start center">
+      <mc-chip *ngIf="action?.assignee"
+               [text]="action?.assignee | personName"
+               [disabled]="true"
+               [imageURL]="action?.assignee?.userID | userImage"></mc-chip>
+      <span *ngIf="!action?.assignee">-</span>
+    </div>
+    <div [matTooltip]="'Comments'">
+      <mc-button-icon [disabled]="true" [icon]="'mode_comment'"
+                      [badgeData]="action?.totalNotes"
+                      [noCheckOnCaseAction]="true" [isGenericButton]="true"></mc-button-icon>
+    </div>
+  </div>
+</div>

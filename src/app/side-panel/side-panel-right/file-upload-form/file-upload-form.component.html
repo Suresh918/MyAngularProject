@@ -1,0 +1,137 @@
+<div *ngIf="caseObjectType !== 'review'">
+  <div aalDragDropFile (dragenterFn)="onDragEnterDropZone($event)"
+       (dragleaveFn)="onDragLeave($event)" (dragoverFn)="dragover($event)"
+       (dropFn)="onDocumentAdd($event)" fxFlex="1 1 auto">
+    <div fxLayout="column" fxLayoutAlign="center" *ngIf="!highlightDropZone"
+         class="form-container">
+      <div fxLayout="column" fxLayoutGap="1rem" class="aal--padding-all-r-5">
+        <mc-rich-text-area [control]="formDataGroup?.get('description') || formDataGroup?.get('note').get('note')"
+                           [controlConfiguration]="formDataControlConfiguration"
+                           [bubbleAcceptChanges]="true" [mode]="'EDIT'"
+                           [fieldSaveNotApplicable]="true" [lockMode]="'EDIT'" [hideHelp]="true"
+                           [hideConfirmationToolBar]="true"></mc-rich-text-area>
+        <mat-progress-bar class="primary-btn-theme" mode="indeterminate" *ngIf="fileUploadInProgress"></mat-progress-bar>
+        <div fxLayoutGap="1rem" fxLayout="column">
+          <div [ngClass]="{'aal--margin-bottom-r0': fileList?.length === 0}" *ngIf="addDocumentAllowed()">
+            <div class="browse-file primary-btn-theme"
+                 fxLayoutAlign="center center"
+                 fxLayoutGap="0.5rem" fxLayout="column">
+              <mc-button-contained [text]="'Browse'"
+                                   [buttonId]="'file_upload_form_browse'"
+                                   [tooltip]="'Browse for File'"
+                                   [isGenericButton]="true"
+                                   [noCheckOnCaseAction]="true"
+                                   (buttonClick)="attachmentDoc.click()"
+              ></mc-button-contained>
+              <Span class="label" [style.font-size]="'14px'"> Or Drop File Here To Attach</Span>
+            </div>
+            <input type="file" #attachmentDoc (change)="onDocumentAdd(attachmentDoc)" [style.display]="'none'"/>
+          </div>
+          <div fxLayout="column" *ngFor="let file of fileList;let i=index" fxLayoutGap="1rem">
+            <mc-chip [text]="file?.name" [removable]="true"
+                     [disabled]="true" (remove)="onDeleteAttachmentPress(i)"
+                     [icon]="(file?.type === 'image/jpeg' || file?.type ==='image/png') ? 'image' : 'insert_drive_file'"></mc-chip>
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="end" fxLayoutGap="1rem"
+           class="background-white aal--padding-right-r1 aal--padding-top-bottom-r-5">
+        <mc-button-outlined [noCheckOnCaseAction]="true"
+                            (buttonClick)="onCancel()"
+                            [buttonId]="'file_upload_cancel'"
+                            [disabled]="fileUploadInProgress"
+                            [text]="'Cancel'"></mc-button-outlined>
+        <mc-button-contained [noCheckOnCaseAction]="true"
+                             (buttonClick)="onSaveForm()"
+                             [buttonId]="'file_upload_save'"
+                             [disabled]="getDisableSave()"
+                             [text]="'Save'"></mc-button-contained>
+      </div>
+    </div>
+    <div *ngIf="highlightDropZone" class="drop-zone-container">
+      <mat-toolbar>
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+          <span class="mat-title aal--margin-all-r0 label">  Add attachment</span>
+          <button mat-icon-button matTooltip="'Close'" (click)="resetDropArea()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <div class="drop-zone" id="mc-file-drop-container-1" fxLayout="column" fxLayoutAlign="center center">
+        <mat-icon>cloud_upload</mat-icon>
+        <span>{{dropAreaText}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="caseObjectType === 'review'" fxLayout="column" class="fit-into-content">
+<div aalDragDropFile (dragenterFn)="onDragEnterDropZone($event)"
+     (dragleaveFn)="onDragLeave($event)" (dragoverFn)="dragover($event)"
+     (dropFn)="onDocumentAdd($event)" fxFlex="1 1 auto" fxLayout="column">
+  <div fxLayout="column" fxLayoutAlign="center" *ngIf="!highlightDropZone"
+       class="form-container">
+    <div fxLayout="column" fxLayoutGap="1rem" class="aal--padding-all-r-5">
+      <mc-rich-text-area [control]="formDataGroup?.get('description') || formDataGroup?.get('note').get('note')"
+                         [controlConfiguration]="formDataControlConfiguration"
+                         [bubbleAcceptChanges]="true" [mode]="'EDIT'"
+                         [fieldSaveNotApplicable]="true" [lockMode]="'EDIT'" [hideHelp]="true"
+                         [hideConfirmationToolBar]="true"></mc-rich-text-area>
+      <mat-progress-bar class="primary-btn-theme" mode="indeterminate" *ngIf="fileUploadInProgress"></mat-progress-bar>
+      <div fxLayout="row wrap"
+      fxLayout.lt-sm="column"
+      fxLayoutGap="1rem"
+      fxLayoutAlign="flex-start" *ngIf="showAttachments">
+        <div [ngClass]="{'aal--margin-bottom-r0': fileList?.length === 0}" *ngIf="addDocumentAllowed()" fxFlex="1 1 auto">
+          <div class="browse-file primary-btn-theme"
+               fxLayoutAlign="center center"
+               fxLayoutGap="0.5rem" fxLayout="column">
+            <mc-button-contained [text]="'Browse'"
+                                 [buttonId]="'file_upload_form_browse'"
+                                 [tooltip]="'Browse for File'"
+                                 [isGenericButton]="true"
+                                 [noCheckOnCaseAction]="true"
+                                 (buttonClick)="attachmentDoc.click()"
+            ></mc-button-contained>
+            <Span class="label" [style.font-size]="'14px'"> Or Drop File Here To Attach</Span>
+          </div>
+          <input type="file" #attachmentDoc (change)="onDocumentAdd(attachmentDoc)" [style.display]="'none'"/>
+        </div>
+        <div fxLayout="row wrap" fxLayoutGap="1rem" fxFlex="50%" *ngIf="fileList.length > 0">
+          <mc-chip  *ngFor="let file of fileList;let i=index" [text]="file?.name" [removable]="true"
+                   [disabled]="true" (remove)="onDeleteAttachmentPress(i)"
+                   [icon]="(file?.type === 'image/jpeg' || file?.type ==='image/png') ? 'image' : 'insert_drive_file'"></mc-chip>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-between center" fxLayoutGap="1rem" fxLayout="row"
+         class="background-white aal--padding-all-r-5">
+      <div fxLayoutAlign="center center" (click)="showAttachments = !showAttachments">
+        <a><div *ngIf="!showAttachments && !fileList?.length" fxLayout="row" fxLayoutAlign="center center">Add Attachments ({{fileList?.length}}) <mat-icon>keyboard_arrow_down</mat-icon></div></a>
+        <a><div *ngIf="!showAttachments && fileList?.length" fxLayout="row" fxLayoutAlign="center center">View Attachments ({{fileList?.length}}) <mat-icon>keyboard_arrow_down</mat-icon></div></a>
+        <a><div *ngIf="showAttachments" fxLayout="row" fxLayoutAlign="center center">Close Attachments ({{fileList?.length}}) <mat-icon>keyboard_arrow_up</mat-icon></div></a>
+      </div>
+      <div fxLayoutGap="1rem" fxLayout="row">
+        <mc-button-outlined [noCheckOnCaseAction]="true"
+                            (buttonClick)="onCancel()"
+                            [buttonId]="'file_upload_cancel'"
+                            [disabled]="fileUploadInProgress"
+                            [text]="'Cancel'"></mc-button-outlined>
+        <mc-button-contained [noCheckOnCaseAction]="true"
+                             (buttonClick)="onSaveForm()"
+                             [buttonId]="'file_upload_save'"
+                             [disabled]="getDisableSave()"
+                             [text]="'Save'"></mc-button-contained>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="highlightDropZone" class="review-drop-zone-container">
+    <div class="drop-zone"
+         id="mc-file-drop-container" fxLayout="column" fxLayoutAlign="center center">
+      <mat-icon>cloud_upload</mat-icon>
+      <span>{{dropAreaText}}</span>
+    </div>
+  </div>
+</div>
+</div>

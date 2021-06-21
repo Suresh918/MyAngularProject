@@ -1,0 +1,130 @@
+<div class="overview-card mc-card-content aal--padding-all-r-5 aal--elevation-1">
+    <div fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign="space-between center" [style.width]="'100%'">
+        <mc-chip class="aal--padding-left-r-75" *ngIf="reviewer?.assignee?.full_name"
+                 [text]="[reviewer?.assignee?.full_name + ' (' + reviewer?.assignee?.abbreviation +')']"
+                 [disabled]="true" [removable]="false"
+                 [imageURL]="reviewer?.assignee?.user_id | userImage"></mc-chip>
+
+        <div fxLayout="row" class="reviewer-button-actions">
+          <mc-button-icon [icon]="'edit'"
+                          [tooltip]="'Edit Reviewer Due Date'"
+                          [buttonAction]="'UPDATE'"
+                          [color]="'accent'"
+                          [isLinkedItem]="true"
+                          [caseObject]="reviewer?.caseObject"
+                          (buttonClick)="editReviewer(reviewer, $event)"></mc-button-icon>
+            <mc-button-icon [icon]="'delete'" *ngIf="!reviewer['showLoaderForDELETE']"
+                          [buttonAction]="'DELETE'"
+                          [tooltipForDisabled]="reviewer?.review_entry_count > 0 ? 'Cannot Remove, Reviewer has defects' : 'Cannot Remove Reviewer'"
+                          [color]="'accent'"
+                          [isLinkedItem]="true"
+                          [caseObject]="reviewer?.caseObject"
+                          (buttonClick)="updateReviewer(reviewer,'DELETE', $event)"></mc-button-icon>
+            <span fxFlex="10%" *ngIf="reviewer['showLoaderForDELETE']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+            <mc-button-icon [icon]="'lock'" *ngIf="!reviewer['showLoaderForLOCK']"
+                          [color]="'accent'"
+                          [isGenericButton]="true"
+                          [isLinkedItem]="true"
+                          [buttonAction]="'LOCK'"
+                          [caseObject]="reviewer?.caseObject"
+                          (buttonClick)="updateReviewer(reviewer,'LOCK', $event)"></mc-button-icon>
+            <span fxFlex="10%" *ngIf="reviewer['showLoaderForLOCK']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+            <mc-button-icon [icon]="'lock_open'" *ngIf="!reviewer['showLoaderForUNLOCK']"
+                          [color]="'accent'"
+                          [isGenericButton]="true"
+                          [isLinkedItem]="true"
+                          [buttonAction]="'UNLOCK'"
+                          [caseObject]="reviewer?.caseObject"
+                          (buttonClick)="updateReviewer(reviewer,'UNLOCK', $event)"></mc-button-icon>
+            <span fxFlex="10%" *ngIf="reviewer['showLoaderForUNLOCK']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+        </div>
+
+      </div>
+      <div fxLayout="row" fxLayoutGap=".5rem">
+        <mc-card-summary fxFlex="100%"
+                         [mainDescription]="'Defects ' + '(' + reviewer?.completed_review_entry_count + '/' + reviewer?.review_entry_count + ')'"
+                         [mainDescriptionCaption]="(reviewer?.status_label)"
+                         [line1Caption]="reviewer?.due_date | aalDate:'dueDate'"
+                         [separator]="'interpunct'" [showActionButtonOnFocus]="true"
+                         [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+        <ng-template #imageDisplayRef>
+          <mc-button-icon [icon]="'rate_review'" fxLayoutAlign="center center"
+                          [iconSize]="'medium'"
+                          [color]="'black'"
+                          [isGenericButton]="true"
+                          [noCheckOnCaseAction]="true"></mc-button-icon>
+
+        </ng-template>
+      </div>
+      <div fxLayout="row" class="aal--padding-bottom-r-5">
+        <mc-divider class="aal--margin-right-left-r-5"
+                    [width]="'100%'"
+                    fxFlex="100"
+                    [buttonAction]="'COMPLETE'"
+                    [isLinkedItem]="true"
+                    [caseObject]="reviewer?.caseObject"
+        ></mc-divider>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="aal--margin-right-left-r-5">
+        <div fxLayout="row">
+          <mc-button-icon [icon]="'thumb_up'" *ngIf="!reviewer['showLoaderForACCEPT']"
+                          [buttonAction]="'ACCEPT'"
+                          [color]="'accent'"
+                          [isLinkedItem]="true"
+                          [caseObject]="reviewer?.caseObject"
+                          (buttonClick)="updateReviewer(reviewer,'ACCEPT', $event)"></mc-button-icon>
+          <span fxFlex="10%" *ngIf="reviewer['showLoaderForACCEPT']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+          <mc-button-icon [icon]="'thumb_down'" *ngIf="!reviewer['showLoaderForREJECT']"
+                          [color]="'accent'"
+                          [buttonAction]="'REJECT'"
+                          [isLinkedItem]="true"
+                          [caseObject]="reviewer?.caseObject"
+                          (buttonClick)="updateReviewer(reviewer,'REJECT', $event)"></mc-button-icon>
+          <span fxFlex="10%" *ngIf="reviewer['showLoaderForREJECT']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+          <mc-divider [height]="'2rem'"
+            [isVertical]="true"
+            [buttonAction]="'REJECT'"
+            [isLinkedItem]="true" fxLayoutAlign="center center"
+            [caseObject]="reviewer?.caseObject"
+          ></mc-divider>
+        </div>
+        <div fxLayout="row">
+
+          <mc-button-icon-outlined [icon]="'check_circle'" *ngIf="!reviewer['showLoaderForCOMPLETE']"
+                                   [color]="'accent'"
+                                   [buttonAction]="'COMPLETE'"
+                                   [isLinkedItem]="true"
+                                   [caseObject]="reviewer?.caseObject"
+                                   (buttonClick)="updateReviewer(reviewer,'COMPLETE', $event)">
+          </mc-button-icon-outlined>
+          <span fxFlex="10%" *ngIf="reviewer['showLoaderForCOMPLETE']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+
+
+
+          <mc-button-outlined [text]="'Reopen'" *ngIf="!reviewer['showLoaderForREOPEN']"
+                              [buttonAction]="'REOPEN'"
+                              [isLinkedItem]="true"
+                              [caseObject]="reviewer?.caseObject"
+                              (buttonClick)="updateReviewer(reviewer,'REOPEN', $event)">
+          </mc-button-outlined>
+          <span fxFlex="10%" *ngIf="reviewer['showLoaderForREOPEN']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+        </div>
+      </div>
+    </div>
+</div>
+

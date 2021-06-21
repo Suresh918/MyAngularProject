@@ -1,0 +1,54 @@
+<mc-button-overlay-tabbed class="header-notifications" [headerIcon]="'notifications'"
+                          [headerTitle]="'Notifications'"
+                          [tooltip]="'Notifications'"
+                          [buttonType]="'icon'"
+                          [defaultItemIcon]="'notifications'"
+                          [isIconBorder]="false"
+                          [progressBar]="false"
+                          [hasBadge]="numberOfNotifications ? true : false"
+                          [badgeColor]="'warn'"
+                          [badgeType]="'single'"
+                          [badgeData]="numberOfNotifications"
+                          [overlayData]="notificationsList"
+                          [closeOnItemClick]="true"
+                          [showAllForTabs]="['Read', 'Unread']"
+                          [largeAmountsForTabs]="['Read', 'Unread']"
+                          [largeAmountsLength]="largeAmountsLength"
+                          (selectedTab)="onSelectedTabClick($event)"
+                          [selectedTabIndex]="selectedTabIndex"
+                          (showAllItems)="showAllNotifications()"
+                          (listItemClicked)="openLinkedNotification($event)"
+                          (panelOpened)="getHeaderNotifications()"
+                          [cardSummaryRef]="cardSummaryRef"
+                          [largeAmountsRef]="largeAmountsRef"
+                          [emptyStateRef]="emptyStateRef"
+></mc-button-overlay-tabbed>
+
+<ng-template #cardSummaryRef let-item let-tab="tabItem">
+  <aal-card-summary [item]="item" [ID]="item['notificationDetails'].ID.toString()"
+                    [mainDescription]="tab['name'].toUpperCase() === 'READ' ? item['notificationDetails']?.title : ''"
+                    [mainDescriptionTemplateRefr]="tab['name'].toUpperCase() === 'UNREAD' ? mainDescriptionRefr : ''"
+                    [line1Caption]="((item['notificationDetails']?.type?.toUpperCase() !== 'ANNOUNCEMENT' && item['notificationDetails']?.type?.toUpperCase() !== 'REVIEW' && item['notificationDetails']?.caseType?.toUpperCase() !== 'RELEASEPACKAGE') ?
+                    (item['notificationDetails']?.caseID) +' &middot; ' : '') +
+                    (item['notificationDetails']?.actor | personName) +' &middot; '+ (item['notificationDetails']?.createdOn | aalDate: 'time')"
+                    [iconImageTemplateRef]="imageDisplayRef" fxFlex="100%"></aal-card-summary>
+  <ng-template #mainDescriptionRefr>
+    <span class="mat-body-1 font-weight-500 overflow-ellipsis">{{item['notificationDetails']?.title}}</span>
+  </ng-template>
+  <ng-template #imageDisplayRef>
+    <mat-icon class="aal--margin-right-r-5 icon--medium color-black" [svgIcon]="item.notificationDetails?.type ==='STATUSCHANGE' && (item['notificationDetails']?.caseType === 'CHANGEREQUEST' || item['notificationDetails']?.caseType === 'CHANGENOTICE' || item['notificationDetails']?.caseType === 'RELEASEPACKAGE') ?
+              helpersService.getNotificationIcon(item['notificationDetails']?.type, item['notificationDetails']?.caseType) : ''">{{helpersService.getNotificationIcon(item['notificationDetails']?.type, item['notificationDetails']?.caseType)}}</mat-icon>
+  </ng-template>
+</ng-template>
+<ng-template #largeAmountsRef let-tab>
+  <mc-empty-state [title]="largeAmountsLength + ' Out Of ' + tab['totalItems'] + ' Actions Shown'"
+                                [icon]="'notifications'">
+  </mc-empty-state>
+</ng-template>
+<ng-template #emptyStateRef let-tab>
+  <mc-empty-state [title]="'No' + ((tab && tab['name'] === 'Read') ? '' : ' New') + ' Notifications'"
+                  [subTitle]="((tab && tab['name'] === 'Read') ? 'Notifications read today' : 'New notifications') + ' will appear here.'"
+                                [icon]="'notifications'">
+  </mc-empty-state>
+</ng-template>
+

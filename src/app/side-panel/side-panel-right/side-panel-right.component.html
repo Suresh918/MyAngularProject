@@ -1,0 +1,8 @@
+<div class="side-panel-right background--off-white">
+  <mc-side-panel-right-actions *ngIf="panelMode==='actions'" [caseObjectType]="caseObjectType" [caseObjectDetails]="caseObject" [panelMode]="panelMode"></mc-side-panel-right-actions>
+  <mc-side-panel-right-notes *ngIf="panelMode==='notes'" [caseObjectType]="caseObjectType" [caseObjectDetails]="caseObject" [panelMode]="panelMode"></mc-side-panel-right-notes>
+  <mc-side-panel-right-attachments *ngIf="panelMode==='attachments'" [caseObjectType]="caseObjectType" [caseObjectDetails]="caseObject" [panelMode]="panelMode"></mc-side-panel-right-attachments>
+  <mc-side-panel-right-documents *ngIf="panelMode==='documents'" [caseObjectType]="caseObjectType" [caseObjectDetails]="caseObject" [panelMode]="panelMode"></mc-side-panel-right-documents>
+  <mc-side-panel-right-attendees *ngIf="panelMode==='attendees'" [caseObjectType]="caseObjectType" [caseObjectDetails]="caseObject" [panelMode]="panelMode"></mc-side-panel-right-attendees>
+  <mc-side-panel-right-reviews *ngIf="panelMode==='reviews'" [caseObjectType]="caseObjectType" [caseObjectDetails]="caseObject" [panelMode]="panelMode"></mc-side-panel-right-reviews>
+</div>

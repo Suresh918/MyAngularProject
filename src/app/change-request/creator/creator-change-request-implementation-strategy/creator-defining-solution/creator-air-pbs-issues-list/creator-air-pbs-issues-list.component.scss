@@ -1,0 +1,12 @@
+.secondary-action-button{
+  border: solid 2px #1c7ddb !important;
+  border-radius: 25px;
+}
+.secondary-action-button:disabled {
+  border: solid 2px #CCCCCC !important;
+  color: #CCCCCC !important;
+  border-radius: 25px;
+  .mat-badge-content {
+    display: none;
+  }
+}

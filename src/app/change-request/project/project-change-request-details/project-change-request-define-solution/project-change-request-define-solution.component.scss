@@ -1,0 +1,20 @@
+
+div.mat-expansion-panel-content:not(.mat-expanded) {
+  height: 0 !important;
+  visibility: hidden !important;
+}
+
+.mat-expansion-panel-header {
+  height: 48px;
+}
+
+.scope-inner-expansion-panel-content-header ::ng-deep .expansion-panel-header:hover{
+  background: #dcdcdc47!important;
+}
+
+.scope-button-align {
+  padding-left: 3rem;
+  margin-top: -1rem;
+}
+
+

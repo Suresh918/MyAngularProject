@@ -1,0 +1,49 @@
+<div fxLayout="column" fxFlex="100%" fxLayoutGap="1rem">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutGap="1rem">
+      <mc-select-single [selectFormControl]="changeRequestFormGroup?.get('change_owner_type')"
+                        [controlConfiguration]="configuration?.change_owner_type?.help"
+                        [mode]="'PROTECTED'"></mc-select-single>
+      <mat-divider [vertical]="true" [style.height]="'2.25rem'" class="aal--margin-top-r-5"></mat-divider>
+      <mc-button-icon-outlined [icon]="'add'"
+                               [text]="'Add To CB Meeting'"
+                               (buttonClick)="openCBMeetingDialog()" class="aal--margin-top-r-5"
+                               [buttonAction]="'CREATE_AGENDA_ITEM'"></mc-button-icon-outlined>
+      <mc-button-icon-outlined [icon]="'add'"
+                               [text]="'Offline Decision'"
+                               [tooltip]="addOfflineDecisionTooltip"
+                               [disabled]="disableAddOfflineDecision"
+                               (buttonClick)="onAddOfflineDecision()" class="aal--margin-top-r-5"
+                               [buttonAction]="'CREATE_AGENDA_ITEM_OFFLINE_DECISION'"></mc-button-icon-outlined>
+    </div>
+    <ng-template [ngTemplateOutlet]="fontChangeTemplate"></ng-template>
+  </div>
+  <mc-expansion-panel [header]="'Decision Details'" [isExpanded]="isExpanded">
+    <div fxLayout="row" fxLayout.xs="column" expansion-panel-content fxLayoutGap="0.5rem"
+         class="inner-expansion-panel-content aal--padding-right-r-5">
+      <div fxLayout="column" fxFlex="50%">
+        <mc-select-single [selectFormControl]="changeRequestFormGroup?.get('implementation_priority')" [bubbleAcceptChanges]="true"
+                          [requestType]="'instance'" (bubbledAcceptChanges)="setPriorityInTitle($event)"
+                          [controlConfiguration]="changeRequestConfiguration?.implementation_priority"
+                          [isNullable]="true">
+        </mc-select-single>
+      </div>
+      <div fxLayout="column" fxFlex="50%">
+        <mc-input-text-area [control]="changeRequestFormGroup?.get('requirements_for_implementation_plan')"
+                            [requestType]="'instance'"
+                            [controlConfiguration]="changeRequestConfiguration?.requirements_for_implementation_plan">
+        </mc-input-text-area>
+      </div>
+    </div>
+  </mc-expansion-panel>
+<div *ngIf="loadedDecisions && loadedDecisions.length > 0">
+  <mc-creator-change-request-decisions [decisions]="loadedDecisions"
+                               [isExpanded]="isExpanded"
+                               [crID]="changeRequestFormGroup?.get('id')?.value"
+                               [crTitle]="changeRequestFormGroup?.get('title').value"
+                               (agendaItemLinked)="onAgendaItemLinked($event)"
+                               (decisionUpdated)="onDecisionUpdated()"></mc-creator-change-request-decisions>
+</div>
+ <mc-loader *ngIf="loadedDecisions.length === 0 && loadingDecisions" [type]="'decisions'"></mc-loader>
+  <mc-empty-decisions-card *ngIf="loadedDecisions.length === 0 && !loadingDecisions"></mc-empty-decisions-card>
+</div>

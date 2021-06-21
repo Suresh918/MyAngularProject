@@ -1,0 +1,37 @@
+<div fxLayout="row" fxLayoutGap="1rem">
+  <!--Customer div-->
+  <div fxLayout="column" fxFlex fxLayoutGap="1rem" id="cia">
+
+    <mc-expansion-panel-creator-cia
+      [isExpanded]="isExpanded"
+      [changeRequestFormGroup]="changeRequestFormGroup"
+      [changeRequestConfiguration]="changeRequestConfiguration"
+      [showPartsQuestion]="showPartsQuestion"
+      [showOtherPartsQuestions]="showOtherPartsQuestions"
+      [showCustomerImpactAlert]="showCustomerImpactAlert"
+      [caseObject]="caseObject"
+      [mandatoryFields]="mandatoryFields"
+      [readOnlyFields]="readOnlyFields"
+      (changeRequestDataChanged)="changeRequestChanged($event)"
+    ></mc-expansion-panel-creator-cia>
+
+    <mc-expansion-panel [isExpanded]="isExpanded" [header]="'Change Board'">
+      <div fxLayout="row" expansion-panel-content fxLayoutGap="0.5rem"
+           class="inner-expansion-panel-content aal--padding-right-r-5">
+        <div fxFlex fxLayout="column" fxLayoutGap="0.5rem" class="aal--padding-top-r-5">
+          <mc-cb-rules [cbRulesDataDetails]="changeRequestFormGroup?.get('change_board_rule_set').value"
+                       [type]="'ChangeRequest'"
+                       [Id]="changeRequestFormGroup?.get('id').value"
+                       [showButton]="true"
+                       [buttonCaseAction]="'UPDATE_CHANGE_REQUEST_CB_RULESET'"
+                       [caseObject]="caseObject"
+                       [revision]="''"></mc-cb-rules>
+        </div>
+      </div>
+    </mc-expansion-panel>
+  </div>
+  <div fxLayout="column" fxFlex fxLayoutGap="1rem">
+    <mc-expansion-panel-disabled [header]="'SCIA Document'" [showAddButton]="true" [showHelpMessage]="true" [helpMessage]="changeRequestConfiguration?.scia_document?.help['message']"></mc-expansion-panel-disabled>
+    <mc-expansion-panel-disabled [header]="'CBC Document'" [showAddButton]="true" [showHelpMessage]="true" [helpMessage]="changeRequestConfiguration?.cbc_document?.help['message']"></mc-expansion-panel-disabled>
+  </div>
+</div>

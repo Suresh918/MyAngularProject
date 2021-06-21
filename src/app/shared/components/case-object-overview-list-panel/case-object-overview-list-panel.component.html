@@ -1,0 +1,30 @@
+<div fxLayout="column" fxLayoutGap="1rem">
+  <div class="agenda-item--section" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
+    <span fxFlex>
+      <mat-divider></mat-divider>
+    </span>
+    <div (click)="isPanelExpanded = !isPanelExpanded" fxLayout="row"
+         fxLayoutGap="0.5rem">
+      <span class="mat-title bold--text aal--margin-bottom-r0">{{panelTitle}}</span>
+      <span [@indicatorRotate]="isPanelExpanded ? 'expanded': 'collapsed'"
+            class="mat-title bold--text aal--margin-bottom-r0"
+            class="expansion-indicator--arrow aal--margin-right-r1"></span>
+    </div>
+    <span fxFlex>
+      <mat-divider></mat-divider>
+    </span>
+    <mc-button-icon-outlined (buttonClick)="onAddItem()"
+                             [buttonAction]="addButtonCaseAction"
+                             [icon]="'add'"
+                             [text]="'Add'">
+    </mc-button-icon-outlined>
+  </div>
+  <mc-case-object-card-list [caseObjectRouterPath]="caseObjectRouterPath" [isDetailView]="true" [filterQuery]="filterQuery"
+    (caseObjectListIds)="onCaseObjectListId($event)" (deleteItem)="onDeleteItem($event)" *ngIf="isPanelExpanded"
+                            [caseObjectLabel]="caseObjectLabel" [caseObjectListOverview]="caseObjectListOverview"
+                            [caseObjectType]="caseObjectType" [deleteButtonCaseAction]="deleteButtonCaseAction"
+                            [hasPagination]="false"
+                            [isBusy]="isBusy"
+                            [showItemDeleteButton]="showItemDeleteButton">
+  </mc-case-object-card-list>
+</div>

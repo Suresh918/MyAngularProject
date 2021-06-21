@@ -1,0 +1,25 @@
+<button mat-icon-button [matTooltip]="'Options'" [matMenuTriggerFor]="optionsMenu"
+        #trigger="matMenuTrigger" [ngClass]="{'is-menuOpen': trigger.menuOpen}" id="'case-object-options'">
+  <mat-icon class="menu-header-icon menu-icon-border">more_vert</mat-icon>
+</button>
+<mat-menu #optionsMenu="matMenu" [overlapTrigger]="false" yPosition="below" xPosition="before">
+  <div (click)="$event.stopPropagation()" class="aal--padding-all-r1" fxLayout="column" fxLayoutGap="1rem">
+    <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center" id="'remove-favourite'"
+         class="icon--pointer" *ngIf="isFavSelected" (click)="removeFromFavorites()">
+      <mat-icon color="accent">grade</mat-icon>
+      <span> Remove From Favorites</span></div>
+    <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center" id="'add-favourite'"
+         class="icon--pointer" *ngIf="!isFavSelected" (click)="addToFavorites()">
+      <mat-icon color="accent">star_border</mat-icon>
+      <span> Add to Favorites</span></div>
+    <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center" id="'stop-notify-me'"
+         class="icon--pointer" *ngIf="isNotified" (click)="notify(false)">
+      <mat-icon color="accent">notifications</mat-icon>
+      <span>Stop Notifying Me</span></div>
+    <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center" id="'notify-me'"
+         class="icon--pointer" *ngIf="!isNotified" (click)="notify(true)">
+      <mat-icon color="accent">notifications_none</mat-icon>
+      <span> Notify Me</span></div>
+
+  </div>
+</mat-menu>

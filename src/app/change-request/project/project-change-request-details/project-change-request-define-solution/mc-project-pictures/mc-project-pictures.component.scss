@@ -1,0 +1,54 @@
+
+.mc-picture {
+  height: 28rem;
+  width:580px;
+}
+
+.actions-context {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block !important;
+}
+.mat-picture-title {
+  color:rgba(0, 0, 0, 0.87)
+}
+
+.asIsPicture, .toBePicture, .no-picture{
+  position: relative;
+  height: 200px;
+  object-fit:cover;
+  border: 1px solid #e0e0e0;
+  .mat-icon{
+    height: 100%;
+  }
+}
+.picture-section{
+  position: relative;
+}
+.picture-section:hover .edit-section{
+  display: flex !important;
+}
+.edit-section{
+  display: none !important;
+  position: absolute;
+  right: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  top: 0.5rem;
+  padding: 0.5rem;
+}
+.paste-section{
+  opacity: 0;
+  width: 100%;
+  position: absolute;
+  height: 100%;
+}
+.add-file{
+  z-index: 1;
+  position: absolute;
+  width: 50px !important;
+  height: 50px !important;
+  left: 43%;
+  top: 35%;
+}

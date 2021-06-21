@@ -1,0 +1,190 @@
+@import '~@angular/material/theming';
+/*@import '~@bsnl-angular/material/theming';*/
+
+// Core styles for agenda print.
+@mixin agenda-print {
+  mat-card {
+    padding: 0;
+  }
+
+  .mat-headline, .mat-subheading-2 {
+    margin-bottom: 0;
+  }
+
+  .cells-common {
+    border: solid 1px #FAFAFA;
+    padding: 10px;
+  }
+
+  .cell-heading {
+    font-weight: bold;
+    padding: 15px 10px;
+    background-color: #F5F5F5;
+  }
+
+  .cell-comment {
+    background-color: #F5F5F5;
+    padding: 15px 10px;
+  }
+
+  .body-0-bold {
+    font-weight: bold;
+  }
+
+  .mat-title {
+    margin-bottom: 0;
+  }
+
+  .bsnlLogo {
+    margin-left: 10px;
+  }
+
+  a {
+    color: #fff;
+  }
+
+  .images {
+    width: 290px;
+    margin-top: 13px;
+    margin-bottom: 14px;
+  }
+
+  .image-cell {
+    background-color: #E0E0E0;
+  }
+
+  .show-for-print {
+    display: none;
+  }
+
+  .bold-font {
+    font-weight: bold !important;
+    color: rgba(0, 0, 0, 0.87) !important;
+  }
+}
+
+// Core styles for print page.
+@mixin print-media-common {
+  @media print {
+
+    html, body {
+      width: 100%;
+      height: auto;
+      overflow: visible;
+      display: block;
+      background: transparent;
+    }
+
+    body * {
+      visibility: hidden;
+    }
+
+    mc-body {
+      max-width: 80rem;
+      display: block;
+    }
+
+    .page-body {
+      height: auto;
+    }
+
+    .page-body.printPage, .page-body.printPage * {
+      visibility: visible;
+    }
+
+    .printPage {
+      left: 0;
+      top: 10px;
+
+    }
+
+    mat-list-item {
+      padding: 0.25rem 0 !important;
+    }
+
+    mat-list-item, h3, mat-divider, mat-list-item div {
+      page-break-before: avoid !important;
+      page-break-after: avoid !important;
+    }
+
+    mat-toolbar, .header {
+      background-color: #0f238c !important;
+      color: #ffffff !important;
+      -webkit-print-color-adjust: exact !important;
+    }
+    .bsnl-logo, .cell-heading, .cell-sub-heading, .image-cell {
+      -webkit-print-color-adjust: exact !important;
+    }
+
+    .page-break {
+      page-break-after: always !important;
+    }
+
+  }
+}
+
+// Core styles for CBC section.
+@mixin cbc-common {
+  .cell-heading {
+    padding: 1rem;
+    background-color: mat-color($mat-grey, 100);
+    border: solid 1px rgba(0, 0, 0, 0.04);
+  }
+
+  .cell-sub-heading {
+    padding: 1rem 1rem 1rem 2rem;
+    background-color: mat-color($mat-grey, 50);
+    border: solid 1px rgba(0, 0, 0, 0.04);
+  }
+  .cell-sub-total {
+    padding: 1rem 1rem 1rem 2rem;
+    border: solid 1px rgba(0, 0, 0, 0.04);
+  }
+  .cell-total-cost {
+    padding: 1rem;
+    border: solid 1px rgba(0, 0, 0, 0.04);
+  }
+  .cell-cbc-field {
+    padding: 1rem 1rem 1rem 3rem;
+  }
+
+  .cell-font-bold {
+    font-weight: bold;
+  }
+  .cell-border {
+    border: solid 1px rgba(0, 0, 0, 0.04);
+  }
+}
+
+// case object (CR/CN/RP) settings styles
+@mixin case-object-settings {
+  .case-object-settings--panel {
+    box-shadow: none;
+    background: none !important;
+    .case-object-settings-header.mat-expansion-panel-header {
+      height: 3.5rem !important;
+      background: $aal--mat-surface;
+        padding: 0 2rem 0 2rem;
+    }
+    ::ng-deep .mat-expansion-panel-content {
+      background: $aal--mat-surface-variant !important;
+    }
+    .case-object-settings-content > div {
+      height: 4rem !important;
+      min-height: 4rem !important;
+      span {
+        padding: 0 0 0 4rem !important;
+      }
+    }
+    .notification-count--badge {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      color: white;
+      background: $aal--mat-primary;
+      text-align: center;
+      margin-left: .5rem;
+    }
+  }
+}

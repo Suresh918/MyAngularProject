@@ -1,0 +1,116 @@
+<button [matTooltip]="'Search'" [id]="'global_search'" mat-icon-button (click)="openGlobalSearch()" class="header-toolbar--menu-icon">
+  <mat-icon>search</mat-icon>
+</button>
+<div class="global-search-wrapper" *ngIf="showGlobalSearch">
+  <div class="global-search-popup">
+
+    <form class="global-search-form" fxLayout="column" (keydown.enter)="keyDownFunction($event)">
+      <div class="global-search--top-bar" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+        <button mat-icon-button color="accent" class="global-search--mat-icon" aria-label="Clear" fxFlex="3%">
+          <mat-icon>search</mat-icon>
+        </button>
+        <input #searchPlaceholder fxFlex="94%" class="mat-body" [formControl]="searchControl" type="text" id="global-search--input-box"
+               placeholder="Search for CR's, CN's, RP's and ECN's"/>
+        <button *ngIf="searchControl?.value != ''" mat-icon-button color="accent" (click)="clearSearch()" class="global-search--mat-icon"
+                aria-label="Clear" fxFlex="3%">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <mat-divider></mat-divider>
+      <mat-progress-bar class="primary-btn-theme" *ngIf="showLoader" color="primary" mode="indeterminate">
+      </mat-progress-bar>
+      <div fxLayout="row" class="aal--padding-all-r1 global-search--chip-container" *ngIf="showChips"
+           fxLayoutAlign="start center">
+        <mat-chip-list [(ngModel)]="selectedChip" [ngModelOptions]="{standalone: true}" multiple>
+          <mat-chip *ngFor="let chip of chipList" [ngClass]="isSelected(chip) ? 'chip--background':''" selectable="true"
+                    (click)="toggleSearchResults(chip)">
+            <mat-icon *ngIf="isSelected(chip)">done</mat-icon>
+            {{chip.name}}&nbsp;
+            <span *ngIf="chip.name === 'CR'">({{totalResults?.changerequest ? totalResults?.changerequest : 0}})</span>
+            <span *ngIf="chip.name === 'CN'">({{totalResults?.changenotice ? totalResults?.changenotice : 0}})</span>
+            <span *ngIf="chip.name === 'RP'">({{totalResults?.releasepackage ? totalResults?.releasepackage : 0}})</span>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <div class="search-options" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+           (scrolled)="onScroll()" [scrollWindow]="false">
+        <mat-option *ngFor="let option of filteredOptions" class="aal--padding-right-left-r1" [value]="option"
+                    (click)="showSearchResults(option)">
+          <div *ngIf="option?.ID || option?.id" fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="space-between"
+               class="aal--padding-top-r1 aal--padding-bottom-r1">
+            <mat-icon mat-list-icon class="case-object--icon" *ngIf="option?.type ==='ChangeRequest'"
+                      [matTooltip]="'Change Requests'" svgIcon="change-request"></mat-icon>
+            <mat-icon mat-list-icon class="case-object--icon" *ngIf="option?.type ==='ChangeNotice'"
+                      [matTooltip]="'Change Notices'" svgIcon="change-notice"></mat-icon>
+            <mat-icon mat-list-icon class="case-object--icon" *ngIf="option?.type ==='ReleasePackage'"
+                      [matTooltip]="'Release Packages'" svgIcon="release-package"></mat-icon>
+            <div fxLayoutAlign="start center" [style.width]="'450px'">
+              <div fxLayout="column" [style.width]="'100%'">
+                <span *ngIf="option?.ID || option?.id"
+                      [innerHTML]="(option?.type ==='ReleasePackage' ? (option?.release_package_number.toString() || '') : (option?.id.toString() || '')) | aalHighlight : (searchControl?.value || '')"></span>
+                <div fxLayout="row" fxLayoutGap=".5rem" *ngIf="option?.type ==='ReleasePackage'">
+                  <span *ngIf="option?.sourceSystemAliasID">{{option?.sourceSystemAliasID}}</span>
+                  <span *ngIf="option?.sourceSystemAliasID">.</span>
+                  <span [innerHTML]="(option?.title || '') | aalHighlight : (searchControl?.value || '')"
+                        class="overflow-ellipsis"></span>
+                </div>
+                <span *ngIf="option.type !=='ReleasePackage'"
+                      [innerHTML]="(option?.title || '') | aalHighlight : (searchControl?.value || '')"
+                      class="overflow-ellipsis"></span>
+              </div>
+            </div>
+            <span fxFlex="1 1 auto"></span>
+            <div fxLayout="row" fxLayoutGap="1rem">
+              <button mat-raised-button color="accent" [matMenuTriggerFor]="menu"
+                      (click)="$event.stopPropagation();" (menuOpened)="getDIABOM(option);">DIA
+              </button>
+              <button mat-raised-button color="accent" *ngIf="option?.type ==='ChangeRequest'"
+                      (click)="$event.stopPropagation(); openImplementationStrategy(option);">IMS
+              </button>
+              <button mat-raised-button color="accent" *ngIf="option?.type ==='ReleasePackage'"
+                      (click)="$event.stopPropagation(); openDelta(option);">Delta2
+              </button>
+              <button mat-raised-button color="accent" *ngIf="option?.type ==='ReleasePackage' && option?.teamcenter_id"
+                      (click)="$event.stopPropagation(); openECN(option);">ECN
+              </button>
+            </div>
+          </div>
+          <span class="aal--padding-top-bottom-r1" fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center"
+                *ngIf="!(option?.ID || option?.id)">
+            <mat-icon>history</mat-icon>
+            <span [innerHTML]="option"></span>
+          </span>
+        </mat-option>
+      </div>
+      <div *ngIf="showChips" fxLayout="row" class="aal--padding-top-bottom-r1 global-search--chip-container ">
+        <span class="mat-body">{{totalResults?.totalItems == 1 ? 'Press enter on keyboard to open' : 'Total : ' + (totalResults?.totalItems ? totalResults?.totalItems : 0)}}</span>
+      </div>
+    </form>
+  </div>
+  <div class="cdk-overlay-backdrop" (click)="showGlobalSearch = !showGlobalSearch"></div>
+  <mat-menu #menu="matMenu" yPosition="below" xPosition="before" [overlapTrigger]="false">
+    <mat-nav-list>
+      <mat-list-item (click)="openDIABOM(revision)" *ngFor="let revision of (diabom?.revisions || dia?.revisions)">
+        <div fxFlex fxLayout="row" fxLayoutGap="1rem">
+          <div fxFlex="1 1 11%">{{revision?.revision}}</div>
+          <div fxLayout="row" fxFlex fxLayoutAlign="center">
+            <label class="overflow-ellipsis">last modified by &nbsp;</label>
+            <div class="overflow-ellipsis" [matTooltip]="(revision?.lastModifiedBy?.fullName || revision?.last_modified_by.full_name)"
+                 matTooltipPosition="before">{{revision?.lastModifiedBy?.fullName || revision?.last_modified_by.full_name}}
+            </div>
+          </div>
+          <div fxLayout="row">
+            <label>on &nbsp;</label>
+            <div class="overflow-ellipsis" fxFlex [matTooltip]="(revision?.lastModifiedOn || revision?.last_modified_on) | aalDate"
+                 matTooltipPosition="before">{{(revision?.lastModifiedOn || revision?.last_modified_on) | aalDate}}
+            </div>
+          </div>
+        </div>
+      </mat-list-item>
+      <mc-empty-state [title]="'No DIA Items'"
+                      [subTitle]="'No DIA items present yet.'" [icon]="'event'"
+                      *ngIf="!(diabom?.revisions || dia?.revisions)">
+      </mc-empty-state>
+    </mat-nav-list>
+  </mat-menu>
+</div>

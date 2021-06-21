@@ -1,0 +1,10 @@
+<mc-button-contained mat-raised-button
+                     [text]="'IMS'"
+                     [tooltip]="'Open IMS in new window'"
+                     [noCheckOnCaseAction]="true"
+                     (buttonClick)="openImplementationStrategy()"
+                     [color]="'accent'"
+                     [buttonId]="'ims_button'"
+                     [caseObject]="caseObject"
+                     (click)="$event.stopPropagation()">
+</mc-button-contained>

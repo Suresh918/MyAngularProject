@@ -1,0 +1,19 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" class="tool-bar">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="0.5rem">
+    <a mat-raised-button color="accent" class="url-link" *ngIf="changeRequestData?.id" (click)="onEditClick(selectedTabOnImplementedStrategy)">
+      <mat-icon>edit</mat-icon>
+      Edit
+    </a>
+    <mat-divider [vertical]="true" [style.height]="'2rem'"></mat-divider>
+    <mc-select-single [selectFormControl]="changeOwnerControl"
+                      [controlConfiguration]="changeRequestConfiguration?.change_owner_type"
+                      [mode]="'PROTECTED'"></mc-select-single>
+  </div>
+  <mc-toggle-font-size (onChangeFontSize)="fontSizeChanged($event)" [fontSize]="fontSize"></mc-toggle-font-size>
+        <mat-button-toggle-group [formControl]="expandCollapseControl" (change)="onChangeExpandState()" [value]="viewState">
+      <mat-button-toggle *ngFor="let enumerationItem of expandCollapseControlConfiguration?.options" color="primary"
+                         mat-raised-button [value]="enumerationItem.value" [matTooltip]="enumerationItem.help">
+        {{ enumerationItem.label }}
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+</div>

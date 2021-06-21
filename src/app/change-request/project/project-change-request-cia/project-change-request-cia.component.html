@@ -1,0 +1,83 @@
+<div fxLayout="row" class="full-height">
+  <div fxFlex="1 1 auto" class="page-body" fxLayout="column">
+    <mc-title-bar [formGroup]="changeRequestFormGroup" [formConfiguration]="changeRequestConfiguration"
+                  [service]="'CustomerImpactAssessment'"
+                  [hideEditOptions]="true">
+      <div fxLayout="row" fxLayoutGap="1rem" title-bar-actions>
+        <button mat-raised-button type="button" color="accent" aalToggleFullScreen (toggleButtonEvent)="toggleButton()">
+          <span *ngIf="showFullScreenButton" fxLayout="row"><mat-icon class="aal--margin-right-r-5"
+                                                                      [style.align-self]="'center'">fullscreen</mat-icon>Full Screen</span>
+          <span *ngIf="!showFullScreenButton" fxLayout="row"><mat-icon class="aal--margin-right-r-5"
+                                                                       [style.align-self]="'center'">fullscreen_exit</mat-icon>Exit Full Screen</span>
+        </button>
+      </div>
+    </mc-title-bar>
+    <form novalidate>
+      <div class="aal--margin-all-r1">
+        <mc-tab-header-bar [fontSize]="fontSize" [changeRequestData]="changeRequestData" [viewState]="viewState"
+                           [changeRequestConfiguration]="changeRequestConfiguration"
+                               (onChangeFont)="fontSizeChanged($event)" (onLayoutChange)="onLayoutChange($event)"
+                               (editCaseObject)="editCaseObject()" [changeOwnerControl]="changeRequestFormGroup?.get('change_owner_type')"></mc-tab-header-bar>
+        <div fxLayout="column" fxLayoutGap="1rem">
+          <mc-mat-expansion-panel [header]="'Customer Impact Assessment: '" [headerStatus]="(readOnlyCIAData?.customer_impact_result) ? readOnlyCIAData?.customer_impact_result : ''" [isExpanded]="isExpanded"
+                                  class="ims-expansion-panel-header-title">
+            <div expansion-panel-content fxLayout="row" fxLayoutGap="1rem">
+              <div fxLayout="column" fxFlex="50%">
+                <mc-text [label]="readOnlyCIAConfiguration?.parts_tooling_in_scope?.label"
+                         [help]="readOnlyCIAConfiguration?.parts_tooling_in_scope?.help"
+                         [value]="readOnlyCIAData?.parts_tooling_in_scope || '-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.impact_on_preinstall?.label"
+                         [help]="readOnlyCIAConfiguration?.impact_on_preinstall?.help"
+                         [value]="readOnlyCIAData?.impact_on_preinstall ||'-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.system_level_performance_impact?.label"
+                         [help]="readOnlyCIAConfiguration?.system_level_performance_impact?.help"
+                         [value]="readOnlyCIAData?.system_level_performance_impact || '-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.negative_impact_on_availability?.label"
+                         [help]="readOnlyCIAConfiguration?.negative_impact_on_availability?.help"
+                         [value]="readOnlyCIAData?.negative_impact_on_availability || '-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.change_to_software?.label"
+                         [help]="readOnlyCIAConfiguration?.change_to_software?.help"
+                         [value]="readOnlyCIAData?.change_to_software || '-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.functional_software_dependencies?.label"
+                         [help]="readOnlyCIAConfiguration?.functional_software_dependencies?.help"
+                         [value]="readOnlyCIAData?.functional_software_dependencies || '-'"
+                         [fontSize]="fontSize"></mc-text>
+              </div>
+              <div fxLayout="column" fxFlex="50%">
+                <mc-text [label]="readOnlyCIAConfiguration?.parts_manufactured_before?.label"
+                         [help]="readOnlyCIAConfiguration?.parts_manufactured_before?.help"
+                         [value]="readOnlyCIAData?.parts_manufactured_before || '-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.impact_on_user_interfaces?.label"
+                         [help]="readOnlyCIAConfiguration?.impact_on_user_interfaces?.help"
+                         [value]="readOnlyCIAData?.impact_on_user_interfaces || '-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.impact_on_wafer_process_environment?.label"
+                         [help]="readOnlyCIAConfiguration?.impact_on_wafer_process_environment?.help"
+                         [value]="readOnlyCIAData?.impact_on_wafer_process_environment || '-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.change_to_customer_impact_critical_part?.label"
+                         [help]="readOnlyCIAConfiguration?.change_to_customer_impact_critical_part?.help"
+                         [value]="readOnlyCIAData?.change_to_customer_impact_critical_part || '-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.change_to_process_impacts_customer?.label"
+                         [help]="readOnlyCIAConfiguration?.change_to_process_impacts_customer?.help"
+                         [value]="readOnlyCIAData?.change_to_process_impacts_customer|| '-'"
+                         [fontSize]="fontSize"></mc-text>
+                <mc-text [label]="readOnlyCIAConfiguration?.fco_upgrade_option_csr_implementation_change?.label"
+                         [help]="readOnlyCIAConfiguration?.fco_upgrade_option_csr_implementation_change?.help"
+                         [value]="readOnlyCIAData?.fco_upgrade_option_csr_implementation_change || '-'"
+                         [fontSize]="fontSize"></mc-text>
+              </div>
+            </div>
+          </mc-mat-expansion-panel>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

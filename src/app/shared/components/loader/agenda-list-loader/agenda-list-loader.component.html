@@ -1,0 +1,33 @@
+<div fxLayout="column" class="aal--margin-bottom-r-5 agenda-list-loader" [ngClass]="isDashboardWidget ? 'aal--padding-right-left-r-5' : ''">
+  <div fxLayout="row">
+    <div fxFlex="100" fxLayout="column">
+
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="agenda-panel aal--elevation-1 aal--padding-all-r1"
+      [ngStyle]="{'height': isDashboardWidget ? '69px' : '89px'}">
+        <div fxLayout="row" [fxFlex]="!isDashboardWidget ? '0 0 40%' : '0 0 79%'" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="aal--padding-all-r-5 aal--margin-right-r1">
+          <ngx-skeleton-loader [theme]="{ width: '36px', height: '36px' }" appearance="circle"></ngx-skeleton-loader>
+          <div fxLayout="column">
+            <ngx-skeleton-loader
+              [theme]="{ width: '200px', 'border-radius': '8px', height: '14px', 'margin-bottom': '6px', 'margin-top': '6px'}"></ngx-skeleton-loader>
+            <ngx-skeleton-loader [theme]="{ width: '170px', 'border-radius': '8px', height: '14px' }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <div *ngIf="!isDashboardWidget" fxLayout="row" fxFlex="17%" fxLayoutAlign="start center" class="aal--padding-top-bottom-r-5 aal--margin-right-rs1-5" fxLayoutGap="12px">
+          <ngx-skeleton-loader [theme]="{ width: '130px', 'border-radius': '20px', height: '32px'}" fxLayoutAlign="center center"></ngx-skeleton-loader>
+        </div>
+        <div *ngIf="!isDashboardWidget" fxLayout="row" fxFlex="32%" fxLayoutAlign="start center" fxLayoutGap="0.5rem" class="aal--padding-all-r-5 aal--margin-right-r1">
+          <ngx-skeleton-loader [theme]="{ width: '36px', height: '36px' }" appearance="circle"></ngx-skeleton-loader>
+          <div fxLayout="column">
+            <ngx-skeleton-loader
+              [theme]="{ width: '60px', 'border-radius': '8px', height: '14px', 'margin-bottom': '6px', 'margin-top': '6px'}"></ngx-skeleton-loader>
+            <ngx-skeleton-loader [theme]="{ width: '100px', 'border-radius': '8px', height: '14px' }"></ngx-skeleton-loader>
+          </div>
+        </div>
+        <mat-divider fxFlex="1%" [style.height]="'100%'" [vertical]="true" class="aal--margin-right-r1"></mat-divider>
+        <div  fxLayout="row" [fxFlex]="!isDashboardWidget ? '8%' : '20%'" class="aal--padding-top-bottom-r-5 aal--margin-right-rs1-5" fxLayoutGap="12px">
+          <ngx-skeleton-loader [theme]="{ width: '130px', 'border-radius': '20px', height: '40px'}" fxLayoutAlign="center center"></ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

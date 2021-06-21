@@ -1,0 +1,20 @@
+<div fxLayout="column" fxLayoutGap="0.5rem">
+  <span fxLayout="column" class="aal--padding-left-r-5">
+    <span class="mat-caption">Change Board Rules</span>
+  <span *ngIf="!cbRulesDataDetails?.rules"> - </span>
+  </span>
+<span fxLayout="column">
+  <mc-text *ngFor="let rule of cbRulesDataDetails?.rules;let i= index" [value]="rule"
+           [help]="cbRulesDataDetails?.rulesHelp[i]"></mc-text>
+</span>
+  <mc-button-contained *ngIf="showButton" class="aal&#45;&#45;margin-left-r-5"
+                       [text]="'CB Rules'"
+                       [tooltip]="'CB Rules'"
+                       [noCheckOnCaseAction]="true"
+                       [isLinkedItem]="true"
+                       [caseObject]="caseObject"
+                       [disabled]="isDisabled"
+                       [color]="'accent'"
+                       (buttonClick)="onPressCBRules()" [style.width] ="'10%'"></mc-button-contained>
+</div>
+

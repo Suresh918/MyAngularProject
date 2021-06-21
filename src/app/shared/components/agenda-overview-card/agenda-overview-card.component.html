@@ -1,0 +1,81 @@
+<div class="aal--padding-all-r1 agenda-overview-card aal--elevation-1 clickable" fxFlex="100" fxLayout="row"
+     fxLayoutAlign="space-between">
+  <div fxFlex="100%" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngIf="caseObject && !isDashboardWidget"
+       (click)="navigateToAgenda()">
+    <div [fxFlex]="'0 0 40%'">
+      <div *ngIf="showSelector" fxLayoutAlign="start center">
+        <mat-radio-button fxFlex="6%" #inputElement class="example-radio-button" value="caseObject" (change)="onSelectAgenda()"></mat-radio-button>
+        <mc-card-summary fxFlex="94%"  [mainDescriptionCaption]="caseObject['statusLabel']"
+                         [mainDescriptionLink]="caseObject['title']"
+                         [separator]="'interpunct'"
+                         [line1Caption]="(caseObject['startDate'] | aalDate:'dueDate') +
+                       (caseObject['startDate'] ? (' &middot; '+ (caseObject['startDate'] | date:'HH:mm')) : '')"
+                         [line1]="caseObject['category']"
+                         [iconImageTemplateRef]="imageDisplayRef"
+                         (mainDescriptionClick)="onClickAgendaLabel()"></mc-card-summary>
+      </div>
+      <mc-card-summary  fxFlex="100%" *ngIf="!showSelector"
+                        [mainDescriptionCaption]="caseObject['statusLabel']"
+                        [mainDescription]="caseObject['title']" [separator]="'interpunct'"
+                        [line1Caption]="(caseObject['startDate'] | aalDate:'dueDate') +
+                       (caseObject['startDate'] ? (' &middot; '+ (caseObject['startDate'] | date:'HH:mm')) : '')"
+                        [line1]="caseObject['category']"
+                        [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+    </div>
+    <ng-template #imageDisplayRef>
+      <mat-icon *ngIf="caseObject?.ID" class="icon--medium"
+                [svgIcon]="caseObject['category']?.toLowerCase() === 'cb'? 'cb-icon' : 'ccb-icon'" ></mat-icon>
+    </ng-template>
+    <mat-chip-list fxFlex="17%" fxLayoutAlign="start center">
+      <mat-chip fxFlex="1 1 130px" fxLayoutAlign="center center"
+                *ngIf="caseObject['startDate'] && caseObject['finishDate']">{{plannedStartTime}} <span *ngIf="duration"> ({{duration| aalDuration:'0m'}})</span></mat-chip>
+    </mat-chip-list>
+    <mc-card-summary fxFlex="30%" [label]="'Creator'" [separator]="'parenthesis'"
+                     [line1Caption]="caseObject?.createdBy?.abbreviation"
+                     [line1]="caseObject?.createdBy?.fullName"
+                     [iconImageTemplateRef]="imageDisplayRef1"></mc-card-summary>
+    <ng-template #imageDisplayRef1>
+      <img class="image-circle-medium"
+           [src]="caseObject?.createdBy?.userID | userImage" alt="" aalLoadBlankPortrait>
+    </ng-template>
+    <mat-divider fxFlex="1%" [style.height]="'100%'" [vertical]="true"></mat-divider>
+    <mc-agenda-list-overlay-card fxFlex="13%" fxFlex="1 1 8rem" [caseObjectID] = 'caseObject.ID' [category]='caseObject["category"]' [headerIcon]="'event'"
+                                 [headerTitle]="'Agenda Items'"
+                                 [buttonText]="'Agenda Items'" [progressBar]="progressBar" [badgeCount]="caseObject?.agendaItemCount" fxLayoutAlign="end end"></mc-agenda-list-overlay-card>
+  </div>
+
+  <div fxFlex="100%" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" *ngIf="caseObject && isDashboardWidget"
+       (click)="navigateToAgenda()">
+    <div [fxFlex]="'0 0 78%'">
+      <div *ngIf="showSelector" fxLayoutAlign="start center">
+        <mat-radio-button fxFlex="6%" #inputElement class="example-radio-button" value="caseObject" (change)="onSelectAgenda()"></mat-radio-button>
+        <mc-card-summary fxFlex="94%"  [mainDescriptionCaption]="caseObject['statusLabel']"
+                         [mainDescriptionLink]="caseObject['title']"
+                         [separator]="'interpunct'"
+                         [line1Caption]="(caseObject['startDate'] | aalDate:'dueDate') +
+                       (caseObject['startDate'] ? (' &middot; '+ (caseObject['startDate'] | date:'HH:mm')) : '')"
+                         [line1]="caseObject['category']"
+                         [iconImageTemplateRef]="imageDisplayRef"
+                         (mainDescriptionClick)="onClickAgendaLabel()"></mc-card-summary>
+      </div>
+      <mc-card-summary  fxFlex="100%" *ngIf="!showSelector"
+                        [mainDescriptionTemplateRef]="mainDescriptionRefr"
+                        [line1Caption]="(caseObject['startDate'] | aalDate:'dueDate') +
+                       (caseObject['startDate'] ? (' &middot; '+ (caseObject['startDate'] | date:'HH:mm')) : '') +
+                       (caseObject?.createdBy ? (' &middot; ' + (caseObject?.createdBy | personName)) : '')"
+                        [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+    </div>
+    <ng-template #mainDescriptionRefr>
+      <span class="mat-body-1 font-weight-500 overflow-ellipsis">{{caseObject?.title}}</span>
+      <span class="label">{{' &middot; ' + caseObject['statusLabel']}}</span>
+    </ng-template>
+    <ng-template #imageDisplayRef>
+      <mat-icon *ngIf="caseObject?.ID" class="icon--medium"
+                [svgIcon]="caseObject['category']?.toLowerCase() === 'cb'? 'cb-icon' : 'ccb-icon'" ></mat-icon>
+    </ng-template>
+    <mat-divider fxFlex="1%" [style.height]="'100%'" [vertical]="true"></mat-divider>
+    <mc-agenda-list-overlay-card fxFlex="20%" [caseObjectID] = 'caseObject.ID' [category]='caseObject["category"]' [headerIcon]="'event'"
+                                 [headerTitle]="'Agenda Items'"
+                                 [buttonText]="'Agenda Items'" [progressBar]="progressBar" [badgeCount]="caseObject?.agendaItemCount" fxLayoutAlign="end end"></mc-agenda-list-overlay-card>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<aal-button-icon-contained *ngIf="(buttonAction$ | async) || noCheckOnCaseAction"
+                           [name]="name"
+                           [tooltip]="tooltip"
+                           [disabled]="disabled"
+                           [ID]="buttonId ? buttonId : defaultButtonID"
+                           [icon]="icon"
+                           [badgeData]="badgeData"
+                           [hasBadge]="!!badgeData"
+                           (onClick)="onButtonClick($event)"></aal-button-icon-contained>

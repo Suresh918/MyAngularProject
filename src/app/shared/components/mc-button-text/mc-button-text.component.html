@@ -1,0 +1,5 @@
+<aal-button-text [name]="name"
+                 [tooltip]="tooltip"
+                 *ngIf="(buttonAction$ | async) || noCheckOnCaseAction"
+                 [ID]="buttonId ? buttonId : defaultButtonID"
+                 (onClick)="onButtonClick($event)"></aal-button-text>

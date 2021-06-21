@@ -1,1 +1,1121 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'mixins';
+/*
+@import '../node_modules/@bsnl-angular/material/theming.scss';
+@import '~@bsnl-angular/common/theming';
+@import '~@bsnl-angular/material/theming';
+*/
+@import './src/themes/common/theming';
+@import './src/themes/material/theming';
+
+@include mat-core();
+@include angular-material-theme ($aal--mat-light-theme);
+
+.primary-btn-theme {
+  @include angular-material-theme($aal--mat-btn-theme);
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* @body styles required for background image of page*/
+body {
+  background: $aal--mat-background;
+}
+a {
+  color: $aal--mat-secondary !important;
+  text-decoration: none !important;
+  text-decoration-style: initial !important;
+  text-decoration-color: initial !important;
+  cursor: pointer;
+}
+/* scrollbar for select menu */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+  border-radius: 0px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 1px solid #ddd;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+  background: #b3b3b3;
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba(0, 0, 0, 0);
+}
+
+/* MyChange template body has mc-header and mc-body as root templates*/
+
+mc-body {
+  height: 100%;
+  margin: 0 auto 0 auto;
+  display: block;
+}
+
+/*  panel--white used for background grey color*/
+.panel--white {
+  background: $aal--mat-surface;
+}
+
+/* mc-body consists of page-body and page-footer*/
+.page-body {
+  height: 100%;
+  overflow: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.scrollable-wrapper {
+  padding: 0 0.5rem 0 0.5rem;
+  overflow: auto;
+}
+
+.page-footer {
+  padding: 0.5rem 1rem 0.5rem 4rem;
+  background: $aal--mat-surface;
+  bottom: 0;
+  position: sticky;
+  z-index: 1;
+
+  .mat-raised-button:disabled {
+    background-color: mat-color($mat-grey, 700) !important;
+    color: mat-color($mat-grey, 300) !important;
+  }
+}
+
+/*make context ellipses when text is overflowing*/
+
+.context-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  display: inline-block !important;
+}
+
+.context-overflow-no-white-space {
+  overflow: hidden !important;
+  white-space: normal !important;
+  text-overflow: ellipsis !important;
+  width: 100%;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  display: -webkit-box !important;
+}
+
+/* set label colors*/
+
+.secondary-btn {
+  color: $aal--mat-surface !important;
+}
+
+.three-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  word-break: break-all;
+  line-height: 16px; /* fallback */
+  max-height: 48px; /* fallback */
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.mat-button-toggle {
+  color: rgba(0, 0, 0, 0.8) !important;
+
+  &.mat-button-toggle-checked {
+    &.mat-button-toggle-disabled {
+      opacity: .7 !important;
+    }
+
+    background-color: $aal--mat-secondary !important;
+    color: $aal--mat-surface !important;
+  }
+}
+
+.comparison-table .mat-button-toggle-checked .mat-button-toggle-label-content {
+  background-color: #E6F1FC !important;
+  font-weight: bold;
+  color: #000 !important;
+}
+
+.comparison-table .mat-button-toggle-checked .mat-button-toggle-label-content .cdk-focused .cdk-program-focused {
+  background-color: #E6F1FC !important;
+  font-weight: bold;
+  color: #000 !important;
+}
+
+.comparison-table .mat-button-toggle-group, .comparison-table .mat-button-toggle-standalone {
+  box-shadow: none;
+  background: transparent;
+}
+
+.bsnl-material-font {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1.125;
+}
+
+/*to remove underline on filter in filters */
+.app-input-no-underline .mat-form-field-underline {
+  display: none;
+}
+
+.loader-overlay {
+  position: fixed;
+  pointer-events: all;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 1;
+  z-index: 500000;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 1024px) {
+  .page-body {
+    width: 100%;
+  }
+}
+
+/*css for drag and drop*/
+
+.dnd-drag-start {
+  -moz-transform: scale(0.8);
+  -webkit-transform: scale(0.8);
+  transform: scale(0.8);
+  opacity: 0.3;
+}
+
+.dnd-drag-enter {
+  opacity: 0.8;
+  transform: scale(1.2);
+}
+
+.dnd-drag-over {
+  border: 2px dashed blue;
+}
+
+.mouse-pointer--wait {
+  cursor: wait !important;
+}
+
+.mouse-pointer--not-allowed {
+  cursor: not-allowed !important;
+}
+
+.dnd-sortable-drag {
+  -moz-transform: scale(0.9);
+  -webkit-transform: scale(0.9);
+  transform: scale(0.9);
+  opacity: 0.3;
+  border: 1px dashed red;
+}
+
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+}
+
+.gu-hide {
+  display: none !important;
+}
+
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+}
+
+.full-height {
+  height: 100% !important;
+}
+
+.mat-tab-label {
+  height: auto !important;
+
+  .mat-tab-label-content {
+    padding: 1rem 0.5rem;
+  }
+}
+
+.mat-tab-body-content {
+  height: 100%;
+}
+
+.mat-title {
+  margin-bottom: 0;
+  font-size: 20px;
+}
+
+.mat-sub-title {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+/* app specific theme ends here*/
+/*print specific themes*/
+@include print-media-common();
+// cbc common styles
+@include cbc-common();
+
+/* saturn date picker styles*/
+:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-semi-selected), .cdk-keyboard-focused .mat-calendar-body-active > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-semi-selected), .cdk-program-focused .mat-calendar-body-active > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-semi-selected) {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-semi-selected, .cdk-keyboard-focused .mat-calendar-body-active > .mat-calendar-body-semi-selected, .cdk-program-focused .mat-calendar-body-active > .mat-calendar-body-semi-selected {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.mat-calendar-body-begin-range:not(.mat-calendar-body-end-range) {
+  border-radius: 100% 0 0 100%;
+  background-color: #c5cae9;
+}
+
+.mat-calendar-body-end-range:not(.mat-calendar-body-begin-range) {
+  border-radius: 0 100% 100% 0;
+  background-color: #c5cae9;
+}
+
+.mat-calendar-body > tr .mat-calendar-cell-semi-selected ~ .mat-calendar-cell-semi-selected {
+  border-radius: 0;
+}
+
+.mat-calendar-cell-semi-selected {
+  background-color: #c5cae9;
+}
+
+.completed-actions {
+  text-decoration: none;
+}
+
+.selected-complete-action {
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+.mat-selected-row .completed-actions {
+  text-decoration: underline !important;
+  font-weight: bold;
+}
+
+.bold--text {
+  font-weight: bold;
+}
+
+/* Header toolbar specific styles */
+
+.mat-menu-panel.header-toolbar--menu {
+  max-width: none !important;
+  width: 480px !important;
+  margin-right: 16px !important;
+  overflow: hidden;
+
+  .header-toolbar--menu-content {
+    max-height: 356px !important;
+    overflow-y: auto;
+
+    .header-toolbar--menu-item {
+      line-height: 24px !important;
+      height: auto;
+      padding: 1rem;
+
+      .menu-item--mat-icon {
+        height: 2.25rem;
+        width: 2.25rem;
+        margin-right: 1.5rem;
+      }
+
+      .menu-item-custom--icon {
+        color: rgb(0, 0, 0);
+        border: 3px solid #000000;
+      }
+    }
+  }
+
+  .menu-item--title {
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  .menu-item--content {
+    max-width: 330px;
+    font-size: 14px;
+    letter-spacing: 0.25px;
+  }
+
+  .menu-footer--card {
+    background: whitesmoke;
+    padding-bottom: 2.25rem;
+
+    .menu-icon {
+      font-size: 3rem;
+      color: rgba(0, 0, 0, 0.54);
+      height: 3rem;
+      width: 3rem;
+    }
+  }
+
+  .full-width {
+    width: 100%;
+  }
+}
+
+.mat-raised-button.header-toolbar--menu-panel-button {
+  background-color: #E8E8E8;
+}
+
+.mat-toolbar.header-toolbar--menu-header {
+  height: 48px !important;
+  min-height: 48px !important;
+  background: #0d47a1 !important;
+  color: white !important;
+
+  .material-icons {
+    opacity: .5 !important;
+  }
+}
+
+.header-toolbar--menu-icon {
+  &:hover, &.is-menuOpen {
+    background: rgba(0, 0, 0, 0.18) !important;
+
+    .material-icons {
+      opacity: 1 !important;
+    }
+  }
+
+  .material-icons {
+    opacity: .75 !important;
+  }
+}
+
+.notification-badge {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  margin: 0 0 -6.8px 29px;
+  z-index: 1;
+}
+
+/*User profile specific styles */
+
+.mat-menu-panel.user-profile-menu {
+  max-width: none !important;
+  width: 360px !important;
+  margin-top: 4px !important;
+
+  .user-profile-img {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+  }
+
+  .user-menu--items {
+    .title {
+      font-size: 16px;
+      height: 64px;
+    }
+
+    .sub-title {
+      font-size: 12px;
+      color: grey;
+    }
+
+    .items {
+      font-size: 14px;
+    }
+
+    .roles-groups {
+      padding: 0 0.5rem;
+    }
+  }
+
+  .logout-button {
+    float: right;
+    margin: 0.5rem;
+  }
+
+  .navigation-list {
+    margin-bottom: 0px;
+    padding-top: 0px;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  .navigation-list .mat-icon {
+    padding-right: 2rem;
+  }
+
+  .user-profile-icon {
+    padding-right: 1rem;
+  }
+}
+
+.mat-toolbar.user-profile-toolbar {
+  height: 48px !important;
+  min-height: 48px !important;
+  font-size: 20px;
+  background: #ebebeb !important;
+  color: #000 !important;
+}
+
+.end-align-hint {
+  width: 46%;
+}
+
+.floating-button {
+  background: #E8E8E8 !important;
+  position: fixed !important;
+  bottom: 4rem;
+  right: 0.5rem;
+  box-shadow: 0 2px 5px #666;
+  z-index: 2;
+}
+
+/*.mat-icon {
+  &.icon--extra-small {
+    height: 28px !important;
+    width: 28px !important;
+    font-size: 28px !important;
+  }
+
+  &.icon--small {
+    height: 36px !important;
+    width: 36px !important;
+    font-size: 36px !important;
+  }
+
+  &.icon--medium {
+    height: 48px !important;
+    width: 48px !important;
+    font-size: 48px !important;
+  }
+
+  &.icon--large {
+    height: 64px !important;
+    width: 64px !important;
+    font-size: 64px !important;
+  }
+}*/
+
+.mat-icon.icon-xs {
+  height: 16px !important;
+  width: 16px !important;
+  font-size: 16px !important;
+}
+
+.wrap-content {
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word;
+}
+
+.chart-yAxis-label {
+  cursor: pointer;
+  color: #3BB9FF;
+
+  text {
+    stroke: rgb(59, 185, 255);
+    stroke-width: 0.5;
+  }
+}
+
+.inter-punctuation {
+  margin: 0 .5rem .5rem .5rem;
+}
+
+/*.mat-raised-button {
+  box-shadow: none !important;
+}*/
+
+mat-expansion-panel.admin-expansion-panel {
+  margin-bottom: 1rem;
+  background: none !important;
+  border-radius: 4px !important;
+
+  .mat-expansion-panel-header {
+    background-color: white !important;
+    padding-right: 2.5rem;
+    font-size: 16px;
+
+    &.expansion-header {
+      padding-left: 2rem;
+      background-color: #FFFFFF;
+      position: relative;
+    }
+
+    .mat-expansion-indicator::after {
+      color: #1C7DDB;
+    }
+  }
+
+  .mat-expansion-panel-content {
+    width: 98%;
+    margin: 0 auto;
+    background: white;
+    border-radius: 0 0 6px 6px;
+  }
+}
+
+.user-profile-img {
+  height: 28px;
+  width: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.import-air-pbs-panel .mat-dialog-container, .add-cb-meeting-dialog .mat-dialog-container {
+  padding-bottom: 0 !important;
+}
+
+.right-side-panel-content {
+  padding: 1rem 0.75rem 0 0.75rem;
+}
+
+.classic-badge-button {
+  .mat-badge-content {
+    width: auto !important;
+    min-width: 17px !important;
+    height: 16px !important;
+    line-height: 16px !important;
+    top: 0 !important;
+    right: 0 !important;
+    font-weight: normal !important;
+  }
+
+  &.badge-padding .mat-badge-content {
+    padding: 0 1px;
+  }
+
+  &.hide-badge .mat-badge-content {
+    display: none;
+  }
+}
+
+.detail-header-icon {
+  border: 2px solid $aal--mat-secondary;
+  color: $aal--mat-secondary;
+  border-radius: 50%;
+  padding: 0.25rem;
+}
+
+.word-wrap--break-word {
+  word-wrap: break-word
+}
+
+.side-panel-right-content {
+  height: 92%;
+  overflow-y: auto;
+
+  .panel-data-content {
+    padding: 1rem 0.75rem 0 0.75rem;
+  }
+}
+
+.mat-badge-disabled .mat-badge-content {
+  color: #FFFFFF !important;
+  border: 1px solid #FFFFFF;
+}
+
+.mat-card {
+  border-radius: 8px !important;
+}
+
+.mat-card.mc-card-content {
+  box-shadow: 2px 2px 2px #d6d6d6 !important;
+}
+
+.no-action-dialog-container .mat-dialog-container {
+  padding: 0;
+}
+
+.card-border, .card-border-expanded {
+  background: $aal--mat-surface;
+  border-radius: 8px;
+}
+
+.card-border:hover {
+  background: $aal--mat-hover;
+  outline: 2px solid $aal--mat-focus;
+  outline-offset: -2px;
+}
+
+.aal--elevation-2.card-border:hover {
+  box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.20) !important;
+}
+
+.dndPlaceholder {
+  background-color: rgba(0, 0, 0, .1);
+  min-height: 4rem;
+  border: 1px dashed black;
+  margin: 0 2rem;
+}
+
+.position-relative {
+  position: relative;
+}
+
+.font-weight-500 {
+  font-weight: 500 !important;
+}
+
+.sub-menu-button .secondary-text-button.mat-button {
+  text-align: left;
+  width: 100%;
+}
+
+
+.image-circle-small, .image-circle-medium, .image-circle-large {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.image-circle-small {
+  height: 24px;
+  width: 24px;
+}
+
+.image-circle-medium {
+  height: 36px;
+  width: 36px;
+}
+
+.image-circle-large {
+  height: 50px;
+  width: 50px;
+}
+
+.border-left {
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mat-chip {
+  span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .chip-text {
+    max-width: 124px !important;
+  }
+}
+
+.hideTitleBar {
+  /*visibility: hidden;
+  height: 0;*/
+}
+
+.icon--pointer {
+  cursor: pointer !important;
+}
+
+
+.background-black {
+  background: mat-color($aal-theme-colors, black) !important;
+}
+
+.background-white {
+  background: $aal--mat-surface;
+}
+
+.background--off-white {
+  background: $aal--mat-surface-variant;
+}
+
+.background-orange {
+  background: $aal--mat-caution;
+}
+
+.background-green {
+  background: $aal--mat-good;
+}
+
+.background-red {
+  background: $aal--mat-alert;
+}
+
+.background-blue {
+  background: $aal--mat-primary;
+}
+
+.background-grey {
+  background: $aal--mat-background;
+}
+
+.background-accent {
+  background: $aal--mat-background;
+}
+
+.background-magneta {
+  background: mat-color($aal-theme-colors, magneta);
+}
+
+.background-color-orange {
+  background-color: $aal--mat-caution;
+}
+
+.background-color-red {
+  background-color: $aal--mat-alert;
+}
+
+.color-black {
+  color: black !important;
+}
+
+.color-white {
+  color: $aal--mat-surface;
+}
+
+.color-orange {
+  color: $aal--mat-caution;
+}
+
+.color-green {
+  color: $aal--mat-good;
+}
+
+.color-red {
+  color: $aal--mat-alert;
+}
+
+.color-blue {
+  color: $aal--mat-primary;
+}
+
+.color-grey {
+  color: $aal--mat-background;
+}
+
+.color-accent {
+  color: $aal--mat-secondary;
+}
+
+.color-magneta {
+  color: $aal--mat-priority-1;
+}
+
+
+/* link bar is underline which appears in mat-tab-list*/
+.mat-ink-bar {
+  background-color: $aal--mat-secondary !important;
+}
+
+.page-object-header {
+  background: $aal--mat-surface-variant;
+  padding: 12px 2rem;
+}
+
+.tooltip {
+  font-size: 16px !important;
+  color: #616161 !important;
+  position: relative !important;
+  bottom: -2px !important;
+  padding-left: 5px;
+  cursor: pointer;
+}
+
+.fit-into-content {
+  width: 100%;
+  height: 100%;
+}
+
+@media print {
+  @page {
+    size: landscape;
+  }
+}
+
+
+/* Mat Tables Styles */
+.mat-table {
+  border: solid #e0e0e0;
+  border-width: 1px 1px 0 1px;
+
+  .mat-header-row {
+    background-color: mat-color($mat-grey, 100);
+  }
+
+  .mat-cell, .mat-footer-cell, .mat-header-cell {
+    padding: 8px;
+  }
+
+  .mat-cell:first-child, .mat-footer-cell:first-child, .mat-header-cell:first-child {
+    padding-left: 16px;
+  }
+
+  .mat-cell:last-child, .mat-footer-cell:last-child, .mat-header-cell:last-child {
+    padding-right: 16px;
+  }
+
+  .mat-selected-row {
+    background: mat-color($mat-grey, 50);
+  }
+}
+
+/* Mat Dialog Styles*/
+.mat-dialog-container {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  padding-top: 0 !important;
+
+  .mat-dialog-title {
+    margin-bottom: 0;
+    padding: 0.5rem 1rem 0.5rem 1.5rem;
+    background-color: $aal--mat-primary;
+    color: white;
+
+    .mat-icon {
+      color: white;
+    }
+  }
+
+  .mat-dialog-content {
+    padding: 1.5rem;
+    margin: 0;
+    background-color: $aal--mat-surface-variant;
+    border-bottom: 1px solid mat-color($mat-grey, 300)
+  }
+
+  .mat-dialog-actions {
+    padding: 10px 1rem 10px 1rem !important;
+  }
+}
+
+.mat-paginator {
+  border: solid #e0e0e0;
+  border-width: 0 1px 1px 1px;
+  background-color: mat-color($mat-grey, 100);
+}
+
+.no-result-div {
+  border: solid #e0e0e0;
+  border-width: 0 1px 1px 1px;
+  padding: 1rem;
+  color: rgba(0, 0, 0, 0.54);
+  font-style: italic;
+  text-align: center;
+  background: #fff;
+  @extend .mat-body-1;
+}
+
+
+.secondary-action-button {
+  color: $aal--mat-secondary !important;
+  border: solid 1px $aal--mat-secondary !important;
+}
+
+.mat-raised-button:disabled {
+  background-color: #1c7ddb !important;
+  opacity: .7 !important;
+  color: #FAFAFA !important;
+}
+
+
+/* Pre-formatted tag Styles */
+pre {
+  margin: 0;
+  @extend .mat-body-1;
+}
+
+/* Mat Menu Styles*/
+.mat-menu-panel {
+  max-width: none !important;
+  box-shadow: 6px 6px 6px 0 rgba(0, 0, 0, 0.16) !important;
+  -webkit-box-shadow: 6px 6px 6px 0 rgba(0, 0, 0, 0.16) !important;
+  -moz-box-shadow: 6px 6px 6px 0 rgba(0, 0, 0, 0.16) !important;
+  border: 1px solid #00000014;
+}
+
+/**
+ * Creates the expansion indicator arrow. Done using ::after rather than having
+ * additional nodes in the template.
+ */
+.expansion-indicator--arrow::after {
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  content: '';
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  vertical-align: middle;
+}
+
+.infinite-scroll-for-tab {
+  .mat-tab-body-content {
+    overflow-y: unset !important;
+  }
+
+  .mat-tab-body.mat-tab-body-active {
+    overflow-y: unset !important;
+  }
+}
+
+/* Mat Tab Styles*/
+.tab_label--background {
+  .mat-tab-header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+
+    .mat-tab-label-container {
+      //TODO: make this consistent theme
+      background: $aal--mat-surface-variant !important;
+
+      .mat-tab-labels {
+        justify-content: center; /* align items in Main Axis */
+      }
+    }
+
+    .mat-tab-header-pagination {
+      background-color: mat-color($aal-theme-colors, light_blue) !important;
+    }
+  }
+
+}
+
+.tool_bar--background {
+  background: #FAFAFA !important;
+}
+
+/* Mat List Styles */
+.mat-nav-list {
+  @extend .mat-body-1;
+}
+
+.check-icon {
+  color: mat-color($mat-green, 700);
+  font-weight: bold;
+}
+
+.clear-icon {
+  color: mat-color($mat-red, 800);
+  font-weight: bold;
+}
+
+
+mat-sidenav, .side-menu, .icon-menu {
+  background-color: $aal--mat-surface-variant !important;
+}
+
+@media print {
+  @page {
+    size: landscape;
+  }
+}
+
+
+.mat-step-header .mat-step-icon {
+  background-color: #1c7ddb;
+}
+
+.mat-form-field-placeholder, .mat-form-field-label {
+  font-size: 16.7px !important;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: .5em .5em 0 .5em !important;
+}
+
+.mat-step-header .mat-step-icon-not-touched {
+  color: #1c7ddb;
+  background: transparent;
+  border: 2px solid;
+}
+
+.progress-bar__input {
+  margin-top: 0.3rem;
+  height: 3px !important;
+  position: absolute !important;
+  z-index: 9;
+}
+
+.mat-tittle--border-blue {
+  border-bottom: 2px solid mat-color($aal-theme-colors, blue);
+}
+
+
+$maxWidthList: (80, 30);
+@each $width in $maxWidthList {
+  .width-#{$width} {
+    max-width: #{$width}rem;
+  }
+}
+
+.width-100 {
+  max-width: 100%;
+}
+.mat-menu-content {
+  padding: 0 !important;
+}
+.mat-snack-bar-container {
+  max-width: 50vw !important;
+}
+
+.opacity-54 {
+  opacity: 0.54;
+}
+
+.mat-tooltip {
+  font-size: 12px !important;
+}
+
+.flow-stepper {
+  .mat-step-icon {
+    height: 40px !important;
+    width: 40px !important;
+    background: $aal--mat-hover;
+    color: black;
+    .mat-icon {
+      height: 24px !important;
+      width: 24px !important;
+      font-size: 24px !important;
+    }
+  }
+  .mat-horizontal-stepper-header-container {
+    margin: 0 4rem 0 4rem !important;
+    .mat-stepper-horizontal-line {
+      border-color: black !important;
+    }
+  }
+}
+
+// Issue with date picker and material font sizing
+.mat-typography .mat-calendar-table-header th {
+  font: 400 11px/12px Roboto, "Helvetica Neue", sans-serif !important;
+}

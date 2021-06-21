@@ -1,0 +1,13 @@
+<div *ngIf="direction==='row'" fxLayout="row" matTooltip="{{toolTip? toolTip : ''}}">
+  <label class="label">{{ key }}</label>
+  <span class="aal--margin-right-r1"> {{ key && key.indexOf(':')===-1 ? (delimiter||':') : '' }} </span>
+  <span *ngIf="link" [ngStyle]="{'color': (color? color : 'black')}" class=""><a [href]="link" target="_blank">{{ value }}</a></span>
+  <span *ngIf="!link" [ngStyle]="{'color': (color? color : 'black')}" class="">{{ value }}</span>
+</div>
+<div *ngIf="direction==='column'" fxLayout="column" matTooltip="{{toolTip? toolTip : ''}}">
+  <label class="label">{{ key }}</label>
+  <span *ngIf="link" [ngStyle]="{'color': (color? color : 'black')}"
+        [ngClass]="noMargin? '' :'aal--margin-left-r1'"><a [href]="link" target="_blank">{{ value }}</a></span>
+  <span *ngIf="!link" [ngStyle]="{'color': (color? color : 'black')}"
+    [ngClass]="noMargin? '' :'aal--margin-left-r1'">{{ value }}</span>
+</div>

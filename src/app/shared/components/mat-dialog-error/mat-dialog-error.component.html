@@ -1,0 +1,22 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between" color="warn">
+  <span [style.color]="'red'">Errors</span>
+  <button mat-icon-button color="primary" *ngIf="!disableOverlay" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <div *ngFor="let errorResponse of errorItems;let i= index "
+       class="aal--margin-bottom-r1 mat-body-1">
+    <span *ngIf="highSeverityErrorStack.length>1" class="aal--margin-left-r-5">{{i+1}}. </span>
+    <span><span [innerHTML]='errorResponse?.errorMessage'></span><a *ngIf="errorResponse?.linkUrl" href="{{errorResponse?.linkUrl}}">Request access</a></span>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions class="primary-btn-theme" fxLayout="row" fxLayoutGap=".5rem" *ngIf="!disableOverlay">
+  <button mat-button class="secondary-action-button"
+          (click)="close()">Dismiss
+  </button>
+  <span fxFlex="1 1 auto"></span>
+  <a mat-button [href]="sharepointLink" target="_blank" >Read More (Share Point)</a>
+</mat-dialog-actions>

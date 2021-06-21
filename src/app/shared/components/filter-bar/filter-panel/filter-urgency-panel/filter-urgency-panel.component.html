@@ -1,0 +1,102 @@
+<div *ngIf="caseObject !== 'trackerBoard'" fxLayout="column" fxLayoutGap="0.5rem">
+  <span fxLayout="row" fxLayoutAlign="start center">
+    <mc-help [message]="filterFormConfiguration?.urgency?.help"></mc-help>
+    <span class="mat-title aal--margin-bottom-r0">{{filterFormConfiguration?.urgency?.label}}</span>
+  </span>
+
+  <div fxLayout="row wrap" fxLayoutGap="1.5rem">
+    <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.analysisPriority"
+                        [bubbleAcceptChanges]="true" [controlConfiguration]="filterFormConfiguration?.analysisPriority"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('analysisPriority')"
+                        [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true" [lockMode]="'EDIT'"
+                        [mode]="'EDIT'" [valueAsObject]="true" [primaryKeyInValue]="'value'" class="aal--margin-bottom-r-5"
+                        fxFlex="0 0 30"></mc-select-multiple>
+    <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.implementationPriority"
+                        [bubbleAcceptChanges]="true"
+                        [controlConfiguration]="filterFormConfiguration?.implementationPriority"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('implementationPriority')"
+                        [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true" [lockMode]="'EDIT'"
+                        [mode]="'EDIT'" [valueAsObject]="true" [primaryKeyInValue]="'value'" class="aal--margin-bottom-r-5"
+                        fxFlex="0 0 30"></mc-select-multiple>
+
+
+    <mc-date-picker-select *ngIf="caseObjectFilterConfiguration?.plannedReleaseDate"
+                           [controlConfiguration]="filterFormConfiguration?.plannedReleaseDate"
+                           [control]="caseObjectCurrentFilterFormGroup.get('plannedReleaseDate')"
+                           [fieldSaveNotApplicable]="true"
+                           [lockMode]="'EDIT'"
+                           [mode]="'EDIT'"
+                           [type]="'range'" class="aal--margin-bottom-r-5" fxFlex="0 0 30">
+    </mc-date-picker-select>
+
+    <mc-date-picker-select *ngIf="caseObjectFilterConfiguration?.plannedEffectiveDate"
+                           [controlConfiguration]="filterFormConfiguration?.plannedEffectiveDate"
+                           [control]="caseObjectCurrentFilterFormGroup.get('plannedEffectiveDate')"
+                           [fieldSaveNotApplicable]="true"
+                           [lockMode]="'EDIT'"
+                           [mode]="'EDIT'"
+                           [type]="'range'" class="aal--margin-bottom-r-5" fxFlex="0 0 30">
+    </mc-date-picker-select>
+
+
+    <mc-date-picker-select *ngIf="caseObjectFilterConfiguration?.meetingDate"
+                           [controlConfiguration]="filterFormConfiguration?.meetingDate"
+                           [control]="caseObjectCurrentFilterFormGroup.get('meetingDate')"
+                           [fieldSaveNotApplicable]="true"
+                           [lockMode]="'EDIT'" [mode]="'EDIT'"
+                           [type]="'range'" class="aal--margin-bottom-r-5" fxFlex="0 0 30">
+    </mc-date-picker-select>
+
+    <mc-date-picker-select *ngIf="caseObjectFilterConfiguration?.dueDate"
+                           [controlConfiguration]="filterFormConfiguration?.dueDate"
+                           [control]="caseObjectCurrentFilterFormGroup.get('dueDate')"
+                           [fieldSaveNotApplicable]="true"
+                           [lockMode]="'EDIT'" [mode]="'EDIT'"
+                           [type]="'range'" class="aal--margin-bottom-r-5" fxFlex="0 0 35">
+    </mc-date-picker-select>
+
+    <mc-date-picker-select *ngIf="caseObjectFilterConfiguration?.activeDate"
+                           [controlConfiguration]="filterFormConfiguration?.activeDate"
+                           [control]="caseObjectCurrentFilterFormGroup.get('activeDate')"
+                           [fieldSaveNotApplicable]="true"
+                           [lockMode]="'EDIT'" [mode]="'EDIT'"
+                           [type]="'range'" class="aal--margin-bottom-r-5" fxFlex="0 0 30">
+    </mc-date-picker-select>
+
+    <mc-date-picker-select *ngIf="caseObjectFilterConfiguration?.effectiveEndDate"
+                           [controlConfiguration]="filterFormConfiguration?.effectiveEndDate"
+                           [control]="caseObjectCurrentFilterFormGroup.get('effectiveEndDate')"
+                           [fieldSaveNotApplicable]="true"
+                           [lockMode]="'EDIT'"
+                           [mode]="'EDIT'"
+                           [type]="'range'" class="aal--margin-bottom-r-5" fxFlex="0 0 30">
+    </mc-date-picker-select>
+
+    <mc-date-picker-select *ngIf="caseObjectFilterConfiguration?.createdOn"
+                           [controlConfiguration]="filterFormConfiguration?.createdOn"
+                           [hideHelp]="true"
+                           [control]="caseObjectCurrentFilterFormGroup.get('createdOn')"
+                           [fieldSaveNotApplicable]="true"
+                           [lockMode]="'EDIT'" [mode]="'EDIT'"
+                           [type]="'range'" class="aal--margin-bottom-r-5" fxFlex="0 0 30">
+    </mc-date-picker-select>
+
+    <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.priority"
+                        [bubbleAcceptChanges]="true" [controlConfiguration]="filterFormConfiguration?.priority"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('priority')"
+                        [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true" [lockMode]="'EDIT'"
+                        [mode]="'EDIT'" [valueAsObject]="true" [primaryKeyInValue]="'value'" class="aal--margin-bottom-r-5"
+                        fxFlex="0 0 30"></mc-select-multiple>
+
+    <mc-select-multiple *ngIf="(caseObject === 'changeRequest' || caseObject === 'changeNotice')"
+                        [bubbleAcceptChanges]="true" [controlConfiguration]="filterFormConfiguration?.actionStatus"
+                        [selectFormControl]="actionDatesFormControl"
+                        [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true" [lockMode]="'EDIT'"
+                        [mode]="'EDIT'" [valueAsObject]="true" [primaryKeyInValue]="'value'" class="aal--margin-bottom-r-5"
+                        fxFlex="0 0 30"></mc-select-multiple>
+  </div>
+</div>

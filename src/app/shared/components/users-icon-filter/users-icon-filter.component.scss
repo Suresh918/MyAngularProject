@@ -1,0 +1,33 @@
+@import '../../../../themes/material/theming';
+.user-icon {
+  border: 2px solid $aal--mat-surface;
+  margin-left: 0.5rem;
+}
+.image-circle-medium.user-icon:hover{
+  transform: scale(1.2);
+  -webkit-transition: transform 200ms;
+  transition: transform 200ms ease-out;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.user-icon.more{
+  background: $aal--mat-surface;
+  color: $aal--mat-secondary;
+  border: 2px solid $aal--mat-secondary;
+}
+.user-icon.selected{
+  border: 2px solid $aal--mat-secondary;
+}
+ul {
+  list-style-type: none;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+  li {
+    padding-right: 1rem;
+  }
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+  border-color: $aal--mat-secondary;
+}

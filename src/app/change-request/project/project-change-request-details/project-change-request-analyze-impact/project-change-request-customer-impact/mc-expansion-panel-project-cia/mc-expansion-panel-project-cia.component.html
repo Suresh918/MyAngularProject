@@ -1,0 +1,122 @@
+<mc-expansion-panel [isExpanded]="isExpanded" [header]="'Customer Impact:'"
+                    [headerCaption]="getLabel(changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_impact_result')?.value)">
+  <div fxLayout="row" expansion-panel-content fxLayoutGap="0.5rem"
+       class="inner-expansion-panel-content aal--padding-right-r-5">
+    <div fxFlex fxLayout="column" fxLayoutGap="0.5rem" class="aal--padding-top-r-5">
+      <div fxLayout="column" class="aal--padding-bottom-r-5">
+        <div fxLayout="row">
+
+          <mc-button-toggle fxFlex="100"
+                            [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact?.customer_impact_result"
+                            [selectFormControl]="changeRequestFormGroup.get('impact_analysis.customer_impact.customer_impact_result')"
+                            [mode]="'PROTECTED'">
+          </mc-button-toggle>
+          <mc-alert *ngIf="showCustomerImpactAlert" [message]="'Required field. Fill and try again'"
+                    [level]="'ERROR'"></mc-alert>
+        </div>
+        <div class="aal--padding-left-r3">
+          <mc-button-contained mat-raised-button
+                             [text]="'CIA'"
+                             [tooltip]="'Open CIA'"
+                             [noCheckOnCaseAction]="true"
+                             (buttonClick)="openChangeImpactAssessment(changeRequestFormGroup.get('id')?.value)"
+                             [color]="'accent'"
+                             [buttonId]="'cia_button'"
+                             [caseObject]="caseObject"
+                             (click)="$event.stopPropagation()"></mc-button-contained>
+        </div>
+      </div>
+
+      <mat-divider class="aal--margin-right-left-r1"></mat-divider>
+
+      <div fxLayoutGap="0.5rem" *ngIf="showPartsQuestion" fxLayout="column">
+        <mc-button-radio class="aal--padding-top-bottom-r-5" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                         [control]="changeRequestFormGroup.get('impact_analysis.impact_on_existing_parts')"
+                         [controlConfiguration]="changeRequestConfiguration?.impact_analysis.impact_on_existing_parts"
+                         [bubbleAcceptChanges]="true" [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+                         [ellipsisAfter]="150"
+                         [checkModeCaseActions]="true"
+                         fxFlex="100"
+                         (bubbledAcceptChanges)="getCIADependentFieldState($event)"
+        ></mc-button-radio>
+
+        <mat-divider class="aal--margin-right-left-r1"></mat-divider>
+      </div>
+
+      <div class="aal--padding-top-bottom-r-5" fxLayoutGap="0.25rem" *ngIf="showOtherPartsQuestions">
+        <mc-button-toggle-input
+          [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.impact_on_user_interfaces')"
+          [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact?.impact_on_user_interfaces"
+          [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.customer_impact.impact_on_user_interfaces_details')"
+          [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.customer_impact?.impact_on_user_interfaces_details"
+          [showDescriptionForOptions]="descriptionOptions" [isNullable]="true" [bubbleAcceptChanges]="true" [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+          (bubbledAcceptChanges)="reInitializeFormGroup($event)"
+        >
+        </mc-button-toggle-input>
+
+        <mc-button-toggle-input
+          [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.impact_on_wafer_process_environment')"
+          [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.impact_on_wafer_process_environment"
+          [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.customer_impact.impact_on_wafer_process_environment_details')"
+          [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.impact_on_wafer_process_environment_details"
+          [showDescriptionForOptions]="descriptionOptions" [isNullable]="true"
+          [bubbleAcceptChanges]="true" [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+          (bubbledAcceptChanges)="reInitializeFormGroup($event)"
+        >
+        </mc-button-toggle-input>
+
+        <mc-button-toggle-input
+          [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.change_to_customer_impact_critical_part')"
+          [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.change_to_customer_impact_critical_part"
+          [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.customer_impact.change_to_customer_impact_critical_part_details')"
+          [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.change_to_customer_impact_critical_part_details"
+          [showDescriptionForOptions]="descriptionOptions" [isNullable]="true"
+          [bubbleAcceptChanges]="true" [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+          (bubbledAcceptChanges)="reInitializeFormGroup($event)"
+        >
+        </mc-button-toggle-input>
+
+        <mc-button-toggle-input
+          [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.change_to_process_impacting_customer')"
+          [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.change_to_process_impacting_customer"
+          [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.customer_impact.change_to_process_impacting_customer_details')"
+          [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.change_to_process_impacting_customer_details"
+          [showDescriptionForOptions]="descriptionOptions" [isNullable]="true"
+          [bubbleAcceptChanges]="true" [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+          (bubbledAcceptChanges)="reInitializeFormGroup($event)"
+        >
+        </mc-button-toggle-input>
+
+        <mc-button-toggle-input
+          [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.fco_upgrade_option_csr_implementation_change')"
+          [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.fco_upgrade_option_csr_implementation_change"
+          [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.customer_impact.fco_upgrade_option_csr_implementation_change_details')"
+          [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.fco_upgrade_option_csr_implementation_change_details"
+          [showDescriptionForOptions]="descriptionOptions" [isNullable]="true"
+          [bubbleAcceptChanges]="true" [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+          (bubbledAcceptChanges)="reInitializeFormGroup($event)"
+        >
+        </mc-button-toggle-input>
+
+        <mat-divider class="aal--margin-right-left-r1"></mat-divider>
+      </div>
+
+      <mc-select-single-input [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_communication')"
+                              [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact?.customer_communication"
+                              [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_communication_details')"
+                              [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact.customer_communication_details"
+                              [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+                              [byPassCaseActionCheck]="true"
+                              [isNullable]="true">
+      </mc-select-single-input>
+      <mc-select-single-input [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_approval')"
+                              [controlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact?.customer_approval"
+                              [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.customer_impact.customer_approval_details')"
+                              [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis.customer_impact?.customer_approval_details"
+                              [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [requestType]="caseObject?.type === 'ChangeRequest' ? 'instance': undefined"
+                              [byPassCaseActionCheck]="true"
+                              [isNullable]="true">
+      </mc-select-single-input>
+    </div>
+  </div>
+</mc-expansion-panel>

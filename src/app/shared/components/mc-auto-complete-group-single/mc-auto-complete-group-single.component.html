@@ -1,0 +1,16 @@
+<aal-auto-complete-single [control]="control" [style.width]="'100%'"
+                          [ID]="fieldConfiguration?.ID"
+                          [placeholder]="fieldConfiguration?.placeholder"
+                          [label]="fieldConfiguration?.label"
+                          [help]="fieldConfiguration?.help"
+                          [dataSource]="dataSource"
+                          [isBusy]="isBusy"
+                          [mode]="mode"
+                          [lockMode]="lockMode"
+                          [isHistoryEnabled]="true"
+                          [itemDisplayField]="'group_id'"
+                          [itemValueField]="'group_id'"
+                          [minCharacters]="3"
+                          (acceptChanges)="onAcceptChanges($event)"
+                          [alert]="serverError" [hideHelp]="hideHelp" [confirmToolBarNotApplicable]="hideConfirmationToolBar">
+</aal-auto-complete-single>

@@ -1,0 +1,60 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="center center">
+    <mat-icon fxFlex="1 1 auto">edit</mat-icon>
+    <span>Pre-install Impact Analysis</span>
+  </div>
+  <button mat-icon-button color="warn" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-progress-bar *ngIf="progressBar" class="primary-btn-theme" color="primary" mode="indeterminate">
+</mat-progress-bar>
+<mat-dialog-content>
+  <div class="assesment" fxLayout="column">
+    <div fxLayout="row" class="assessment-title-border" fxLayoutAlign="space-between center">
+      <h4 class="mat-title">Assessment Criteria</h4>
+      <span fxFlex="1 1 auto"></span>
+      <h4 class="mat-title">Resulting Pre-Install Impact: <span class="assesment-result" [innerHTML]="piiaResult">-</span></h4>
+    </div>
+    <!-- Assessment Criteria List -->
+    <div fxLayout="column" fxLayoutGap="1rem" class="wizard-assessment-list-view-custom aal--padding-all-r-5">
+      <div *ngFor="let questionKey of questionsKeyList; let itemIdx=index;" fxLayout="row">
+        <div fxLayout="row"  fxFlex="100%">
+          <mc-help [message]="piiaFormConfiguration[questionKey]?.help?.message"></mc-help>
+          <div fxLayout="column" fxLayoutGap="0.5rem"  fxFlex="100%">
+            <label class="full-opacity aal--margin-top-r-5" [innerHTML]="piiaFormConfiguration[questionKey]?.label"></label>
+            <mc-button-toggle-input  [control]="piiaFormGroup?.get(questionKey)"
+                                     [controlConfiguration]="piiaFormConfiguration[questionKey]"
+                                     [descriptionControlConfiguration]="piiaFormConfiguration[questionKey + '_details']"
+                                     [descriptionControl]="piiaFormGroup?.get(questionKey + '_details')"
+                                     [fieldSaveNotApplicable]="true"
+                                     [bubbleAcceptChanges]="true"
+                                     (bubbledAcceptChanges)="onAssessmentChanges($event)"
+                                     [label]="'Assessment Criterion Answer'"
+                                     [hideHelp]="true"
+                                     [fontSize]="fontSize"
+                                     [mode] = "'READ'"  class="no-help-text">
+            </mc-button-toggle-input>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutGap="1rem">
+  <span></span>
+  <span fxFlex="1 1 auto"></span>
+  <mc-button-outlined [text]="'Cancel'" (buttonClick)="close()"
+                      [isGenericButton]="true" [noCheckOnCaseAction]="true"></mc-button-outlined>
+  <mc-button-contained [text]="'Save'" [isGenericButton]="true" [noCheckOnCaseAction]="true"
+                       (buttonClick)="onSave()">
+  </mc-button-contained>
+</mat-dialog-actions>
+
+
+
+
+
+
+
+

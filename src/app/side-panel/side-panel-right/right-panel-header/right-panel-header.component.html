@@ -1,0 +1,29 @@
+<mat-toolbar class="right-panel-header">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="mat-title aal--margin-all-r0"> {{headerText}}&nbsp;({{itemsCount}})</div>
+    <div fxLayout="row" fxLayoutGap="1rem">
+    <mc-button-icon *ngIf="(headerText.toLowerCase().indexOf('action') > -1)"
+                      (buttonClick)="openActions()"
+                      [color]="'accent'"
+                      [icon]="'open_in_new'"
+                      [isGenericButton]="true"
+                      [noCheckOnCaseAction]="true"
+                      [tooltip]="'Show Actions In New Window'">
+      </mc-button-icon>
+      <mc-button-icon (buttonClick)="closePanel()"
+                      [color]="'accent'"
+                      [icon]="'close'"
+                      [isGenericButton]="true"
+                      [noCheckOnCaseAction]="true"
+                      [tooltip]="'close side panel'">
+      </mc-button-icon>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-divider></mat-divider>
+<div [style.height]="'5px'" [hidden]="!progressBar">
+  <mat-progress-bar color="primary" class="primary-btn-theme" mode="indeterminate">
+  </mat-progress-bar>
+</div>
+
+

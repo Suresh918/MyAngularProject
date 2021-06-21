@@ -1,0 +1,283 @@
+<div class="full-height" fxLayout="row">
+  <div class="page-body" fxFlex="1 1 auto" fxLayout="column" #scrollingWrapper infiniteScroll
+       [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+       (scrolled)="onScrollDown()" [scrollWindow]="false">
+    <div fxFlex="1 1 auto" fxLayout="column" class="infinite-scroll-for-tab">
+      <mc-title-bar (caseAction)="performCaseAction($event)" [formConfiguration]="changeRequestConfiguration"
+                    [formGroup]="changeRequestFormGroup" [service]="'ChangeRequest'" [currentPriorityStatus]="priorityStatus"
+                    [currentStatusLabel]="currentStatusLabel">
+        <div fxLayout="row" fxLayoutGap="1rem" title-bar-actions>
+          <mc-my-team-quick-card [caseObjectType]="'ChangeRequest'"
+                                 [caseObjectID]="changeRequestFormGroup.get('id').value"
+                                 [formGroup]="changeRequestFormGroup" (myTeamUsersList)="onMyTeamListChange($event)">
+          </mc-my-team-quick-card>
+          <mat-divider [vertical]="true"></mat-divider>
+          <mc-button-ims *ngIf="changeRequestFormGroup?.get('status')?.value !== 'DRAFT'"
+                         [changeRequestID]="changeRequestFormGroup.get('id')?.value"></mc-button-ims>
+          <mc-button-contained [text]="'DIA'" [disabled]="true"
+                                [noCheckOnCaseAction]="true"
+                                [tooltip]="'Disable due to Creator Change'"
+                                [buttonId]="'dia_button'"
+                                [color]="'accent'">
+          </mc-button-contained>
+
+          <mat-divider *ngIf="changeRequestFormGroup?.get('status')?.value !== 'DRAFT'"
+                       [vertical]="true"></mat-divider>
+          <mc-linked-items-panel [caseObjectId]="changeRequestFormGroup?.get('id')?.value"
+                                 [caseObject]="'ChangeRequest'" [objectAsSnakeCase]="true"></mc-linked-items-panel>
+          <mc-history-quick-card *ngIf="caseActions?.indexOf('READ')!==-1"
+                                 [caseObjectId]="changeRequestFormGroup?.get('id')?.value"
+                                 [caseObjectType]="'ChangeRequest'"></mc-history-quick-card>
+          <mat-divider [vertical]="true"></mat-divider>
+          <mc-case-object-options [caseObjectID]="changeRequestDetails?.id"
+                                  [caseObjectType]="'ChangeRequest'"
+                                  [caseObjectRevision]="'AA'" [isMicroService]="true"
+                                  [caseObjectStatus]="changeRequestFormGroup?.get('status')?.value"></mc-case-object-options>
+        </div>
+      </mc-title-bar>
+      <form (keydown.enter)="handleEnterKeyPress($event)" novalidate>
+        <mat-tab-group #crTabGroup (animationDone)="onTabBodyLoad()"
+                       (selectedTabChange)="onSelectTab($event)" [(selectedIndex)]="changeRequestFormSelectedTab"
+                       class="tab_label--background justify-center-tab">
+          <mat-tab label="Request">
+            <ng-template mat-tab-label>
+              <div fxLayout="column" fxLayoutAlign="center center" id="cr_details_tab_requesting">
+                <div fxLayout="row" fxLayoutGap="0.5rem">
+                  <mat-icon
+                    *ngIf="!(busyTabs?.includes(0) || errorTabs?.includes(0))">{{ check | statusChecker : initialSelectedTabIndex : 0}}</mat-icon>
+                  <mat-spinner *ngIf="busyTabs?.includes(0)" [diameter]="20"></mat-spinner>
+                  <mat-icon *ngIf="errorTabs?.includes(0)" [matTooltip]="this.getErrorMessageOnTab(0)"
+                            [ngClass]="errorLevel === infoLevels.ERROR ? 'error' : 'warn'">warning
+                  </mat-icon>
+                </div>
+                <span>Requesting </span>
+              </div>
+            </ng-template>
+            <div class="aal&#45;&#45;margin-all-r1">
+              <mc-toolbar (onChangeFont)="fontSizeChanged($event)" (onLayoutChange)="onLayoutChange($event)"
+                          [changeRequestData]="changeRequestData"
+                          [fontSize]="fontSize"
+                          [viewState]="viewState"></mc-toolbar>
+              <mc-creator-change-request-requesting [caseActions]="caseActions" [AIRItems]="AIRItems"
+                                                    [PBSItem]="PBSItem" [wiCommentsData]="wiCommentsData"
+                                                    [changeRequestConfiguration]="changeRequestConfiguration"
+                                                    [changeRequestFormGroup]="changeRequestFormGroup" (setPriorityStatus)="priorityStatus = $event"
+                                                    [isExpanded]="isExpanded" [openInMode]="openInMode"
+                                                    [submitted]="submitted" [problemItemsData]="problemItemsData"
+                                                    [selectedProblemItem]="selectedProblemItem"
+                                                    [updateProjectPLFields]="updateProjectPLFields"
+                                                    (updateChangeRequestView)="updateCRView($event)"
+                                                    (getCrDetails)="getCrDetails(changeRequestFormGroup?.get('id')?.value)">
+              </mc-creator-change-request-requesting>
+            </div>
+          </mat-tab>
+          <mat-tab
+            *ngIf="changeRequestFormGroup?.get('status')?.value !== 1 && changeRequestFormGroup?.get('status')?.value !== 8"
+            label="Solution Definition">
+            <ng-template mat-tab-label>
+              <div fxLayout="column" fxLayoutAlign="center center" id="cr_details_tab_solution_defined">
+                <div fxLayout="row" fxLayoutGap="0.5rem">
+                  <mat-icon
+                    *ngIf="!(busyTabs?.includes(1) || errorTabs?.includes(1))">{{ check | statusChecker : initialSelectedTabIndex : 1}}</mat-icon>
+                  <mat-spinner *ngIf="busyTabs?.includes(1)" [diameter]="20"></mat-spinner>
+                  <mat-icon *ngIf="errorTabs?.includes(1)" [matTooltip]="this.getErrorMessageOnTab(1)"
+                            [ngClass]="errorLevel === infoLevels.ERROR ? 'error' : 'warn'">warning
+                  </mat-icon>
+                </div>
+                <span>Defining Solution</span>
+              </div>
+            </ng-template>
+            <div class="aal--margin-all-r1">
+              <mc-toolbar (onChangeFont)="fontSizeChanged($event)" (onLayoutChange)="onLayoutChange($event)"
+                          [changeRequestData]="changeRequestData"
+                          [caseObjectFormGroup]="changeRequestFormGroup"
+                          [caseObjectConfiguration]="changeRequestConfiguration"
+                          [showSwitchOwner]="true"
+                          [fontSize]="fontSize"
+                          [viewState]="viewState"></mc-toolbar>
+              <mc-creator-change-request-define-solution (crLinkUnlinkEvent)="crLinkUnlinkEvent($event)"
+                                                         (scopeDataUpdated)="updateFormWithScopeData($event)"
+                                                         (updateChangeOwnerField)="updateChangeOwnerField($event)"
+                                                         (reloadSolutionItems)="getLinkedSolutionItems(changeRequestFormGroup?.get('id')?.value)"
+                                                         (reloadProblemItems)="getLinkedProblemItems(changeRequestFormGroup?.get('id')?.value)"
+                                                         [caseActions]="caseActions"
+                                                         [caseObject]="caseObject" (problemItemsUpdated)="problemItemsData = $event"
+                                                         [solutionItemsCaseActionsList]="solutionItemsCaseActionsList"
+                                                         [changeObjectCaseActionsForCR]="changeObjectCaseActionsForCR"
+                                                         [changeRequestConfiguration]="changeRequestConfiguration"
+                                                         [changeRequestData]="changeRequestData"
+                                                         [changeRequestFormGroup]="changeRequestFormGroup"
+                                                         [changeRequestDocumentsFormGroup]="changeRequestDocumentsFormGroup"
+                                                         [solutionItemsCaseActionsList]="solutionItemsCaseActionsList"
+                                                         [showDefineScopeAlert]="showDefineScopeAlert"
+                                                         [linkedSolutionItems]="linkedSolutionItems"
+                                                         [isExpanded]="isExpanded" [pictureUrl]="pictureUrl">
+              </mc-creator-change-request-define-solution>
+            </div>
+          </mat-tab>
+          <mat-tab
+            *ngIf="changeRequestFormGroup?.get('status')?.value !== 1 && changeRequestFormGroup?.get('status')?.value !== 8"
+            label="Impact Analysis">
+            <ng-template mat-tab-label>
+              <div fxLayout="column" fxLayoutAlign="center center" id="cr_details_tab_analyzing_impact">
+                <div fxLayout="row" fxLayoutGap="0.5rem">
+                  <mat-icon
+                    *ngIf="!(busyTabs?.includes(2) || errorTabs?.includes(2))">{{ check | statusChecker : initialSelectedTabIndex : 2}}</mat-icon>
+                  <mat-spinner *ngIf="busyTabs?.includes(2)" [diameter]="20"></mat-spinner>
+                  <mat-icon *ngIf="errorTabs?.includes(2)" [matTooltip]="this.getErrorMessageOnTab(2)"
+                            [ngClass]="errorLevel === infoLevels.ERROR ? 'error' : 'warn'">warning
+                  </mat-icon>
+                </div>
+                <span>Analyzing Impact</span>
+              </div>
+            </ng-template>
+            <div class="aal--margin-all-r1">
+              <mc-toolbar (onChangeFont)="fontSizeChanged($event)" (onLayoutChange)="onLayoutChange($event)"
+                          [changeRequestData]="changeRequestData"
+                          [caseObjectFormGroup]="changeRequestFormGroup"
+                          [caseObjectConfiguration]="changeRequestConfiguration"
+                          [showSwitchOwner]="true"
+                          [fontSize]="fontSize"
+                          [viewState]="viewState"></mc-toolbar>
+              <mc-creator-change-request-analyze-impact [caseActions]="caseActions"
+                                                        [changeRequestConfiguration]="changeRequestConfiguration"
+                                                        [changeRequestFormGroup]="changeRequestFormGroup"
+                                                        [isExpanded]="isExpanded"
+                                                        [caseObject]="caseObject"
+                                                        [mandatoryFields]="mandatoryFields"
+                                                        [readOnlyFields]="readOnlyFields"
+                                                        [selectedIndex]="changeRequestFormSelectedTab"
+                                                        (implementationRangesUpdated)="changeRequestDataChanged($event)"
+                                                        (changeRequestDataChanged)="changeRequestDataChanged($event)"
+                                                        [showPartsQuestion]="showPartsQuestion"
+                                                        [showOtherPartsQuestions]="showOtherPartsQuestions"
+                                                        [showCustomerImpactAlert]="showCustomerImpactAlert">
+              </mc-creator-change-request-analyze-impact>
+            </div>
+          </mat-tab>
+          <mat-tab
+            *ngIf="changeRequestFormGroup?.get('status')?.value !== 1 && changeRequestFormGroup?.get('status')?.value !== 8"
+            label="Decision">
+            <ng-template mat-tab-label>
+              <div fxLayout="column" fxLayoutAlign="center center" id="cr_details_tab_deciding">
+                <div fxLayout="row" fxLayoutGap="0.5rem">
+                  <mat-icon
+                    *ngIf="!(busyTabs?.includes(3) || errorTabs?.includes(3))">{{ check | statusChecker : initialSelectedTabIndex : 3}}</mat-icon>
+                  <mat-spinner *ngIf="busyTabs?.includes(3)" [diameter]="20"></mat-spinner>
+                  <mat-icon *ngIf="errorTabs?.includes(3)" [matTooltip]="this.getErrorMessageOnTab(3)"
+                            [ngClass]="errorLevel === infoLevels.ERROR ? 'error' : 'warn'">warning
+                  </mat-icon>
+                </div>
+                <span>Deciding</span>
+              </div>
+            </ng-template>
+            <div class="aal--margin-all-r1">
+              <ng-template #fontChangeTemplate>
+                <mc-toolbar (onChangeFont)="fontSizeChanged($event)" (onLayoutChange)="onLayoutChange($event)"
+                            [changeRequestData]="changeRequestData"
+                            [caseObjectFormGroup]="changeRequestFormGroup"
+                            [caseObjectConfiguration]="changeRequestConfiguration"
+                            [showSwitchOwner]="false"
+                            [fontSize]="fontSize" fxFlex="auto"
+                            [viewState]="viewState"></mc-toolbar>
+              </ng-template>
+              <mc-creator-change-request-decide [addOfflineDecisionButtonStatus]="addOfflineDecisionButtonStatus"
+                                                [caseObject]="caseObject" (setPriorityStatus)="priorityStatus = $event"
+                                                [decisionsScrolled]="decisionsScrolled"
+                                                [id]="changeRequestFormGroup?.get('id')?.value"
+                                                [changeRequestConfiguration]="changeRequestConfiguration"
+                                                [changeRequestFormGroup]="changeRequestFormGroup"
+                                                [fontChangeTemplate]="fontChangeTemplate" [isExpanded]="isExpanded"
+                                                (getAddDecisionState)="getDecisionButtonsStatus()">
+              </mc-creator-change-request-decide>
+
+            </div>
+          </mat-tab>
+          <mat-tab
+            *ngIf="changeRequestFormGroup?.get('status')?.value !== 1 && changeRequestFormGroup?.get('status')?.value !== 8"
+            label="CR Closure">
+            <ng-template mat-tab-label>
+              <div fxLayout="column" fxLayoutAlign="center center" id="cr_details_tab_closing">
+                <div fxLayout="row" fxLayoutGap="0.5rem">
+                  <mat-icon
+                    *ngIf="!(busyTabs?.includes(4) || errorTabs?.includes(4))">{{ check | statusChecker : initialSelectedTabIndex : 4}}</mat-icon>
+                  <mat-spinner *ngIf="busyTabs?.includes(4)" [diameter]="20"></mat-spinner>
+                  <mat-icon *ngIf="errorTabs?.includes(4)" [matTooltip]="this.getErrorMessageOnTab(4)"
+                            [ngClass]="errorLevel === infoLevels.ERROR ? 'error' : 'warn'">warning
+                  </mat-icon>
+                </div>
+                <span>Closing</span>
+              </div>
+            </ng-template>
+            <div class="aal--margin-all-r1">
+              <ng-template #fontChangeTemplate>
+                <mc-toolbar (onChangeFont)="fontSizeChanged($event)" (onLayoutChange)="onLayoutChange($event)"
+                            [changeRequestData]="changeRequestData"
+                            [caseObjectFormGroup]="changeRequestFormGroup"
+                            [caseObjectConfiguration]="changeRequestConfiguration"
+                            [showSwitchOwner]="false"
+                            [fontSize]="fontSize" fxFlex="auto"
+                            [viewState]="viewState"></mc-toolbar>
+              </ng-template>
+              <mc-change-request-close (changeNoticeUnLinkEvent)=changeNoticeUnLinkEvent($event)
+                                       [changeRequestFormGroup]="changeRequestFormGroup"
+                                       [changeRequestConfiguration]="changeRequestConfiguration"
+                                       [isExpanded]="isExpanded"
+                                       [linkedChangeNotice]="linkedChangeNotice"
+                                       [fontChangeTemplate]="fontChangeTemplate"
+                                       [isLinkedCNLoading]="isLinkedCNLoading"
+                                       [caseObject]="caseObject"
+                                       [decisionStatuses]="decisionStatuses"
+                                       (getButtonState)="getDecisionButtonsStatus()"></mc-change-request-close>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+        <div *ngIf="showLoader" class="loader-overlay" fxLayout="column" fxLayoutAlign="center">
+          <div [style.margin]="'0 auto'" fxFlex="1 1 10%">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="page-footer" fxLayout="row" fxLayoutAlign="start center" id="footer">
+      <span fxFlex="1 1 auto"></span>
+      <mc-button-outlined *ngIf="isObsoleteAllowed" [ngStyle]="{'margin-right': '0.5rem'}" (buttonClick)="onChangeRequestFormSubmit('OBSOLETE')"
+                          [buttonAction]="'OBSOLETE'"
+                          [caseObject]="caseObject">
+      </mc-button-outlined>
+      <mc-button-outlined [ngStyle]="{'margin-right': '0.5rem'}" (buttonClick)="onChangeRequestFormSubmit('REJECT')"
+                          [buttonAction]="'REJECT'"
+                          [caseObject]="caseObject">
+      </mc-button-outlined>
+      <mc-button-contained (buttonClick)="onChangeRequestFormSubmit('APPROVE')"
+                           [buttonAction]="'APPROVE'"
+                           [caseObject]="caseObject">
+      </mc-button-contained>
+      <mc-button-contained (buttonClick)="onChangeRequestFormSubmit('SUBMIT')"
+                           [buttonAction]="'SUBMIT'"
+                           [caseObject]="caseObject">
+      </mc-button-contained>
+      <mc-button-contained (buttonClick)="onChangeRequestFormSubmit('DEFINE_SOLUTION')"
+                           [buttonAction]="'DEFINE_SOLUTION'"
+                           [caseObject]="caseObject">
+      </mc-button-contained>
+      <mc-button-contained (buttonClick)="onChangeRequestFormSubmit('ANALYZE_IMPACT')"
+                           [buttonAction]="'ANALYZE_IMPACT'"
+                           [caseObject]="caseObject">
+      </mc-button-contained>
+      <mc-button-contained (buttonClick)="goToCreateChangeNotice()"
+                           [buttonAction]="'CREATE_CHANGE_NOTICE'"
+                           [caseObject]="caseObject">
+      </mc-button-contained>
+      <mc-button-contained (buttonClick)="onChangeRequestFormSubmit('CLOSE')"
+                           [buttonAction]="'CLOSE'"
+                           [caseObject]="caseObject" *ngIf="changeRequestFormSelectedTab === 4">
+      </mc-button-contained>
+    </div>
+  </div>
+  <div fxLayout="column">
+    <mc-side-panel-right-menu [caseObjectType]="'ChangeRequest'"
+                              [caseObjectId]="changeRequestFormGroup?.get('id')?.value"
+                              fxFlex="100"></mc-side-panel-right-menu>
+  </div>
+</div>

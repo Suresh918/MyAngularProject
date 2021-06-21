@@ -1,0 +1,187 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
+  <div fxFlex="50%" fxFlex.xs="auto" fxLayout="column" fxLayoutGap="1rem">
+    <mc-expansion-panel [header]="'Risk, Release strategy and dependencies'" [isExpanded]="isExpanded" class="ims-expansion-panel-header-title">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <mc-text [label]="changeRequestConfiguration?.solution_definition?.test_and_release_strategy?.label"
+                 [help]="changeRequestConfiguration?.solution_definition?.test_and_release_strategy?.help"
+                 [value]="getLabelAndDescription('solution_definition.test_and_release_strategy', 'solution_definition.test_and_release_strategy_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_fmea?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_fmea?.help"
+                 [value]="getLabelAndDescription('impact_analysis.tech_risk_assessment_fmea', 'impact_analysis.tech_risk_assessment_fmea_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_sra?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_sra?.help"
+                 [value]="getLabelAndDescription('impact_analysis.tech_risk_assessment_sra', 'impact_analysis.tech_risk_assessment_sra_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.solution_definition?.functional_hardware_dependencies?.label"
+                 [help]="changeRequestConfiguration?.solution_definition?.functional_hardware_dependencies?.help"
+                 [value]="getLabelAndDescription('solution_definition.functional_hardware_dependencies', 'solution_definition.functional_hardware_dependencies_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.solution_definition?.functional_software_dependencies?.label"
+                 [help]="changeRequestConfiguration?.solution_definition?.functional_software_dependencies?.help"
+                 [value]="getLabelAndDescription('solution_definition.functional_software_dependencies','solution_definition.functional_software_dependencies_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.solution_definition?.hardware_software_dependencies_aligned?.label"
+                 [help]="changeRequestConfiguration?.solution_definition?.hardware_software_dependencies_aligned?.help"
+                 [value]="getLabelAndDescription('solution_definition.hardware_software_dependencies_aligned', 'solution_definition.hardware_software_dependencies_aligned_details')"
+                 [fontSize]="fontSize"></mc-text>
+      </div>
+    </mc-expansion-panel>
+    <mc-expansion-panel [header]="'Upgrade'" [isExpanded]="isUpgradeExpanded" class="ims-expansion-panel-header-title">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.liability_risks?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.liability_risks?.help"
+                 [value]="getLabel('impact_analysis.liability_risks')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.total_instances_affected?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.total_instances_affected?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.total_instances_affected')?.value"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text
+          *ngIf="changeRequestFormGroup?.get('impact_analysis.upgrade_packages')?.value"
+          [label]="changeRequestConfiguration?.impact_analysis?.upgrade_packages?.label"
+          [help]="changeRequestConfiguration?.impact_analysis?.upgrade_packages?.help"
+          [value]="changeRequestFormGroup?.get('impact_analysis.upgrade_packages')?.value" [fontSize]="fontSize"></mc-text>
+        <mc-text
+          *ngIf="changeRequestFormGroup?.get('impact_analysis.upgrade_time')?.value"
+          [label]="changeRequestConfiguration?.impact_analysis?.upgrade_time?.label"
+          [help]="changeRequestConfiguration?.impact_analysis?.upgrade_time?.help"
+          [value]="changeRequestFormGroup?.get('impact_analysis.upgrade_time')?.value | aalDuration"
+          [fontSize]="fontSize"></mc-text>
+        <mc-text
+          *ngIf="changeRequestFormGroup?.get('impact_analysis.recovery_time')?.value"
+          [label]="changeRequestConfiguration?.impact_analysis?.recovery_time?.label"
+          [help]="changeRequestConfiguration?.impact_analysis?.recovery_time?.help"
+          [value]="changeRequestFormGroup?.get('impact_analysis.recovery_time')?.value| aalDuration"
+          [fontSize]="fontSize"></mc-text>
+        <mc-text
+          *ngIf="changeRequestFormGroup?.get('impact_analysis.pre_post_conditions')?.value"
+          [label]="changeRequestConfiguration?.impact_analysis?.pre_post_conditions?.label"
+          [help]="changeRequestConfiguration?.impact_analysis?.pre_post_conditions?.help"
+          [value]="changeRequestFormGroup?.get('impact_analysis.pre_post_conditions')?.value"
+          [fontSize]="fontSize"></mc-text>
+      </div>
+    </mc-expansion-panel>
+    <mc-expansion-panel [header]="'Customer Uptime Payback Period'" [isExpanded]="isExpanded" class="ims-expansion-panel-header-title" *ngIf="!implementationRangesFCOSelected">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <mc-text
+          [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_improvement?.label"
+          [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_improvement?.help"
+          [value]="changeRequestFormGroup?.get('impact_analysis.customer_impact.uptime_improvement')?.value"
+          [fontSize]="fontSize"></mc-text>
+        <mc-text
+                 [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.fco_implementation?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.fco_implementation?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.customer_impact.fco_implementation')?.value"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text
+                 [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_payback?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_payback?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.customer_impact.uptime_payback')?.value"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text
+                 [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_improvement_availability?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_improvement_availability?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.customer_impact.uptime_improvement_availability')?.value"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text
+                 [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.fco_implementation_availability?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.fco_implementation_availability?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.customer_impact.fco_implementation_availability')?.value"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text
+                 [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_payback_availability?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_payback_availability?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.customer_impact.uptime_payback_availability')?.value | aalDuration"
+                 [fontSize]="fontSize"></mc-text>
+      </div>
+    </mc-expansion-panel>
+  </div>
+  <div fxFlex="50%" fxFlex.xs="auto" fxLayout="column" fxLayoutGap="1rem">
+    <mc-expansion-panel [header]="'Impact on Supply Chain / Factory / Field'" [isExpanded]="isExpanded"
+                            class="ims-expansion-panel-header-title">
+      <div expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.impact_on_cycle_time?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.impact_on_cycle_time?.help"
+                 [value]="getLabelAndDescription('impact_analysis.impact_on_cycle_time', 'impact_analysis.impact_on_cycle_time_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.impact_on_sequence?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.impact_on_sequence?.help"
+                 [value]="getLabelAndDescription('impact_analysis.impact_on_sequence', 'impact_analysis.impact_on_sequence_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.preinstall_impact?.preinstall_impact_result?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.preinstall_impact?.preinstall_impact_result?.help"
+                 [value]="getLabel('impact_analysis.preinstall_impact.preinstall_impact_result')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.impact_on_availability?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.impact_on_availability?.help"
+                 [value]="getLabelAndDescription('impact_analysis.impact_on_availability','impact_analysis.impact_on_availability_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.impact_on_system_level_performance?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.impact_on_system_level_performance?.help"
+                 [value]="getLabelAndDescription('impact_analysis.impact_on_system_level_performance', 'impact_analysis.impact_on_system_level_performance_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.multi_plant_impact?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.multi_plant_impact?.help"
+                 [value]="getLabel('impact_analysis.multi_plant_impact')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.cbp_strategies?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.cbp_strategies?.help"
+                 [value]="getLabelAndDescription('impact_analysis.cbp_strategies', 'impact_analysis.cbp_strategies_details')"
+                 [fontSize]="fontSize"></mc-text>
+
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.calendar_dependency?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.calendar_dependency?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.calendar_dependency')?.value"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.targeted_valid_configurations?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.targeted_valid_configurations?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.targeted_valid_configurations')?.value"
+                 [fontSize]="fontSize"></mc-text>
+
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.implementation_ranges?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.implementation_ranges?.help"
+                 [value]="getLabelAndDescription('impact_analysis.implementation_ranges', 'impact_analysis.implementation_ranges_details')" [fontSize]="fontSize"></mc-text>
+
+
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mc-help
+              [message]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_impact_result?.help"></mc-help>
+            <div aalChangeFontSize [fontSize]="fontSize"
+                 [ngClass]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_impact_result?.help ? 'aal--margin-bottom-r0' : 'no-help-label'"
+                 [isLabel]="true" class=" mat-caption" fxFlex="90">
+              Customer impact
+            </div>
+          </div>
+          <div aalChangeFontSize [fontSize]="fontSize" class="aal--margin-left-r2 aal--padding-left-r1" fxFlex="1 1 auto">
+            {{ getLabel('impact_analysis.customer_impact.customer_impact_result') }}
+          </div>
+        </div>
+
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_communication?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_communication?.help"
+                 [value]="getLabelAndDescription('impact_analysis.customer_impact.customer_communication', 'impact_analysis.customer_impact.customer_communication_details')"
+                 [fontSize]="fontSize"></mc-text>
+
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_approval?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.customer_impact?.customer_approval?.help"
+                 [value]="getLabelAndDescription('impact_analysis.customer_impact.customer_approval', 'impact_analysis.customer_impact.customer_approval_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.phase_out_spares_tools?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.phase_out_spares_tools?.help"
+                 [value]="getLabelAndDescription('impact_analysis.phase_out_spares_tools', 'impact_analysis.phase_out_spares_tools_details')"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.investigation_labor_hours?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.investigation_labor_hours?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.investigation_labor_hours')?.value | aalDuration"
+                 [fontSize]="fontSize"></mc-text>
+        <mc-text [label]="changeRequestConfiguration?.impact_analysis?.development_labor_hours?.label"
+                 [help]="changeRequestConfiguration?.impact_analysis?.development_labor_hours?.help"
+                 [value]="changeRequestFormGroup?.get('impact_analysis.development_labor_hours')?.value | aalDuration"
+                 [fontSize]="fontSize"></mc-text>
+      </div>
+    </mc-expansion-panel>
+  </div>
+</div>

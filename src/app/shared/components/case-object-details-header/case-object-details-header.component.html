@@ -1,0 +1,160 @@
+<div fxLayout="row" fxLayoutAlign="space-between" class="caseobject-details aal--padding-all-r1 aal--elevation-1"
+     fxFlex="100">
+  <div fxLayout="row" fxLayoutGap="1rem" fxFlex="0 0 40"
+       [ngClass]="caseObjectType !== null ? 'caseobject-description' : '' "
+       (click)="naviagateToDetails(caseObject)">
+    <mat-checkbox *ngIf="caseObjectFrom === 'myTeamManagement'" fxLayoutAlign="center center" [(ngModel)]="caseObject['checked']"
+                  (change)="onCaseObjectItemSelect($event, caseObject)"
+                  (click)="$event.stopPropagation()"></mat-checkbox>
+    <mc-card-summary fxFlex="100%" *ngIf="!caseObjectFrom || caseObjectFrom !== 'Prerequisites'"
+                     [mainDescription]=
+                       "caseObjectType !== 'ReleasePackage' ? (caseObject?.ID || caseObject?.id) : caseObject?.release_package_number + ' ' +
+                       (caseObject?.sibling_count ? ' (' + caseObject?.sibling_count + ')': '')"
+                     [mainDescriptionCaption]="caseObject?.project?.definition || caseObject?.status_label || caseObject?.statusLabel"
+                     [line1]="caseObjectType !== 'ReleasePackage' ? ((topic && caseObjectType === null ? topic + ' : ' : '') + caseObject?.title) :
+                                                                    (caseObject?.team_center_id ? caseObject?.ecn_number : '')"
+                     [line1Caption]="caseObjectType === 'ReleasePackage' ? (topic && caseObjectType === null ? topic + ' : ' : '') + caseObject?.title : ''"
+                     [separator]="'interpunct'" [iconImageTemplateRef]="imageDisplayRef">
+    </mc-card-summary>
+    <mc-card-summary fxFlex="100%" *ngIf="caseObjectFrom && caseObjectFrom === 'Prerequisites'"
+                     [mainDescription]= "caseObject?.release_package_number + ' ' +
+                       (caseObject?.sibling_rp_count ? ' (' + caseObject?.sibling_rp_count + ')': '')"
+                     [mainDescriptionCaption]="caseObject?.status_label"
+                     [line1]="caseObject?.team_center_id ? caseObject?.ecn_number : ''"
+                     [line1Caption]="caseObject?.title"
+                     [separator]="'interpunct'" [iconImageTemplateRef]="imageDisplayRef">
+    </mc-card-summary>
+    <ng-template #imageDisplayRef>
+      <mat-icon mat-list-icon class="case-object-icon" [matTooltip]="'Change Requests'" svgIcon="change-request"
+                *ngIf="caseObjectType === 'ChangeRequest'"></mat-icon>
+      <mat-icon mat-list-icon class="case-object-icon" svgIcon="change-notice"
+                *ngIf="caseObjectType === 'ChangeNotice'"></mat-icon>
+      <mat-icon mat-list-icon class="case-object-icon" svgIcon="release-package"
+                *ngIf="caseObjectType === 'ReleasePackage'"></mat-icon>
+    </ng-template>
+  </div>
+  <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="end center" fxFlex="0 0 60" *ngIf="caseObjectType != null">
+    <mat-divider *ngIf="caseObjectType === 'ChangeRequest' || caseObjectType === 'ChangeNotice' || (caseObjectType === 'ReleasePackage' && !(isFullMenuVisible && isRightSidePanelOpened))" [vertical]="true" [style.height]="'2rem'"></mat-divider>
+    <mc-card-summary [label]="caseObjectType === 'ChangeNotice' ? 'Priority of Implementation' :
+                              (caseObjectType === 'ChangeRequest' ? 'Priority for Analysis' :
+                              (caseObjectType === 'ReleasePackage' && !(isFullMenuVisible && isRightSidePanelOpened) ? 'PRD' : ''))"
+                     [mainDescription]="caseObjectType === 'ChangeNotice' ? caseObject?.priorityLabel || '-' :
+                     (caseObjectType === 'ChangeRequest' ? caseObject?.analysis_priority_label ||  '-':
+                     (caseObjectType === 'ReleasePackage' && !(isFullMenuVisible && isRightSidePanelOpened) ? (caseObject?.planned_release_date | aalDate) || '-' : ''))"
+    ></mc-card-summary>
+    <mat-divider *ngIf="caseObjectType === 'ReleasePackage' && !isFullMenuVisible && !isRightSidePanelOpened" [vertical]="true" [style.height]="'2rem'"></mat-divider>
+    <mc-card-summary *ngIf="caseObjectType === 'ReleasePackage' && !isFullMenuVisible && !isRightSidePanelOpened"
+                     [label]="'PED'"
+                     [mainDescription]="(caseObject?.planned_effective_date | aalDate) || '-'"
+    ></mc-card-summary>
+    <mat-divider [vertical]="true" [style.height]="'2rem'"></mat-divider>
+    <aal-button-overlay-card
+      [buttonType]="'text'" [progressBar]="progressBar"
+      [badgeType]="'double'" (overlayCardOpen)="getCaseObjectActions(caseObject)"
+      [categoryItemsCount]="caseObject?.completed_actions || caseObject?.totalCompletedActions"
+      [fractionCount]="caseObject?.total_actions || caseObject?.totalActions"
+      [referenceBadgeData]="caseObject?.total_actions || caseObject?.totalActions || 0"
+      [badgeData]="caseObject?.completed_actions || caseObject?.totalCompletedActions || 0"
+      [footerButtonText]="'Show All'" [footerButtonColor]="'accent'"
+      [defaultItemIcon]="'assignment'" [showFooterBar]="true"
+      [hasBadge]="true" [headerIcon]="'assignment'"
+      [headerTitle]="'Action'" [listItemDetails]="actionOverViewList"
+      [buttonLabel]="'Actions'"
+      [itemTemplateRef]="cardSummaryRef"
+      fxLayoutAlign="center center"
+      (overlayCardListItemClick)="navigateToActions($event)"
+      (submitClick)="showAllAction()"
+      [overlayCardLoaderTemplateRef]="overlayCardLoaderTemplateRef"
+      [emptyStateTemplateRef]="emptyStateRefForOverlayCard"
+    ></aal-button-overlay-card>
+    <ng-template #cardSummaryRef let-item>
+      <aal-card-summary [item]="item" [ID]="item?.ID" [mainDescriptionLink]="item?.ID"
+                        [mainDescription]="' &middot; '+ item?.title"
+                        (mainDescriptionClick)="navigateToActions(item?.ID)"
+                        [line1Caption]="(item?.statusLabel) +' &middot; '+ (item?.deadline | aalDate:'dueDate')"
+                        [line2Caption]="item?.assignee?.fullName +' &middot; '+ item?.assignee?.abbreviation"
+                        [iconImageTemplateRef]="imageDisplayRef" fxFlex="100%"></aal-card-summary>
+      <ng-template #imageDisplayRef>
+         <span fxLayout="column" fxLayoutAlign="center center">
+                  <span class="notification-badge background-orange"
+                        *ngIf="item?.expiry?.toUpperCase() === 'SOON'"></span>
+                  <span class="notification-badge background-red"
+                        *ngIf="item?.expiry?.toUpperCase() === 'LATE' || item?.expiry?.toUpperCase() === 'PAST'"></span>
+                  <span class="notification-badge background-green"
+                        *ngIf="item?.expiry?.toUpperCase() === 'OTHER'"></span>
+                  <span fxLayoutAlign="center center" class="case-object--border mat-icon-no-margin">
+                    <mat-icon class="color-black">assignment</mat-icon>
+                  </span>
+    </span>
+      </ng-template>
+    </ng-template>
+    <ng-template #emptyStateRefForOverlayCard>
+      <aal-empty-state [title]="'No Actions'"
+                       [subTitle]="'All Action items will appear here.'"
+                       [icon]="'assignment'"></aal-empty-state>
+    </ng-template>
+    <ng-template #overlayCardLoaderTemplateRef>
+      <mc-loader *ngIf="progressBar" [count]="3" [type]="'overlay'"></mc-loader>
+    </ng-template>
+    <mat-divider [vertical]="true" [style.height]="'2rem'"></mat-divider>
+    <mc-button-contained [text]="'Delta 2'" (buttonClick)="openDelta()" [caseObject]="caseObject"
+                         [noCheckOnCaseAction]="true" [color]="'accent'" [tooltip]="'Open Delta2 in new window'"
+                         *ngIf="caseObjectType === 'ReleasePackage' && caseObjectFrom !== 'myTeamManagement' && caseObject?.team_center_id">
+    </mc-button-contained>
+    <mc-dia *ngIf="caseObjectFrom !== 'myTeamManagement' && (caseObject?.change_owner_type === 'PROJECT' || caseObject?.changeOwnerType === 'PROJECT')" [caseObjectID]="caseObject?.changeNoticeID || caseObject?.ID || caseObject?.id"
+            [caseObjectType]="caseObjectType" [secondaryCaseObjectID]="caseObjectType === 'ReleasePackage' ? caseObject?.release_package_number && caseObject?.release_package_number?.split('-')[0] : ''"></mc-dia>
+    <mc-button-contained *ngIf="(caseObject?.change_owner_type === 'CREATOR' || caseObject?.changeOwnerType === 'CREATOR')"
+                         [text]="'DIA'" [disabled]="true"
+                         [noCheckOnCaseAction]="true" [tooltip]="'Disable due to Creator Change'"
+                         [buttonId]="'dia_button'" [color]="'accent'">
+    </mc-button-contained>
+    <mc-button-ims
+      *ngIf="!(caseObjectType === 'ReleasePackage' || caseObjectType === 'ChangeNotice') && caseObjectFrom !== 'myTeamManagement'"
+      [changeRequestID]="caseObject?.id"
+      [caseObject]="caseObject"></mc-button-ims>
+    <mc-button-contained [text]="'ECN'" (buttonClick)="openECN()" [caseObject]="caseObject"
+                         [noCheckOnCaseAction]="true" [color]="'accent'" [tooltip]="'Open ECN in new window'"
+                         *ngIf="caseObjectType === 'ReleasePackage' && caseObjectFrom !== 'myTeamManagement' && caseObject?.team_center_id"></mc-button-contained>
+    <mat-divider *ngIf="caseObjectFrom !== 'myTeamManagement'" [vertical]="true"></mat-divider>
+    <mc-my-team-quick-card [caseObjectType]="caseObjectType"
+                           [caseObjectID]="caseObjectType === 'ReleasePackage' ? caseObject?.release_package_number : (caseObject?.ID || caseObject['id'])"
+                           [badgeCount]="caseObject?.totalMyteamUsers || caseObject?.member_count"
+                           [isListView]="true">
+    </mc-my-team-quick-card>
+    <mc-linked-items-panel [caseObject]="caseObjectType" [caseObjectId]="caseObjectType === 'ReleasePackage' ? caseObject?.release_package_number : (caseObject?.id || caseObject?.ID)" [overlayYPosition]="'above'"
+                           [objectAsSnakeCase]="(caseObjectType === 'ChangeRequest' || caseObjectType === 'ReleasePackage')"
+                           [overlayXPosition]="'before'"></mc-linked-items-panel>
+    <mat-divider [vertical]="true" *ngIf="showItemDeleteButton"></mat-divider>
+    <mc-button-icon [icon]="'delete'" *ngIf="showItemDeleteButton && deleteButtonCaseAction"
+                    [buttonAction]="deleteButtonCaseAction"
+                    (buttonClick)="onDeleteItem()"></mc-button-icon>
+    <mc-button-icon [icon]="'delete'" *ngIf="showItemDeleteButton && !deleteButtonCaseAction" [isGenericButton]="true"
+                    [color]="'accent'" [noCheckOnCaseAction]="true"
+                    (buttonClick)="onDeleteItem()"></mc-button-icon>
+  </div>
+</div>
+<mat-menu #menu="matMenu" yPosition="below" xPosition="before" [overlapTrigger]="false">
+  <mat-nav-list>
+    <mat-list-item (click)="openDIABOM(revision)" *ngFor="let revision of diabom?.revisions">
+      <div fxFlex fxLayout="row" fxLayoutGap="1rem">
+        <div fxFlex="1 1 11%">{{revision?.revision}}</div>
+        <div fxLayout="row" fxFlex fxLayoutAlign="center">
+          <label class="overflow-ellipsis">last modified by &nbsp;</label>
+          <div class="overflow-ellipsis" [matTooltip]="revision?.lastModifiedBy?.fullName" matTooltipPosition="before">
+            {{revision?.lastModifiedBy?.fullName}}
+          </div>
+        </div>
+        <div fxLayout="row">
+          <label>on &nbsp;</label>
+          <div class="overflow-ellipsis" fxFlex [matTooltip]="revision?.lastModifiedOn | aalDate"
+               matTooltipPosition="before">{{revision?.lastModifiedOn | aalDate}}
+          </div>
+        </div>
+      </div>
+    </mat-list-item>
+    <mc-empty-state [title]="'No DIA Items'"
+                    [subTitle]="'No DIA items present yet.'" [icon]="'event'"
+                    *ngIf="!(diabom?.revisions)">
+    </mc-empty-state>
+  </mat-nav-list>
+</mat-menu>

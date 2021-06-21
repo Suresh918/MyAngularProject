@@ -1,0 +1,86 @@
+<div [ngClass]="[selectedCardIndex === index ? 'case-object-status--card-active': '', expandStatePanel ? 'expanded' : 'collapsed']" class="case-object-status--card icon--pointer aal--padding-all-r-5" fxLayout="column"
+     fxLayoutGap="0.5rem" [id]="'case_object_status_card_' + caseObjectStatusLabel">
+
+  <div *ngIf="showActionsCount || (!showActionsCount && expandStatePanel)" matTooltip = "{{!toolTip ? 'Show ' + (caseObjectStatusLabel) + ' only': ''}}">
+  <span class="mat-subheading-2 aal--margin-bottom-r0"
+        fxLayoutAlign="start center">{{caseObjectStatusLabel}}</span>
+    <span class="mat-display-4 aal--margin-bottom-r0 font-weight-100 panel-count aal--padding-right-r-5"
+          fxLayoutAlign="end center">{{caseObjectDetails?.caseObjectsCount}}</span>
+  </div>
+
+  <div *ngIf="!showActionsCount && !expandStatePanel" fxLayout="column" fxLayoutAlign="space-between">
+    <span class="mat-subheading-2 aal--margin-bottom-r0"
+          fxLayoutAlign="start center">{{caseObjectStatusLabel }}</span>
+    <span class="mat-display-4 aal--margin-bottom-r0 font-weight-100 panel-count aal--padding-right-r-5"
+          fxLayoutAlign="end center">{{caseObjectDetails?.caseObjectsCount}}</span>
+  </div>
+  <mat-divider *ngIf="expandStatePanel && showActionsCount"></mat-divider>
+
+  <div *ngIf="caseObjectDetails?.plannedEffectiveDateDueSoonCount == undefined && expandStatePanel && showActionsCount" fxLayout="row"
+       fxLayoutGap="1rem">
+    <span class="panel-attribute" fxLayout="column" matTooltip = "Open+Accepted: {{caseObjectDetails?.openActionsCount}}">
+      <span class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.openActionsCount}}</span>
+      <span class="mat-caption">Actions</span>
+    </span>
+    <span *ngIf="caseObjectDetails?.caseObjectState !== 'CLOSE'" class="panel-attribute" fxLayout="column" matTooltip ="Actions Due In 7 Days">
+      <span class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.dueSoonActionsCount}}</span>
+      <span class="mat-caption">Soon</span>
+    </span>
+    <span *ngIf="caseObjectDetails?.caseObjectState !== 'CLOSE'" class="panel-attribute" fxLayout="column" matTooltip = "Overdue Actions">
+      <span class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.overdueActionsCount}}</span>
+      <span class="mat-caption">Late</span>
+    </span>
+  </div>
+
+  <div *ngIf="caseObjectDetails?.plannedEffectiveDateDueSoonCount !== undefined && expandStatePanel" fxLayout="row"
+       fxLayoutGap="1rem">
+    <span class="panel-attribute" fxLayout="column" matTooltip = "Open+Accepted: {{caseObjectDetails?.openActionsCount}}">
+      <span class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.openActionsCount}}</span>
+      <span class="mat-caption">Actions</span>
+    </span>
+    <span *ngIf="caseObjectDetails?.caseObjectStatus !== 'CLOSED'" class="panel-attribute">
+      <span *ngIf="caseObjectDetails?.plannedReleaseDateDueSoonCount !== null
+      && caseObjectDetails?.caseObjectStatus != 'RELEASED'" fxLayout="column" matTooltip = "PRD due in {{(caseObjectDetails?.plannedReleaseDateDueSoonCount !== null
+      && caseObjectDetails?.caseObjectStatus != 'READY-FOR-RELEASE') ? '7' : '2'}} days">
+        <span class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.plannedReleaseDateDueSoonCount}}</span>
+        <span class="mat-caption">PRD Soon</span>
+      </span>
+      <span *ngIf="caseObjectDetails?.plannedEffectiveDateDueSoonCount !== null
+      && caseObjectDetails?.caseObjectStatus == 'RELEASED'" fxLayout="column" matTooltip = "PED due in {{(caseObjectDetails?.plannedEffectiveDateDueSoonCount !== null
+      && caseObjectDetails?.caseObjectStatus == 'RELEASED') ? '2' : '4'}} days">
+        <span
+          class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.plannedEffectiveDateDueSoonCount}}</span>
+        <span class="mat-caption">PED Soon</span>
+      </span>
+      <span *ngIf="!(caseObjectDetails?.plannedReleaseDateDueSoonCount !== null)" fxLayout="column">
+        <span class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.plannedReleaseDateDueSoonCount}}</span>
+        <span class="mat-caption">Soon</span>
+      </span>
+    </span>
+    <span *ngIf="caseObjectDetails?.caseObjectStatus !== 'CLOSED'" class="panel-attribute">
+      <span *ngIf="caseObjectDetails?.plannedReleaseDateOverdueCount !== null
+      && caseObjectDetails?.caseObjectStatus == 'READY-FOR-RELEASE'" fxLayout="column" matTooltip = "PRD past due">
+        <span class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.plannedReleaseDateOverdueCount}}</span>
+        <span class="mat-caption">PRD Late</span>
+      </span>
+      <span *ngIf="caseObjectDetails?.plannedEffectiveDateOverdueCount !== null
+      && caseObjectDetails?.caseObjectStatus == 'RELEASED'" fxLayout="column" matTooltip = "PED past due">
+        <span
+          class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.plannedEffectiveDateOverdueCount}}</span>
+        <span class="mat-caption">PED Late</span>
+      </span>
+      <span *ngIf="caseObjectDetails?.plannedEffectiveDateDueSoonCount !== null
+      && caseObjectDetails?.caseObjectStatus !== 'RELEASED'
+      && caseObjectDetails?.caseObjectStatus !== 'READY-FOR-RELEASE'" fxLayout="column" matTooltip = "PED due in 2 days">
+        <span
+          class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.plannedEffectiveDateDueSoonCount}}</span>
+        <span class="mat-caption">PED Soon</span>
+      </span>
+      <span *ngIf="caseObjectDetails?.plannedEffectiveDateDueSoonCount == null" fxLayout="column">
+        <span
+          class="aal--subheading-1 aal--margin-bottom-r0">{{caseObjectDetails?.plannedEffectiveDateDueSoonCount}}</span>
+        <span class="mat-caption">Soon</span>
+      </span>
+    </span>
+  </div>
+</div>

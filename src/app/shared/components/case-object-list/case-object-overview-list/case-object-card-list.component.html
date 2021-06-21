@@ -1,0 +1,13 @@
+<div fxLayout="column" fxLayoutGap="0.5rem" class="caseobject-list--container">
+  <div *ngFor="let caseObject of caseObjectList">
+    <mc-case-object-details-card fxFill [caseObjectType]="caseObjectType" [caseObjectLabel]="caseObjectLabel"
+                                 [caseObjectRouterPath]="caseObjectRouterPath" [caseObject]="caseObject"
+                                 [showItemDeleteButton]="showItemDeleteButton"
+                                 [deleteButtonCaseAction]="deleteButtonCaseAction" (deleteItem)="onDeleteItem($event)"
+                                 (selectedItem)="onSelectedItem($event)"
+                                 [referenceComponent]="referenceComponent">
+    </mc-case-object-details-card>
+  </div>
+  <mc-loader *ngIf="progressBar || isBusy" [count]="(caseObjectList && caseObjectList?.length > 0) ? 3 : 8"
+             [type]="'case-object-list'"></mc-loader>
+</div>

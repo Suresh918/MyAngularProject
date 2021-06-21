@@ -1,0 +1,70 @@
+@import '../../../themes/material/theming';
+
+.mat-nav-list {
+  padding: 1rem !important;
+  a {
+    color: rgba(0, 0, 0, 0.87) !important;
+  }
+  &.settings-list {
+    margin-left: 1rem;
+    padding: 0 !important;
+  }
+  .mat-list-item {
+    height: 2.5rem !important; //Applying fxFlex to mat-list item does not alter the height of the inner DIV
+    // background-color: $background-unselect;
+    &.is-active {
+      background-color: $aal--mat-priority-4 !important;
+      border-radius: 0.25rem;
+    }
+    &:hover {
+      background-color: $aal--mat-hover;
+    }
+    /*&:focus {
+      background-color: $background-focus;
+    }*/
+    &.main-menu-create {
+      border-radius: 25px;
+      background-color: whitesmoke !important;
+      color: #1c7ddb !important;
+      border: solid #1c7ddb 2px !important;
+      height: 3rem !important;
+      margin-bottom: 1rem !important;
+      width: max-content;
+      &.open {
+        -webkit-transition: width 0.2s, height 0.2s, margin 0.2s, -webkit-transform 0.2s;
+        transition: width 0.2s, height 0.2s, margin 0.2s, transform 0.2s;
+      }
+      &.close {
+        height: 2.5rem !important;
+        width: 2.5rem !important;
+        margin: 0.25rem 0 1.25rem 0 !important;
+        -webkit-transition: width 0.2s, height 0.2s, margin 0.2s, -webkit-transform 0.2s;
+        transition: width 0.2s, height 0.2s, margin 0.2s, transform 0.2s;
+      }
+      p {
+        font-weight: bold;
+      }
+    }
+    ::ng-deep .mat-list-item-content {
+      padding-left: 0;
+      padding-right: 0;
+      .mat-icon {
+        padding-left: 0.5rem;
+
+      }
+      .mat-list-text {
+        padding-left: 1rem;
+        p {
+          line-height: normal;
+          padding-right: 2rem;
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .mat-drawer-inner-container {
+  overflow-x: hidden;
+  overflow-y: overlay;
+}

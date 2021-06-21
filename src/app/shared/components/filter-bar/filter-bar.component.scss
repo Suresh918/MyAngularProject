@@ -1,0 +1,39 @@
+@import '../../../../themes/material/theming';
+
+.filter--title-bar {
+  min-height: 64px;
+  background: $aal--mat-surface-variant;
+  &.background-white {
+    background: $aal--mat-surface;
+  }
+  .filter-bar--title-icon {
+    height: 36px;
+    width: 36px;
+    font-size: 36px !important;
+  }
+}
+.filter-panel{
+  position: relative;
+}
+.opaque-icon {
+  opacity: 0.5;
+}
+.filter-chip ::ng-deep .mat-chip {
+  background: $aal--mat-priority-4 !important;
+}
+.border-top {
+  border-radius: 8px 8px 0 0;
+}
+.background-FAFAFA {
+  background: #FAFAFA;
+}
+.mat-title {
+  margin: 0!important;
+}
+.header-icon {
+  line-height: 40px !important;
+}
+.color-blue {
+  color: #1c7ddb;
+}
+

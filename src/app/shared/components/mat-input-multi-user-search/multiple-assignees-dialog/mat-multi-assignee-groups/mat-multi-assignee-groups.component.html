@@ -1,0 +1,18 @@
+<mat-form-field floatPlaceholder="always" fxFill>
+  <input matInput #userInput [placeholder]="controlConfiguration?.placeholder" [matAutocomplete]="auto" [formControl]="control" aalDisableControl
+    [disableControl]="disabled" />
+  <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="showClearIcon" (click)="emptyStateCtrl()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-icon class="tooltip" matSuffix *ngIf="controlConfiguration?.help" [matTooltip]="controlConfiguration?.help" matTooltipPosition="before">
+    help
+  </mat-icon>
+  <mat-error>{{ controlConfiguration?.placeholder }} is required</mat-error>
+  <mat-progress-bar color="primary" class="primary-btn-theme progress-bar__input" mode="indeterminate" color="primary" *ngIf="progressBar">
+  </mat-progress-bar>
+</mat-form-field>
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="emitUsersList($event)">
+  <mat-option *ngFor="let option of list$|async" [value]="option.name">
+    {{ option.name }}
+  </mat-option>
+</mat-autocomplete>

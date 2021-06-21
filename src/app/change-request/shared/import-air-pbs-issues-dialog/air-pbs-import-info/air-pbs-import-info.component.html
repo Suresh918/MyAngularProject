@@ -1,0 +1,42 @@
+<div fxLayoutAlign="center center" fxLayout="row">
+  <div class="consent-form" fxLayout="column" fxLayoutGap="2rem">
+    <div fxLayout="row" fxLayoutGap="1.5rem">
+      <mat-icon [matTooltip]="'Change Request'" mat-list-icon svgIcon="change-request"></mat-icon>
+      <div fxLayout="column" fxLayoutGap="0.5rem">
+              <span class="mat-title"> {{formConfiguration?.cr?.warning?.label}}
+              </span>
+        <span [innerHTML]="formConfiguration?.cr?.warning?.hint"></span>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="1.5rem" *ngIf="triggeredFrom!== 'pbs'">
+      <mat-icon class="menu-item--mat-icon  list-icon" [svgIcon]="'air'"></mat-icon>
+      <div fxLayout="column" fxLayoutGap="0.5rem">
+              <span class="mat-title"> {{formConfiguration?.air?.warning?.label}}
+              </span>
+
+        <span [innerHTML]="formConfiguration?.air?.warning?.hint"></span>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutGap="1.5rem" *ngIf="triggeredFrom!== 'air'">
+      <mat-icon class="menu-item--mat-icon  list-icon" [svgIcon]="'pbs'"></mat-icon>
+      <div fxLayout="column" fxLayoutGap="0.5rem">
+              <span class="mat-title"> {{formConfiguration?.pbs?.warning?.label}}
+            </span>
+        <span [innerHTML]="formConfiguration?.pbs?.warning?.hint"></span>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="aal--margin-top-r1-5" fxLayoutGap="1rem">
+      <mc-button-outlined [text]="'Cancel'"
+                           [noCheckOnCaseAction]="true"
+                           [isGenericButton]="true"
+                           (buttonClick)="onClose()">
+      </mc-button-outlined>
+      <mc-button-contained [text]="'Yes, I understand'"
+                           [noCheckOnCaseAction]="true"
+                           [isGenericButton]="true"
+                           (buttonClick)="onProceed()"
+                           [color]="'accent'">
+      </mc-button-contained>
+    </div>
+  </div>
+</div>

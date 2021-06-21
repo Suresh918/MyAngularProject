@@ -1,0 +1,38 @@
+<button mat-icon-button [matMenuTriggerFor]="bookmarksMenu" class="header-toolbar--menu-icon" #trigger="matMenuTrigger"
+        [ngClass]="{'is-menuOpen': trigger.menuOpen}">
+  <mat-icon>bookmark</mat-icon>
+</button>
+<mat-menu #bookmarksMenu="matMenu" [overlapTrigger]="false" yPosition="below" xPosition="before"
+          class="header-toolbar--menu">
+  <div (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <mat-toolbar class="header-toolbar--menu-header">
+      <mat-toolbar-row fxLayoutGap="1rem">
+        <mat-icon>bookmark</mat-icon>
+        <span fxFlex>Bookmarks</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="header-toolbar--menu-content">
+      <div mat-menu-item class="header-toolbar--menu-item bookmarks-menu--item" fxLayoutAlign="start center"
+           fxLayoutGap="1.5rem"
+           (click)="$event.stopPropagation();"
+           *ngFor="let bookmark of bookmarks">
+        <mat-icon>dashboard</mat-icon>
+        <div fxLayout="column" fxFlex fxLayoutGap="0.4rem">
+          <span class="menu-item--title">{{bookmark.id}}</span>
+          <span class="menu-item--content">{{bookmark.content}}</span>
+        </div>
+        <mat-icon class="bookmarks-menu--item-delete-icon aal--margin-all-r0" (click)="delete()">delete</mat-icon>
+      </div>
+    </div>
+    <!-- Footer -->
+    <div class="aal--padding-all-r-5 aal--margin-right-r-5" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
+      <button mat-raised-button type="submit" color="primary"
+              (click)="showAllBookmarks($event)">
+        Show All
+      </button>
+    </div>
+  </div>
+</mat-menu>
+
+

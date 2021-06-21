@@ -1,0 +1,12 @@
+<button mat-button class="secondary-action-button" [matBadge]="items?.length" matBadgeColor="primary"
+        [disabled]="disableLink"
+        [matMenuTriggerFor]="itemsList" #trigger="matMenuTrigger" (menuOpened)="getItems()"> {{buttonText}}
+</button>
+
+
+<mat-menu #itemsList="matMenu" class="header-toolbar--menu">
+  <mc-creator-mat-items-list-card (onSelectItem)="itemSelected($event, type)" [buttonText]="buttonText"
+                           [listItems]="listItems" [showLoader]="showLoader"
+                           [title]="title"
+                           [type]="type"></mc-creator-mat-items-list-card>
+</mat-menu>

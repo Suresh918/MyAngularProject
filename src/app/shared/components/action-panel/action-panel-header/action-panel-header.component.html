@@ -1,0 +1,55 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" fxFlex class="aal--margin-left-r2">
+  <div *ngIf="!title">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="3rem" *ngIf="caseObjectType !== 'ReleasePackage'">
+    <span class="mat-caption label" [matTooltip]="priorityTooltip">
+      {{ caseObject?.priorityLabel}}
+    </span>
+      <span class="mat-caption label"
+            [matTooltip]="'Status of '+caseObjectType">{{ caseObject?.status_label || (caseObject?.status?.toLowerCase() | titlecase) }}</span>
+    </div>
+    <div *ngIf="caseObjectType === 'ReleasePackage'">
+      <div class="mat-caption label" fxLayout="row" fxLayoutAlign="start center">
+        <div [matTooltip]="'Planned Release Date'">PRD: {{(caseObject?.plannedReleaseDate || caseObject?.planned_release_date) | aalDate}}</div>
+        <div class="inter-punctuation">.</div>
+        <div [matTooltip]="'Planned Effective Date'">PED: {{(caseObject?.plannedEffectiveDate || caseObject?.planned_effective_date) | aalDate}}</div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="title">
+    <span class="mat-subheading-2">
+      {{ title}}
+    </span>
+  </div>
+  <div fxLayout="row" fxLayoutGap="3rem" class="aal--margin-right-r1">
+    <span fxLayout="row" fxLayoutGap="0.2rem" fxLayoutAlign="start center" class="mat-caption label" *ngIf="caseObjectType === 'ReleasePackage'
+            && (caseObject?.totalReviewEntries > 0
+            || caseObject?.totalActionsLinkedCN > 0)
+            && (caseObject?.completedReviewEntriesCount !== caseObject?.totalReviewEntries
+            || caseObject?.totalOpenActionsLinkedCN !== caseObject?.totalActionsLinkedCN)
+            && caseObjectFrom !== 'Prerequisites'">
+      <span class="notification-badge color-magneta aal--margin-bottom-r0"></span>
+      <span>Caution</span>
+    </span>
+    <span *ngIf="caseObjectType && caseObjectType !== 'ChangeRequest' && caseObjectType !== 'ReleasePackage'" fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
+      <span
+        class="mat-caption label">{{ caseObject?.totalOpenActions + caseObject?.totalDueSoonActions + caseObject?.totalOverdueActions }}
+        Actions</span>
+      <span fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center" class="mat-caption label"
+            [matTooltip]="'Actions due in 7 days'">
+        <span *ngIf="caseObject?.totalDueSoonActions > 0"
+              class="notification-badge background-color-orange aal--margin-bottom-r0"></span>
+        <span>{{ caseObject?.totalDueSoonActions || 0 }} Soon</span>
+      </span>
+      <span fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center" class="mat-caption label"
+          [matTooltip]="'Actions past due'">
+      <span *ngIf="caseObject?.totalOverdueActions"
+            class="notification-badge background-color-red aal--margin-bottom-r0"></span>
+      <span>{{ caseObject?.totalOverdueActions || 0}} Late</span>
+    </span>
+    </span>
+    <span *ngIf="caseObjectType && (caseObjectType === 'ChangeRequest' || caseObjectType === 'ReleasePackage')" fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="start center">
+      <span class="mat-caption label">{{ caseObject?.open_actions }} Open Actions</span>
+      <span class="mat-caption label">{{ caseObject?.total_actions }} Total Actions</span>
+    </span>
+  </div>
+</div>

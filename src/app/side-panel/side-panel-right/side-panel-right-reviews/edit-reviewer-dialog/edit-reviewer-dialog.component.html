@@ -1,0 +1,71 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+    <mat-icon class="opacity-54">edit</mat-icon>
+    <span>{{data?.title}}</span>
+  </div>
+  <mc-button-icon (buttonClick)="onCancel()"
+                  [color]="'primary'"
+                  [icon]="'close'"
+                  [isGenericButton]="true"
+                  [noCheckOnCaseAction]="true"
+                  [tooltip]="'close'">
+  </mc-button-icon>
+</div>
+
+<div class="loader-overlay" fxLayout="column" fxLayoutAlign="center" *ngIf="showLoader">
+  <div fxFlex="1 1 10%" [style.margin]="'0 auto'">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>
+
+<div fxLayout="column" class="background--off-white">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" class="aal--padding-top-r2">
+    <mat-icon class="icon--medium" fxFlexOffset="15">supervised_user_circle</mat-icon>
+    <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="0.25rem">
+      <span class="mat-title">Edit Reviewers Due Date Simultaneously</span>
+      <span class="mat-body">Select all Reviewers or any combination of Reviewers to edit the Reviewers Due Date all at once.</span>
+    </div>
+  </div>
+  <mat-divider class="aal--margin-right-left-r1 aal--margin-top-r1-5"></mat-divider>
+</div>
+<mat-dialog-content class="dialog-container">
+  <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="1rem" class="content-container">
+    <mc-date-picker [control]="reviewerFormGroup?.get('due_date')"
+                    [controlConfiguration]="reviewerFormConfiguration?.due_date"
+                    [fieldSaveNotApplicable]="true"
+                    [mode]="'EDIT'" [lockMode]="'EDIT'" class="aal--margin-bottom-r-5">
+    </mc-date-picker>
+    <mat-card class="aal--margin-top-r-5 aal--margin-left-r2-5 aal--elevation-1">
+      <mat-card-header class="mat-title aal--padding-left-r0 aal--margin-bottom-r-5">
+        <mat-checkbox [checked]="allReviewersChecked" (change)="toggleReviewers($event)" class="aal--padding-left-r1 aal--margin-bottom-r0"></mat-checkbox>
+        <span class="aal--margin-left-r1">Reviewers ({{selectedReviewersCount}})</span>
+      </mat-card-header>
+      <mat-divider class="aal--margin-left-r1-5 aal--margin-top-r-5" [style.width]="'90%'"></mat-divider>
+      <mat-card-content class="reviewer-card aal--margin-top-r1">
+        <ul class="aal--margin-top-bottom-r-5 aal--padding-left-r0">
+          <li *ngFor="let reviewer of reviewersCopy" class="aal--padding-top-bottom-r-5 aal--padding-left-r0" fxLayout="row">
+            <mat-checkbox class="aal--padding-left-r1" [checked]="reviewer.selected && reviewer.valid" (change)="toggleReviewer(reviewer, $event)" [disabled]="!reviewer.valid">
+              <div fxLayoutAlign="start center">
+                <mc-card-summary [mainDescription]="reviewer?.fullName + ' (' + reviewer?.abbreviation + ')'" [iconImageTemplateRef]="imageDisplayRef" [ngClass]="{'opacity-54': !reviewer.valid}"></mc-card-summary>
+                <ng-template #imageDisplayRef>
+                  <img aalLoadBlankPortrait class="aal--padding-right-r-25 image--circle-medium"
+                       *ngIf="reviewer?.userID"
+                       [src]="reviewer?.userID | userImage" alt="no picture"/>
+                </ng-template>
+              </div>
+            </mat-checkbox>
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayoutAlign="end center">
+  <mc-button-contained [noCheckOnCaseAction]="true"
+                       [isGenericButton]="true"
+                       [text]="'Save'"
+                       [tooltip]="'Save Changes and Return to Review Detail'"
+                       [disabled]="reviewerFormGroup?.invalid"
+                       (buttonClick)="saveBulkDueDate()"></mc-button-contained>
+</mat-dialog-actions>

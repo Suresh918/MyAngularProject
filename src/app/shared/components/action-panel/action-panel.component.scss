@@ -1,0 +1,23 @@
+
+@import '../../../../themes/material/theming';
+
+.case-object-action--panel {
+  background: $aal--mat-surface-variant;
+  box-shadow: none;
+
+  .mat-expansion-panel-header{
+    background: $aal--mat-surface-variant !important;
+    &.mat-expanded {
+      background: $aal--mat-surface-variant !important;
+      min-height: 46px !important;
+    }
+    &:hover, &:focus, &:active {
+      background: white !important;
+    }
+  }
+}
+
+.action--divider-top {
+  margin-top: 0.1rem;
+}
+

@@ -1,0 +1,32 @@
+@import '../../../../themes/material/theming';
+.change-owner-section{
+  background: $aal--mat-surface-variant ;
+  border-radius: 8px;
+  line-height: 30px;
+  &.owner {
+    background: $aal--mat-active ;
+    border-radius: 8px;
+    line-height: 30px;
+  }
+}
+.change-owner-section:hover{
+  background: $aal--mat-background-hover ;
+  opacity: 0.54;
+}
+.action-bar {
+  border-radius: 8px;
+}
+::ng-deep .change-owner-section {
+  min-height: 2rem;
+  .aal-edit-section {
+    padding-top: 0 !important;
+  }
+}
+  .edit-problem-item {
+    display: none !important;
+  }
+
+  .problem-item-list:hover .edit-problem-item {
+    display: flex !important;
+  }
+

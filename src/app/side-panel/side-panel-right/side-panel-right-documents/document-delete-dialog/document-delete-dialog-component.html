@@ -1,0 +1,16 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <span>Delete Document</span>
+  <button mat-icon-button color="primary" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content>
+  <p class="mat-body-1">{{ data.title }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions class="primary-btn-theme" fxLayout="row" fxLayoutGap=".5rem">
+  <span fxFlex="1 1 auto"></span>
+  <button class="secondary-action-button" mat-button color="primary" (click)="onNoClick()" mat-dialog-close>No, cancel</button>
+  <button mat-raised-button color="primary" (click)="onYes()">Yes, delete</button>
+</mat-dialog-actions>

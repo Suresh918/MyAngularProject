@@ -1,0 +1,19 @@
+@import '../../../../themes/material/theming';
+
+::ng-deep .marginTop {
+  margin-top: 16px;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+  border-color: $aal--mat-secondary;
+}
+
+::ng-deep .mat-checkbox-inner-container {
+  height: 20px!important;
+  width: 20px!important;
+}
+
+.add-button {
+  padding: 14px !important;
+  height: 4rem;
+}

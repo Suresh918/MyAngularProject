@@ -1,0 +1,25 @@
+<aal-expansion-panel-list [help]="controlConfiguration?.help" *ngIf="!hidePanel"
+                          [header]="expansionPanelItemConfigurationList && expansionPanelItemConfigurationList.length ? 'PBS Item ('+expansionPanelItemConfigurationList.length+')' : 'PBS Item (0)'"
+                          [isBusy]="isBusy"
+                          [expansionPanelItemConfigurationList]="expansionPanelItemConfigurationList"
+                          [showAddButton]="((importDataAction$ | async)) && !changeRequestFormGroup.disabled"
+                          (addItem)="onAddPBSItem('addPBS')"
+                          (actionSubmit)="onDeleteItem($event)"
+                          (itemClick)="onItemClick($event)"
+                          [emptyStateData]="emptyStatedata"
+                          [disableAddButton]=
+                            "itemsList.length > 0 ||
+                          (changeRequestFormGroup?.get('status')?.value ==='OBSOLETED' ||
+                          changeRequestFormGroup?.get('status')?.value ==='CLOSED' ||
+                          changeRequestFormGroup?.get('status')?.value ==='REJECTED')"
+                          [addButtonTooltip]= "itemsList.length > 0 ? 'Only One PBS Can Be Added To A CR' : 'Add'"
+                          [isExpanded]="isExpanded"
+                          [fontSize]="fontsize"
+                          [error]="panelError"
+                          [imageDisplayRef]="imageDisplayTemplate">
+</aal-expansion-panel-list>
+<ng-template #imageDisplayTemplate let-item>
+  <img *ngIf="item?.imageURL" class="list-item--image" src="{{item?.imageURL}}" alt="">
+  <mat-icon *ngIf="item?.icon" class="icon" [ngClass]="{'icon--border': true}">{{item?.icon}}</mat-icon>
+  <mat-icon *ngIf="item?.svgIcon" class="icon" [svgIcon]="item?.svgIcon"></mat-icon>
+</ng-template>

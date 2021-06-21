@@ -1,0 +1,42 @@
+<div fxLayout="column" fxLayoutGap="1rem" fxflex="100%">
+  <div fxLayout="column">
+    <span
+      class="aal--padding-bottom-r1 aal--padding-left-r3"> Drag most important issues to the top (i.e. import most)</span>
+    <mat-divider fxFill="90"></mat-divider>
+  </div>
+  <!-- air pbs items container-->
+  <div class="items-container-scroll">
+    <div fxLayout="column" fxLayoutGap=".5rem" class="aal--margin-left-r3 aal--margin-right-r3" dndDropzone
+         (dndDrop)="onDropItem($event)" dndEffectAllowed="move">
+      <div dndPlaceholderRef class="dndPlaceholder">
+        <span fxLayoutAlign="center center">Drop Item here</span>
+      </div>
+      <mat-card *ngFor="let item of selectedAirPbsItems; let index = index" [dndDraggable]="item"
+                [dndDisableIf]="selectedAirPbsItems.length<= 1"
+                (dndStart)="itemDragStarted(index)" (dndEnd)="onItemDragEnd()"
+                dndEffectAllowed="move" class="dragable-card">
+        <mat-card-content fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="start center">
+          <mat-icon [ngClass]="{'disabled-icon': selectedAirPbsItems.length <= 1}">
+            drag_handle
+          </mat-icon>
+          <div fxLayout="row" fxFlex="100%" [style.width]="'100%'" fxLayoutAlign="start start">
+            <mc-card-summary fxFlex="100%" [mainDescription]="item?.ID || item?.number"
+                             [mainDescriptionCaption]="item?.status"
+                             [line1Caption]="item?.short_description || item?.deliverable"
+                             [line2Caption]="getProblemID(item)"
+                             [separator]="'interpunct'"
+                             class="aal--margin-right-r-5 overflow-ellipsis clickable"
+                             [iconImageTemplateRef]="imageDisplayRef"
+            ></mc-card-summary>
+            <ng-template #imageDisplayRef>
+              <img src="../../../../../../../assets/images/pbs.png" *ngIf="checkForPbs(item)"
+                   alt=""/>
+              <img src="../../../../../../../assets/images/air.png" *ngIf="checkForAir(item)"
+                   alt=""/>
+            </ng-template>
+          </div>
+         </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

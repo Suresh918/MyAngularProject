@@ -1,0 +1,7 @@
+<mc-case-object-details-header [caseObjectType]="caseObjectType" [caseObject]="caseObject" [showItemDeleteButton]="showItemDeleteButton"
+  [caseObjectRouterPath]="caseObjectRouterPath" [caseObjectFrom]="referenceComponent"  [deleteButtonCaseAction]="deleteButtonCaseAction"
+                               (deleteItem)="onDeleteItem($event)" (selectedItem)="onSelectedItem($event)"></mc-case-object-details-header>
+<!--
+<mc-action-panel *ngIf="referenceComponent !== 'myTeamManagement'" [caseObjectType]="caseObjectType" [caseObject]="caseObject" [caseObjectRevision]="'AA'"
+  [caseObjectRouterPath]="caseObjectRouterPath" [caseObjectFrom]="referenceComponent"></mc-action-panel>
+-->

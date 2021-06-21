@@ -1,0 +1,81 @@
+@import '../../../../themes/material/theming';
+
+.title-bar {
+  background: $aal--mat-surface-variant;
+
+  .mat-icon {
+    font-size: 19px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .edit-icon {
+    height: auto;
+  }
+
+  .mat-title {
+    margin-bottom: 0;
+    font-size: 20px;
+  }
+
+  .mat-sub-title {
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  .action--mat-icon {
+    font-size: 36px;
+  }
+}
+
+.title-bar-label {
+  position: absolute;
+  top: 24px;
+  left: -36px;
+  color: $aal--mat-surface;
+  width: 50px;
+  height: 20px;
+  transform: rotate(270deg);
+  text-align: center;
+  line-height: 20px;
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.change-request-label {
+  background: $aal--mat-caution;
+  @extend .title-bar-label;
+}
+
+.change-notice-label {
+  background: $aal--mat-good;
+  @extend .title-bar-label;
+}
+
+.release-package-label {
+  background: mat-color($mat-light-green, 500);
+  @extend .title-bar-label;
+}
+
+.action-label {
+  background: mat-color($mat-purple, 700);
+  @extend .title-bar-label;
+}
+
+.agenda-label {
+  background: $aal--mat-alert;
+  @extend .title-bar-label;
+}
+
+.tag-container {
+  .mat-chip, ::ng-deep .mat-chip {
+    background: $aal--mat-priority-4 !important;
+    max-width: none;
+    .chip-text {
+      max-width: none !important;
+    }
+  }
+  .mat-icon {
+    width: auto;
+    height: auto;
+  }
+}

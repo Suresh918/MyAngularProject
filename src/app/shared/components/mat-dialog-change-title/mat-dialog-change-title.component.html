@@ -1,0 +1,32 @@
+<div mat-dialog-title class="aal--margin-bottom-r1" fxLayout="row" fxLayoutAlign="space-between center">
+  <span>Edit {{helperService.getCaseObjectForms(data?.service)?.title}}</span>
+  <button mat-icon-button color="warn" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content fxLayout="column" >
+  <div fxLayout="column" class="aal--padding-right-left-r-5" fxLayoutGap="0.5rem">
+    <mc-input-text *ngIf="isInstanceType"
+                   fxFlex="100%" [control]="data?.titleControl" [controlConfiguration]="data?.titleControlConfiguration"
+                   (bubbledAcceptChanges)="close()" [bubbleAcceptChanges]="true" [requestType]="'instance'">
+    </mc-input-text>
+    <mc-input-text fxFlex="100%" *ngIf="!isInstanceType" [control]="data?.titleControl" [controlConfiguration]="data?.titleControlConfiguration"
+    (bubbledAcceptChanges)="close()" [bubbleAcceptChanges]="true">
+    </mc-input-text>
+    <mc-select-single-case-action *ngIf="isInstanceType"
+      (caseActionChangeSuccess)="close()"
+      [selectFormControl]="data?.statusControl" [isInstanceType]="isInstanceType" [requestType]="'instance'"
+      [controlConfiguration]="data?.statusControlConfiguration" [optionsList]="previousStatuses"></mc-select-single-case-action>
+    <mc-select-single-case-action *ngIf="!isInstanceType"
+      (caseActionChangeSuccess)="close()"
+      [selectFormControl]="data?.statusControl"
+      [controlConfiguration]="data?.statusControlConfiguration" [optionsList]="previousStatuses"></mc-select-single-case-action>
+    <mc-select-multiple
+      [selectFormControl]="data?.tagControl" [requestType]="'instance'"
+      *ngIf="data?.tagControl && data?.service === 'ReleasePackage'" [valueAsLabel]="true"
+      (bubbledAcceptChanges)="tagsChanged($event)" [bubbleAcceptChanges]="true"
+      [controlConfiguration]="data?.tagControlConfiguration">
+    </mc-select-multiple>
+  </div>
+</mat-dialog-content>

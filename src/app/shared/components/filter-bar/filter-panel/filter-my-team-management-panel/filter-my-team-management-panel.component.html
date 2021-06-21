@@ -1,0 +1,80 @@
+<div fxLayout="column" fxLayoutGap="0.5rem" fxFlex="100">
+  <div class="aal--margin-bottom-r1" fxLayout="column" fxLayoutGap="0.5rem">
+    <span class="mat-title aal--margin-bottom-r0">Team Management</span>
+    <div fxLayout="column" fxLayoutAlign="start start" class="aal--padding-bottom-r-5">
+      <mc-button-radio [mode]="'EDIT'" [lockMode]="'EDIT'" [alignOptionsHorizontally]="true"
+                       [control]="caseObjectCurrentFilterFormGroup?.get('myTeamAction')"
+                       [controlConfiguration]="radioButtonControlConfiguration"
+                       [hideHelp]="true"
+                       [checkModeCaseActions]="true"
+                       fxFlex="25" [hideLabel]="true"
+                       [fieldSaveNotApplicable]="true"
+      ></mc-button-radio>
+    </div>
+  </div>
+  <mat-divider fxFlex="15%" class="aal--margin-bottom-r1"></mat-divider>
+  <div class="aal--margin-bottom-r1" fxLayout="column" fxLayoutGap="0.5rem">
+  <span fxLayout="row" fxLayoutAlign="start center">
+    <mc-help [message]="filterFormConfiguration?.peopleDetails?.help"></mc-help>
+    <span class="mat-title aal--margin-bottom-r0">{{caseObjectCurrentFilterFormGroup.get('myTeamAction').value ? caseObjectCurrentFilterFormGroup.get('myTeamAction').value === 'REPLACE' ? 'Person to be replaced' : caseObjectCurrentFilterFormGroup.get('myTeamAction').value === 'REMOVE' ? 'Person to be removed' : 'People' : filterFormConfiguration?.peopleDetails?.label}}</span>
+  </span>
+    <div *ngFor="let formControl of formArray?.controls; let index=index" class="title" fxLayout="row"
+         fxLayoutAlign="start center" fxLayoutGap="1.5rem">
+      <mc-auto-complete-user-single [controlConfiguration]="filterFormConfiguration?.people"
+                                    [control]="formControl?.get('user')"
+                                    [disableControl]="disableControl"
+                                    [hideConfirmationToolBar]="true" [hideHelp]="true" [isHistoryEnabled]="true"
+                                    [fieldSaveNotApplicable]="true"
+                                    [lockMode]="lockMode" [mode]="mode"
+                                    fxFlex="0 0 30"></mc-auto-complete-user-single>
+
+
+      <mc-select-single [controlConfiguration]="removedUserRolesConfiguration" [selectFormControl]="formControl?.get('role')"
+                        [hideConfirmationToolBar]="true" [hideHelp]="true"
+                        [disableControl]="disableControl"
+                        [fieldSaveNotApplicable]="true"
+                        [lockMode]="lockMode" [mode]="mode"
+                        [bubbleAcceptChanges]="true"
+                        (bubbledAcceptChanges)="removeIrrelevantChangeObjects($event)"
+                        [sectionTag]="'section'" [showSection]="true" fxFlex="0 0 30" [valueAsObject]="true"
+                        [defaultSelection]='defaultSelectedOption'></mc-select-single>
+    </div>
+  </div>
+  <mat-divider fxFlex="15%" class="aal--margin-bottom-r1"></mat-divider>
+  <div class="aal--margin-bottom-r1" fxLayout="column" fxLayoutGap="0.5rem">
+    <span fxLayout="row" fxLayoutAlign="start center">
+    <mc-help [message]="filterFormConfiguration?.changeObjectDetails?.help"></mc-help>
+    <span class="mat-title aal--margin-bottom-r0">{{filterFormConfiguration?.changeObjectDetails?.label}}</span>
+    </span>
+    <div fxLayout="row wrap" fxLayoutGap="1.5rem grid" fxLayoutAlign="start bottom">
+      <mc-select-single *ngIf="caseObjectFilterConfiguration?.changeObject"
+                        [controlConfiguration]="changeObjectFormConfig"
+                        [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('changeObject')"
+                        [disableControl]="disableControl"
+                        [fieldSaveNotApplicable]="true"
+                        [hideConfirmationToolBar]="true"
+                        [hideHelp]="true"
+                        [bubbleAcceptChanges]="true"
+                        (bubbledAcceptChanges)="removeIrrelevantRoles($event)"
+                        [lockMode]="lockMode" [mode]="mode" fxFlex="0 0 32"></mc-select-single>
+      <mc-select-multiple *ngIf="caseObjectFilterConfiguration?.status"
+                          [bubbleAcceptChanges]="true" [controlConfiguration]="filterFormConfiguration?.status"
+                          [selectFormControl]="caseObjectCurrentFilterFormGroup?.get('status')" [fieldSaveNotApplicable]="true"
+                          [disableControl]="disableControl"
+                          [hideConfirmationToolBar]="true" [hideHelp]="true" [isNullable]="true"
+                          [lockMode]="lockMode" [mode]="mode" [valueAsObject]="true" [primaryKeyInValue]="'value'"
+                          class="aal--margin-bottom-r-5" fxFlex="0 0 32"></mc-select-multiple>
+      <mc-auto-complete-group-multiple [bubbleAcceptChanges]="true"
+                                       *ngIf="caseObjectFilterConfiguration?.group"
+                                       [controlConfiguration]="filterFormConfiguration?.group"
+                                       [control]="caseObjectCurrentFilterFormGroup?.get('group')"
+                                       [disableControl]="disableControl"
+                                       [fieldSaveNotApplicable]="true"
+                                       [hideConfirmationToolBar]="true" [hideHelp]="true"
+                                       [isGenericField]="true" [isHistoryEnabled]="true"
+                                       [lockMode]="lockMode" [mode]="mode" [isNullable]="true"
+                                       fxFlex="0 0 32"></mc-auto-complete-group-multiple>
+    </div>
+  </div>
+</div>
+

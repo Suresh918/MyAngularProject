@@ -1,0 +1,22 @@
+<div *ngIf="direction==='row'" fxLayout="row">
+  <label class="label">{{ key }}</label>
+  <span class="aal--margin-right-r1"> {{ key && key.indexOf(':')===-1 ? (delimiter||':') : '' }} </span>
+  <span [ngStyle]="{'color': (color? color : 'black')}" class="">{{ value }}</span>
+</div>
+<div *ngIf="direction==='column'" fxLayout="column">
+  <label class="label">{{ key }}</label>
+  <div fxLayout="row" fxLayoutGap="0.5rem">
+    <a (click)="openLink(key, releasePackageDetails)" *ngIf="key!=='Source'" [ngClass]="{'mouse-pointer--not-allowed':inlineProgressBar}">
+      <span class="aal--margin-left-r1">{{ value }}</span>
+    </a>
+    <a [href]="deepLinkURL + (releasePackageDetails?.sourceSystemID||'') "
+       target="_blank" *ngIf="key==='Source'" [ngClass]="{'mouse-pointer--not-allowed':inlineProgressBar}">
+      <span class="aal--margin-left-r1">{{ value }}</span>
+    </a>
+    <mat-spinner class="inline-spinner" *ngIf="inlineProgressBar" [diameter]="15" color="accent"></mat-spinner>
+    <a (click)="openDeltaURL(releasePackageDetails)" *ngIf="key!=='Source' && optionalValue " [ngClass]="{'mouse-pointer--not-allowed':inlineProgressBar}">
+      <span>, {{ optionalValue }}</span>
+    </a>
+  </div>
+
+</div>

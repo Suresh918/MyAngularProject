@@ -1,0 +1,65 @@
+<div class="aal--margin-bottom-r1 form-container">
+  <div fxLayout="column" fxLayoutGap="1rem" [formGroup]="actionFormGroup" class="aal--padding-top-bottom-r-5 aal--padding-right-r-5">
+    <mc-select-single [selectFormControl]="actionFormGroup.get('type')"
+                      [controlConfiguration]="actionFormConfiguration?.type"
+                      [mode]="'EDIT'" [lockMode]="'EDIT'"
+                      [fieldSaveNotApplicable]="true"
+                      [hideHelp]="true"></mc-select-single>
+    <mc-input-text-area [control]="actionFormGroup.get('title').value ? actionFormGroup.get('title') : actionFormGroup.get('generalInformation.title')"
+                        [mode]="'EDIT'" [lockMode]="'EDIT'" [hideConfirmationToolBar]="true"
+                        [controlConfiguration]="actionFormConfiguration?.generalInformation?.title"
+                        [ngClass]="{'aal--margin-bottom-r2-5': !(actionFormGroup.get('title').value ? actionFormGroup.get('title').valid : actionFormGroup.get('generalInformation.title').valid)}"
+                        [fieldSaveNotApplicable]="true" [hideHelp]="true" [showLengthHint]="false"></mc-input-text-area>
+    <mc-date-picker fxFlex="100%" class="dateAlign" [control]="actionFormGroup.get('deadline')"
+                    [mode]="'EDIT'" [lockMode]="'EDIT'" [fieldSaveNotApplicable]="true"
+                    [ngClass]="{'aal--margin-bottom-r-5': !actionFormGroup.get('deadline').valid}"
+                    [controlConfiguration]="actionFormConfiguration?.deadline"
+                    [hideHelp]="true">
+    </mc-date-picker>
+    <mc-auto-complete-user-single [control]="actionFormGroup.get('assignee')"
+                                  [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                  [controlConfiguration]="actionFormConfiguration?.assignee"
+                                  [fieldSaveNotApplicable]="true" [hideHelp]="true">
+    </mc-auto-complete-user-single>
+  </div>
+  <div class="background-white aal--padding-right-r1 aal--padding-top-bottom-r-5"
+       fxLayoutAlign="end center" fxLayoutGap=".5rem" fxLayout="row" *ngIf="linkedItem?.type !== 'ChangeRequest' && linkedItem?.type !== 'ReleasePackage'">
+    <mc-button-outlined [buttonAction]="'CREATE-ACTION'"
+                        (buttonClick)="cancelActionUpdate()" [buttonId]="'action_cancel'"
+                        [text]="'Cancel'"></mc-button-outlined>
+    <mc-button-outlined *ngIf="formActionType === 'add'"
+                        [buttonAction]="'CREATE-ACTION'" [buttonId]="'action_draft'"
+                        (buttonClick)="updateAction('SAVE')"
+                        [text]="'Draft'"></mc-button-outlined>
+    <mc-button-contained *ngIf="formActionType === 'edit'"
+                         [buttonAction]="'CREATE-ACTION'" [buttonId]="'action_save'"
+                         (buttonClick)="updateAction('SAVE')"
+                         [text]="'Save'"></mc-button-contained>
+    <mc-button-contained *ngIf="actionFormGroup?.get('generalInformation.status').value === 'DRAFT' || actionFormGroup?.get('status').value === 'DRAFT' || formActionType === 'add'"
+                          [buttonAction]="'CREATE-ACTION'" [buttonId]="'action_cancel'"
+                         (buttonClick)="updateAction('SUBMIT')"
+                         [text]="'Submit'"></mc-button-contained>
+  </div>
+  <div class="background-white aal--padding-right-r1 aal--padding-top-bottom-r-5"
+       fxLayoutAlign="end center" fxLayoutGap=".5rem" fxLayout="row" *ngIf="linkedItem?.type === 'ChangeRequest' || linkedItem?.type === 'ReleasePackage'">
+    <mc-button-outlined [buttonAction]="'CREATE_ACTION'"
+                        (buttonClick)="cancelActionUpdate()"
+                        [buttonId]="'action_cancel'"
+                        [text]="'Cancel'"></mc-button-outlined>
+    <mc-button-outlined *ngIf="formActionType === 'add'"
+                        [buttonAction]="'CREATE_ACTION'"
+                        [buttonId]="'action_draft'"
+                        (buttonClick)="updateAction('SAVE')"
+                        [text]="'Draft'"></mc-button-outlined>
+    <mc-button-contained *ngIf="formActionType === 'edit'"
+                         [buttonAction]="'CREATE_ACTION'"
+                         [buttonId]="'action_save'"
+                         (buttonClick)="updateAction('SAVE')"
+                         [text]="'Save'"></mc-button-contained>
+    <mc-button-contained *ngIf="actionFormGroup?.get('generalInformation.status').value === 'DRAFT' || actionFormGroup?.get('status').value === 'DRAFT' || formActionType === 'add'"
+                         [buttonAction]="'CREATE_ACTION'"
+                         [buttonId]="'action_submit'"
+                         (buttonClick)="updateAction('SUBMIT')"
+                         [text]="'Submit'"></mc-button-contained>
+  </div>
+</div>

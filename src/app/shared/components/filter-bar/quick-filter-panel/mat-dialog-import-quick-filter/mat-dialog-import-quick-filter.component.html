@@ -1,0 +1,42 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <span>{{data?.title}}</span>
+  <button mat-icon-button color="primary" (click)="close(false)">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content fxLayout="column" fxLayoutGap="0.5rem">
+  <div *ngIf="showFilterQueryView">
+    <mat-form-field floatPlaceholder="always" fxFill>
+      <textarea matInput placeholder="Quick filter string" class="mat-body-1" [(ngModel)]="quickFilterQuery"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="column" fxLayoutGap="2rem" *ngIf="!showFilterQueryView && !duplicateFilterExist">
+    <p>This is a quick filter for the {{caseObjectName}} list page.</p>
+    <mat-form-field floatPlaceholder="always" fxFill>
+      <input matInput placeholder="Quick filter name" type="text" class="mat-body-1" [(ngModel)]="quickFilterName">
+    </mat-form-field>
+    <p class="mat-body-1">It may be handy to leave the name as is. This is helps when you frequently import this
+      specific quick filter.</p>
+  </div>
+
+  <div *ngIf="!showFilterQueryView && duplicateFilterExist">
+    <p>Quick Filter <span class="bold--text">{{ quickFilterName }} </span> already exists</p>
+    <p>Over write it ?</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="primary-btn-theme" fxLayout="row" fxLayoutGap=".5rem">
+  <span fxFlex="1 1 auto"></span>
+  <button mat-button class="secondary-action-button" *ngIf="showFilterQueryView" (click)="close(true)">Cancel</button>
+  <button mat-raised-button color="primary" *ngIf="showFilterQueryView" (click)="decodeQueryString()">Next</button>
+  <button mat-button class="secondary-action-button" *ngIf="!showFilterQueryView && duplicateFilterExist"
+    (click)="duplicateFilterExist = false;">Back</button>
+  <button mat-button class="secondary-action-button" *ngIf="!showFilterQueryView && !duplicateFilterExist"
+    (click)="showFilterQueryView = true;">Cancel</button>
+  <button mat-raised-button color="primary" *ngIf="!showFilterQueryView && !duplicateFilterExist"
+    (click)="importQuery(false)">Import</button>
+  <button mat-raised-button color="primary" *ngIf="!showFilterQueryView && duplicateFilterExist"
+    (click)="importQuery(true)">Save</button>
+</mat-dialog-actions>

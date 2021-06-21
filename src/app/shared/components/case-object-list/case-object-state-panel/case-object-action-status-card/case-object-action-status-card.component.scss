@@ -1,0 +1,135 @@
+
+@import '../../../../../../themes/material/theming';
+.case-object-status--card {
+  background-color: $aal--mat-surface;
+  color: $aal--mat-primary;
+  border-radius: 4px;
+  &.collapsed .panel-count{
+    font-size: 24px;
+    line-height: 1;
+    transition-duration: 0.2s;
+  }
+  &.expanded .panel-count{
+    transition-duration: 0.2s;
+  }
+  &:hover {
+    background-color: $aal--mat-hover;
+  }
+  &:focus {
+    background-color: $aal--mat-focus;
+  }
+}
+.action-status--card-active-open {
+  .panel-count {
+    color: $aal--mat-primary;
+  }
+  border-radius: 10px;
+  transition-duration: 0.5s;
+  background-color: $aal--mat-priority-4;
+  -webkit-box-shadow:inset 0px 0px 0px 2px #1c7ddb;
+  -moz-box-shadow:inset 0px 0px 0px 2px #1c7ddb;
+  box-shadow:inset 0px 0px 0px 2px #1c7ddb;
+  &:hover {
+    background-color: $aal--mat-priority-4;
+  }
+}
+.action-status--card-active-accepted {
+  .panel-count {
+    color: $aal--mat-good;
+  }
+  border-radius: 10px;
+  transition-duration: 0.5s;
+  background-color: #e4fbe6;
+  -webkit-box-shadow:inset 0px 0px 0px 2px #00d110;
+  -moz-box-shadow:inset 0px 0px 0px 2px #00d110;
+  box-shadow:inset 0px 0px 0px 2px #00d110;
+  &:hover {
+    background-color: $aal--mat-priority-4;
+  }
+}
+.action-status--card-active-Accepted-late {
+  .panel-count {
+    color: $aal--mat-alert;
+  }
+  transition-duration: 0.5s;
+  background-color: #ffcfcf;
+  border-radius: 10px;
+  -webkit-box-shadow:inset 0px 0px 0px 2px #EE0000;
+  -moz-box-shadow:inset 0px 0px 0px 2px #EE0000;
+  box-shadow:inset 0px 0px 0px 2px #EE0000;
+  &:hover {
+    background-color: $aal--mat-priority-4;
+  }
+}
+.action-status--card-active-Accepted-due-soon {
+  .panel-count {
+    color: $aal--mat-caution;
+  }
+  transition-duration: 0.5s;
+  background-color: #ffecbe;
+  border-radius: 10px;
+  -webkit-box-shadow:inset 0px 0px 0px 2px #F0AB00;
+  -moz-box-shadow:inset 0px 0px 0px 2px #F0AB00;
+  box-shadow:inset 0px 0px 0px 2px #F0AB00;
+  &:hover {
+    background-color: $aal--mat-priority-4;
+  }
+}
+
+.action-status--card-active-Details-Requested {
+  .panel-count {
+    color: $aal--mat-priority-1;
+  }
+  transition-duration: 0.5s;
+  background-color: #ffd5ee;
+  border-radius: 10px;
+  -webkit-box-shadow:inset 0px 0px 0px 2px $aal--mat-priority-1;
+  -moz-box-shadow:inset 0px 0px 0px 2px $aal--mat-priority-1;
+  box-shadow:inset 0px 0px 0px 2px $aal--mat-priority-1;
+  &:hover {
+    background-color: $aal--mat-priority-4;
+  }
+}
+
+.panel-attribute{
+  width: 33.3%;
+  text-align: center;
+  span{
+    height: 100%;
+  }
+}
+.action-status--card-Accepted-due-soon {
+  border-radius: 10px;
+  background: #FFF;
+  .panel-count {
+    color:$aal--mat-caution;
+  }
+}
+.action-status--card-Accepted-late {
+  border-radius: 10px;
+  background: #FFF;
+  .panel-count {
+    color:$aal--mat-alert;
+  }
+}
+.action-status--card-accepted {
+  border-radius: 10px;
+  background: #FFF;
+  .panel-count {
+    color:$aal--mat-good;
+  }
+}
+.action-status--card-open {
+  border-radius: 10px;
+  background: #FFF;
+  .panel-count {
+    color:$aal--mat-primary;
+  }
+}
+.action-status--card-Details-Requested {
+  border-radius: 10px;
+  background: #FFF;
+  .panel-count {
+    color:$aal--mat-priority-1;
+  }
+}

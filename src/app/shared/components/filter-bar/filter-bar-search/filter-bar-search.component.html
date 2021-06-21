@@ -1,0 +1,11 @@
+<div class="search-menu" fxLayoutGap="1rem" fxLayout="row" fxLayoutAlign="start center">
+  <input matInput aalTrimInput class="mc-search-input aal--padding-left-r-5 aal--margin-right-r-5" [formControl]="searchControl" (keyup.enter)="onEnter()"
+    placeholder="Refine" fxFlex="100">
+  <button mat-button matSuffix mat-icon-button aria-label="Clear" class="aal--margin-right-r0" *ngIf="searchControl?.value && searchControl.enabled"
+    (click)="clearEntry()">
+    <mat-icon color="accent">close</mat-icon>
+  </button>
+  <button mat-icon-button prefix [color]="caseObject !== 'trackerBoard'? 'accent' : 'primary'" class="icon-grey">
+    <mat-icon>find_in_page</mat-icon>
+  </button>
+</div>

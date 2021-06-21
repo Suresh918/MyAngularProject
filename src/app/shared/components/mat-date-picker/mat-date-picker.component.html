@@ -1,0 +1,23 @@
+<mat-form-field floatPlaceholder="always" fxFill>
+  <input matInput [matDatepicker]="picker" [formControl]="control" [placeholder]="controlConfiguration?.label"
+         [required]="hasValidator()"
+         readonly *ngIf="!controlConfiguration?.minDate">
+  <input matInput [matDatepicker]="picker"  [matDatepickerFilter]="minDateFilter" [formControl]="control"
+         [placeholder]="controlConfiguration?.label"
+         [required]="hasValidator()"
+         readonly *ngIf="controlConfiguration?.minDate">
+  <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="control?.value && control.enabled"
+          (click)="clearDate()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-datepicker-toggle matSuffix [for]="picker" class="color-blue" id="mat-date-picker-toggle-button"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+  <mat-error *ngIf="control?.errors?.required">{{ controlConfiguration?.label }} is required</mat-error>
+  <mat-icon *ngIf="controlConfiguration?.help" class="tooltip" matSuffix [matTooltip]="controlConfiguration?.help"
+            matTooltipPosition="before">
+    help
+  </mat-icon>
+</mat-form-field>
+
+
+

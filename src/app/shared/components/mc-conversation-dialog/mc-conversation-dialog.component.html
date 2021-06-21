@@ -1,0 +1,317 @@
+<div fxLayout="row" fxLayoutAlign="space-between center" mat-dialog-title>
+  <span fxLayoutAlign="center center">
+    <mat-icon class="header-icon opacity-54">edit</mat-icon>
+    <span class="aal--padding-left-r1">Defect</span>
+  </span>
+  <mc-button-icon (buttonClick)="onCancelDialog()"
+                  [icon]="'close'"
+                  [isGenericButton]="true"
+                  [noCheckOnCaseAction]="true"
+                  [tooltip]="'Close'"></mc-button-icon>
+</div>
+
+<mat-dialog-content fxLayout="column" fxLayoutGap="1rem" class="conversation-dialog-content">
+  <div fxLayout="column" fxLayoutGap="1rem" class="conversation-dialog-content-wrapper">
+    <div class="content-header">
+      <div fxLayout="column">
+        <div fxFlex="row" class="aal--padding-right-left-r1 aal--padding-top-r-5" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+          <div fxLayout="row">
+            <mc-card-summary fxFlex="100%"
+                             [mainDescriptionTemplateRef]="reviewEntryDescription"
+                             [line1]="reviewEntry?.status_label"
+                             [line1Caption]="reviewEntry?.classification_label"
+                             [separator]="'interpunct'"
+                             [wordWrapApplicable]="true"
+                             [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+            <ng-template #reviewEntryDescription>
+              <mc-text [isSingleLine]="true" (click)="$event.stopPropagation()" [value]="reviewEntry?.description"></mc-text>
+            </ng-template>
+            <ng-template #imageDisplayRef>
+        <span fxLayout="column" fxLayoutAlign="center start">
+                  <span class="aal--margin-bottom-r0 panel-count aal--padding-right-r-5"
+                        fxLayoutAlign="end center">
+                    {{(reviewEntry?.sequence_number < 10) ?
+                      '0' + reviewEntry?.sequence_number.toString() :
+                      reviewEntry?.sequence_number.toString()}}</span>
+                </span>
+            </ng-template>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="end start" class="aal--padding-top-r-5">
+            <mc-chip-overlay-card
+              [chipsData]="reviewEntry && reviewEntry?.solution_items_id ? reviewEntry?.solution_items_id : ''"
+              [headerTitle]="'Solution Items'" [disableImageUrl]="true">
+            </mc-chip-overlay-card>
+            <mat-divider class="aal--margin-right-r1 aal--margin-left-r-5"
+                         *ngIf="reviewEntry['solution_items_name'] && reviewEntry['solution_items_name'] !== null && reviewEntry['solution_items_name'] !== '' && reviewEntry?.creator !== null && reviewEntry?.creator?.user_id !== ''"
+                         [vertical]="true" fxFlex="2%" [style.height]="'2rem'"></mat-divider>
+            <mc-chip fxLayoutAlign="end"
+                     [text]="[reviewEntry?.creator?.full_name + ' (' + reviewEntry?.creator?.abbreviation +')']"
+                     [disabled]="true" [removable]="false"
+                     [imageURL]="reviewEntry?.creator?.user_id | userImage"></mc-chip>
+          </div>
+        </div>
+        <mat-divider class="aal--margin-right-left-r1"></mat-divider>
+        <div fxLayout="row" class="aal--padding-left-r1 aal--padding-right-r1">
+          <div fxLayout="row" fxLayoutAlign="start start" fxFlex="0 0 70">
+            <div fxLayout="row" class="aal--padding-top-r-5">
+              <mc-button-icon [buttonAction]="'ACCEPT'" *ngIf="!reviewEntry['showLoaderForACCEPT']"
+                              [isLinkedItem]="true"
+                              [caseObject]="reviewEntry?.caseObject"
+                              [icon]="'thumb_up'"
+                              [color]="'accent'"
+                              [tooltip]="'Accept Defect'"
+                              [isGenericButton]="true"
+                              (buttonClick)="updateReviewEntry(reviewEntry,'ACCEPT', $event)"
+              ></mc-button-icon>
+              <span fxFlex="10%" *ngIf="reviewEntry['showLoaderForACCEPT']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+              <mc-button-icon [isLinkedItem]="true" *ngIf="!reviewEntry['showLoaderForREJECT']"
+                              [buttonAction]="'REJECT'"
+                              [caseObject]="reviewEntry?.caseObject"
+                              [icon]="'thumb_down'"
+                              [tooltip]="'Reject Defect'"
+                              [color]="'accent'"
+                              [isGenericButton]="true"
+                              (buttonClick)="updateReviewEntry(reviewEntry,'REJECT', $event)"
+              ></mc-button-icon>
+              <span fxFlex="10%" *ngIf="reviewEntry['showLoaderForREJECT']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+              <mc-button-icon [isLinkedItem]="true" *ngIf="!reviewEntry['showLoaderForMARKDUPLICATE']"
+                              [buttonAction]="'MARKDUPLICATE'"
+                              [caseObject]="reviewEntry?.caseObject"
+                              [icon]="'file_copy'"
+                              [tooltip]="'Mark Defect as Duplicate'"
+                              [color]="'accent'"
+                              [isGenericButton]="true"
+                              (buttonClick)="updateReviewEntry(reviewEntry,'MARKDUPLICATE', $event)"
+              ></mc-button-icon>
+              <span fxFlex="10%" *ngIf="reviewEntry['showLoaderForMARKDUPLICATE']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+              <mc-button-outlined [isLinkedItem]="true" *ngIf="!reviewEntry['showLoaderForREOPEN']"
+                                  [buttonAction]="'REOPEN'"
+                                  [caseObject]="reviewEntry?.caseObject"
+                                  [text]="'Undo ' + reviewEntry?.status_label"
+                                  [tooltip]="'Undo ' + reviewEntry?.status_label"
+                                  [isGenericButton]="true"
+                                  (buttonClick)="updateReviewEntry(reviewEntry,'REOPEN', $event)"
+              ></mc-button-outlined>
+              <span fxFlex="10%" *ngIf="reviewEntry['showLoaderForREOPEN']" class="spinner-wrapper" fxLayoutAlign="center center">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                            </span>
+            </div>
+
+            <div class="aal--padding-top-bottom-r-5" fxLayoutGap=".5rem" fxFlex="70">
+              <mat-divider [vertical]="true" fxFlex="1%" [style.height]="'2rem'" class="aal--margin-left-top-r-5"></mat-divider>
+              <mc-input-text [control]="reviewEntryFormGroup?.get('remark')"
+                             [controlConfiguration]="reviewEntryFormConfiguration?.remark"
+                             [caseObject]="reviewEntry?.caseObject"
+                             [isHistoryEnabled]="false"
+                             [showLengthHint]="true"
+                             [isReviewEntry]="true"
+                             [referenceId]="reviewEntry?.id"
+                             [requestType]="'instance'"
+                             fxFlex="100%"
+              >
+              </mc-input-text>
+            </div>
+          </div>
+
+          <div fxLayout="row" fxFlex="0 0 30" fxLayoutGap="1rem" fxLayoutAlign="end start">
+            <mc-auto-complete-user-single-card [control]="reviewEntryFormGroup?.get('assignee')"
+                                               [controlConfiguration]="reviewEntryFormConfiguration?.assignee"
+                                               [caseObject]="reviewEntry?.caseObject"
+                                               [showValueAsChip]="true"
+                                               [isObjectSnakeCase]="true"
+                                               [requestType]="'instance'"
+                                               [hideHelp]="true">
+            </mc-auto-complete-user-single-card>
+            <div fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="center center" class="aal--padding-top-r-75">
+              <mc-divider [height]="'2rem'"
+                          [isVertical]="true"
+                          [buttonAction]="'COMPLETE'"
+                          [isLinkedItem]="true"
+                          [isGenericButton]="true"
+                          [caseObject]="reviewEntry?.caseObject"
+              ></mc-divider>
+              <mc-button-icon-outlined *ngIf="!reviewEntry['showLoaderForCOMPLETE']"
+                                       [buttonAction]="'COMPLETE'"
+                                       [isLinkedItem]="true"
+                                       [caseObject]="reviewEntry?.caseObject"
+                                       [isGenericButton]="true"
+                                       [text]="'Done'"
+                                       [icon]="'check_circle'"
+                                       (buttonClick)="updateReviewEntry(reviewEntry,'COMPLETE', $event)"
+              ></mc-button-icon-outlined>
+              <span fxFlex="10%" *ngIf="reviewEntry['showLoaderForCOMPLETE']" class="spinner-wrapper" fxLayoutAlign="center center">
+                <mat-spinner [diameter]="20"></mat-spinner>
+              </span>
+            </div>
+          </div>
+        </div>
+        <mat-divider class="aal--margin-right-left-r1"></mat-divider>
+      </div>
+    </div>
+    <div class="chat-wrapper" fxLayoutGap="1rem" fxLayout="column">
+      <div *ngIf="!commentsInProgress && rootCommentsFormGroup.get('results')?.value?.length > 0" fxLayoutGap="1rem"
+           fxLayout="column">
+        <div fxFlex="100%" fxLayout="column" fxLayoutGap="1rem"
+             *ngFor="let rootCommentFormGroup of rootCommentsFormGroup.get('results').controls">
+          <div fxLayout="column" fxFlex="100%" fxLayoutGap="1rem"
+               *ngIf="rootCommentFormGroup.get('status')?.value !== 3">
+            <mc-message-card *ngIf="rootCommentFormGroup.get('status').value !== 3" [type]="'comment'" fxFlex="100%"
+                             [messageFormGroup]="rootCommentFormGroup"
+                             [reviewEntryCaseObject]="reviewEntry?.caseObject"
+                             [docURL]="docUrl"
+                             [mode]="mode"
+                             (documentClick)="documentClicked($event)"
+                             (replyComment)="replyComment($event)"
+                             (removeComment)="removeComment($event)"
+                             (updateComment)="editComment($event)"
+            ></mc-message-card>
+
+            <div fxLayout="column" fxLayoutGap="1rem" *ngIf="rootCommentFormGroup.get('reply_count').value > 0"
+                 class="reply-section">
+              <div fxLayout="column" fxLayoutGap=".5rem">
+            <span class="view-replies" fxLayoutAlign="end center" (click)="toggleReplies(rootCommentFormGroup)">
+              {{rootCommentFormGroup.get('reply_label').value}} ({{rootCommentFormGroup.get('reply_count').value}})
+            </span>
+              </div>
+              <div *ngIf="rootCommentFormGroup.get('show_replies').value" fxLayoutGap="1rem" fxLayout="column"
+                   class="aal--margin-bottom-r1">
+                <div fxFlex="100%" fxLayoutGap="1rem"
+                     *ngFor="let replyFormGroup of rootCommentFormGroup.get('replies').controls">
+                  <mc-message-card type="reply" *ngIf="replyFormGroup.get('status')?.value !== 3"
+                                   [messageFormGroup]="replyFormGroup"
+                                   (removeComment)="removeComment($event, 'reply')"
+                                   (documentClick)="documentClicked($event)"
+                                   (updateComment)="editComment($event, 'reply')"></mc-message-card>
+                  <div *ngIf="replyFormGroup.get('status')?.value === 3" fxFlex="100%" fxLayoutGap="1rem"
+                       class="deleted-message aal--margin-left-r4" fxLayoutAlign="space-between center">
+                    <mc-card-summary [mainDescription]="replyFormGroup.get('creator')?.value | personName"
+                                     [fontsize]="''"
+                                     [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+                    <ng-template #imageDisplayRef>
+                      <img aalLoadBlankPortrait class="aal&#45;&#45;margin-right-r-25 image&#45;&#45;circle-small"
+                           [src]="replyFormGroup.get('creator.user_id')?.value | userImage" alt="no picture"/>
+                    </ng-template>
+                    <div class="aal&#45;&#45;margin-right-r1">Removed Reply</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="rootCommentFormGroup.get('status')?.value === 3" fxFlex="100%" fxLayoutGap="1rem"
+               class="deleted-message" fxLayoutAlign="space-between center">
+            <mc-card-summary [mainDescription]="rootCommentFormGroup.get('creator')?.value | personName" [fontsize]="''"
+                             [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+            <ng-template #imageDisplayRef>
+              <img aalLoadBlankPortrait class="aal&#45;&#45;margin-right-r-25 image&#45;&#45;circle-small"
+                   [src]="rootCommentFormGroup.get('creator.user_id')?.value | userImage" alt="no picture"/>
+            </ng-template>
+            <div class="aal&#45;&#45;margin-right-r1">Removed Comment</div>
+          </div>
+        </div>
+      </div>
+      <mc-loader *ngIf="commentsInProgress" [type]="'comment-reply'" [count]="3"></mc-loader>
+    </div>
+    <mc-empty-state [title]="'No Comments'"
+                    [iconSize]="'large'"
+                    [isPageLevel]="true"
+                    [subTitle]="'Comments will appear here.'"
+                    [icon]="'chat_bubble'"
+                    *ngIf="rootCommentsFormGroup.get('results')?.value?.length === 0 && !commentsInProgress"
+    >
+    </mc-empty-state>
+  </div>
+  <div fxLayout="row" fxFlex="100%" class="comment-section">
+    <div fxLayout="row" fxLayoutAlign="start center" class="aal--margin-top-bottom-r-5 aal--margin-left-r1"
+         *ngIf="!showReplySection">
+      <mc-button-icon-outlined
+        [isLinkedItem]="true"
+        [buttonAction]="'CREATE_COMMENT'"
+        [caseObject]="reviewEntry?.caseObject"
+        [isGenericButton]="true"
+        [text]="'Add Comments'"
+        [tooltip]="'Add Comments to evaluate defects'"
+        [icon]="'add'"
+        (buttonClick)="addComment('')"
+      ></mc-button-icon-outlined>
+    </div>
+    <div fxFlex="70" fxLayout="column" class="comment-file-upload" *ngIf="showReplySection">
+      <div class="aal--padding-all-r-5">
+        <div *ngIf="mode === 'adding'" class="mat-title aal--margin-bottom-r0">New Comment:</div>
+        <div *ngIf="mode === 'replying'"
+             fxLayout="row"
+             fxLayoutGap=".5rem" fxLayoutAlign="start center">
+          <div class="mat-title aal--margin-bottom-r0">Reply To:</div>
+          <mc-chip fxLayoutAlign="end center"
+                   [text]="[currentCommentObject?.creator?.fullName + ' (' + currentCommentObject?.creator?.abbreviation +')']"
+                   [disabled]="true" [removable]="false"
+                   [imageURL]="currentCommentObject?.creator?.userID | userImage"></mc-chip>
+          <div> &middot; {{currentCommentObject?.created_on | aalDate}}</div>
+        </div>
+        <div *ngIf="mode === 'editing'"
+             fxLayout="row"
+             fxLayoutGap=".5rem" fxLayoutAlign="start center">
+          <div class="mat-title aal--margin-bottom-r0">Edit Comment:</div>
+          <mc-chip fxLayoutAlign="end center"
+                   [text]="[currentCommentObject?.creator?.fullName + ' (' + currentCommentObject?.creator?.abbreviation +')']"
+                   [disabled]="true" [removable]="false"
+                   [imageURL]="currentCommentObject?.creator?.userID | userImage"></mc-chip>
+          <div> &middot; {{currentCommentObject?.created_on | aalDate}}</div>
+        </div>
+      </div>
+
+      <mc-file-upload-form fxFlex="100" fxLayoutAlign="center center" [formDataGroup]="reviewCommentForm"
+                           [formDataControlConfiguration]="addNoteControlConfiguration"
+                           [caseObject]="data?.caseObject"
+                           (saveForm)="updateComment()"
+                           [editingForm]="(mode === 'editing' || mode === 'editingReply')"
+                           [commentId]="(this.mode === 'replying' ? currentReplyId : currentCommentId)"
+                           (cancelForm)="cancelForm()"
+                           [caseObjectType]="'review'"></mc-file-upload-form>
+    </div>
+  </div>
+  <mc-dialog-banner [showBanner]="showBanner" [actionButtonText]="'Confirm'"
+                    (actionButtonClicked)="onConfirmBanner()"
+                    (closeBanner)="closeConfirmationBanner()">
+    <div fxLayout="row" banner-body fxLayoutGap="1rem" fxLayoutAlign="start center">
+      <mat-icon class="icon--medium">chat_bubble</mat-icon>
+      <div fxLayout="column">
+        <div>Current progress will be lost, Are you sure you want yo cancel? </div>
+      </div>
+    </div>
+  </mc-dialog-banner>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutGap=".5rem">
+  <mc-button-icon-outlined
+    [icon]="'keyboard_arrow_left'"
+    [tooltip]="'Previous Item'"
+    [noCheckOnCaseAction]="true"
+    [disabled]="data.disablePrevious"
+    class="button-left"
+    (buttonClick)="getDetails('PREVIOUS')"
+  >
+  </mc-button-icon-outlined>
+  <mc-button-icon-outlined
+    [icon]="'keyboard_arrow_right'"
+    [tooltip]="'Next Item'"
+    [noCheckOnCaseAction]="true"
+    [disabled]="data.disableNext"
+    class="button-right"
+    (buttonClick)="getDetails('NEXT')"
+  >
+  </mc-button-icon-outlined>
+  <span fxFlex="1 1 auto"></span>
+  <mc-button-contained [text]="'Close'"
+                       [tooltip]="'Close Dialog'"
+                       [isGenericButton]="true"
+                       [color]="'accent'"
+                       (buttonClick)="onCancelDialog()"
+                       [noCheckOnCaseAction]="true"
+  ></mc-button-contained>
+</mat-dialog-actions>

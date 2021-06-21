@@ -1,0 +1,16 @@
+<div [ngClass]="[selectedCardIndex === index ? getActiveStatusCard(caseObjectDetails.caseObjectStatus, true): getActiveStatusCard(caseObjectDetails.caseObjectStatus, false), expandStatePanel ? 'expanded' : 'collapsed']" class="icon--pointer aal--padding-all-r-5" fxLayout="column"
+     fxLayoutGap="0.5rem" [matTooltip]="getActionsToolTip(caseObjectDetails.caseObjectStatus)" [id]="'action_status_panel_card_'+ caseObjectDetails?.caseObjectStatusLabel?.replace(' ', '_')">
+  <div *ngIf="showActionsCount || (!showActionsCount && expandStatePanel)">
+  <span class="mat-subheading-2 aal--margin-bottom-r0"
+        fxLayoutAlign="start center">{{caseObjectDetails?.caseObjectStatusLabel}}</span>
+    <span class="mat-display-4 aal--margin-bottom-r0 font-weight-100 panel-count aal--padding-right-r-5"
+          fxLayoutAlign="end center">{{caseObjectDetails?.caseObjectsCount}}</span>
+  </div>
+  <div *ngIf="!showActionsCount && !expandStatePanel" fxLayout="column" fxLayoutAlign="space-between">
+    <span class="mat-subheading-2 aal--margin-bottom-r0"
+          fxLayoutAlign="start center">{{caseObjectDetails?.caseObjectStatusLabel}}</span>
+    <span class="mat-display-4 aal--margin-bottom-r0 font-weight-100 panel-count aal--padding-right-r-5"
+          fxLayoutAlign="end center">{{caseObjectDetails?.caseObjectsCount}}</span>
+  </div>
+  <mat-divider *ngIf="expandStatePanel && showActionsCount"></mat-divider>
+</div>

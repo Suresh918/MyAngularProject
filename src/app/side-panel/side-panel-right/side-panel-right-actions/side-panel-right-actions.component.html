@@ -1,0 +1,56 @@
+<div [style.height]="'100%'">
+  <mc-right-panel-header [headerText]="'Actions'" [progressBar]="progressBar || updateInProgress" [itemsCount]="openAcceptedCount" [filterQuery]="filterQuery" [type]="caseObjectType" [panelMode]="panelMode"></mc-right-panel-header>
+  <div class="side-panel-right-content">
+    <mc-right-panel-add-object [tooltip]="'Add Action'" (add)="addAction()" [buttonCaseAction]="'CREATE-ACTION'"
+                               *ngIf="!showActionForm && caseObjectType !== 'ChangeRequest' && caseObjectType !== 'ReleasePackage'"></mc-right-panel-add-object>
+    <mc-right-panel-add-object [tooltip]="'Add Action'" (add)="addAction()" [buttonCaseAction]="'CREATE_ACTION'"
+                               *ngIf="!showActionForm && (caseObjectType === 'ChangeRequest' || caseObjectType === 'ReleasePackage')"></mc-right-panel-add-object>
+    <div fxLayout="column" class="panel-data-content">
+      <mc-add-action [actionFormConfiguration]="actionFormConfiguration" [formActionType]="formActionType"
+                     [linkedItem]="linkedItem"
+                     (updateInProgress)="actionUpdateInProgress($event)"
+                     [actionFormGroup]="actionFormGroup" (refreshActions)="refreshActions($event)"
+                     (cancel)="cancelActionUpdate()"
+                     *ngIf="showActionForm"></mc-add-action>
+      <div>
+        <div class="actions-content" fxLayout="column" fxLayoutGap="1rem">
+          <!-- Actions toggle button section -->
+          <div fxLayout="row" fxLayoutAlign="end center">
+            <mat-button-toggle-group [formControl]="toggleActionViewControl">
+              <mat-button-toggle color="primary" [value]="'OPEN'">
+                Open/Accepted ({{ openAcceptedCount }})
+              </mat-button-toggle>
+              <mat-button-toggle color="primary" [value]="'ALL'">
+                All ({{ allActionsCount }})
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+          <!-- Actions main panel -->
+          <ng-container *ngIf="hasActions()">
+            <div fxLayout="column" fxLayoutGap="1rem">
+              <div *ngFor="let actionCategory of actionCategoryList">
+                <div *ngIf="actionCategory?.actionSummaries?.length > 0" fxLayout="column" fxLayoutGap="4px">
+                  <span class="mat-title">{{actionCategory?.category}} Actions</span>
+                  <div fxLayout="column" fxLayoutGap="0.5rem">
+                    <div *ngFor="let action of actionCategory?.actionSummaries" [id]="'action_card_'+action?.action?.ID">
+                      <mc-action-overview-card [action]="action" [caseObjectType]="linkedItem?.type"
+                                               [caseObjectStatus]="linkedItem?.status"
+                                               (edit)="editAction($event)"
+                                               (actionSubmit)="submitAction($event)">
+                      </mc-action-overview-card>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <mc-loader *ngIf="progressBar" [type]="'right-panel-menu-list-items'" [count]="3"></mc-loader>
+          <mc-no-actions [caseObject]="linkedItem?.type"
+                         [selectedToggleOption]="toggleActionViewControl?.value"
+                         [allActionsCount]="allActionsCount" *ngIf="!hasActions() && !progressBar">
+          </mc-no-actions>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

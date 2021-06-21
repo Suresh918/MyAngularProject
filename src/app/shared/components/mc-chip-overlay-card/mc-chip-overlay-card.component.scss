@@ -1,0 +1,10 @@
+@import '../../../../themes/material/theming';
+.chip-overlay-card {
+  ::ng-deep .mat-chip {
+    max-width: none;
+  }
+}
+
+.chip-text {
+  max-width: fit-content !important;
+}

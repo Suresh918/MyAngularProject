@@ -1,0 +1,14 @@
+<div class="aal--elevation-3 banner  aal--padding-all-r1" fxLayout="column"
+           fxLayoutGap="0.5rem" fxFlexAlign="space-between" *ngIf="showBanner">
+  <div fxFlex="100%" fxLayout="column">
+    <div @items class="error-message aal--padding-all-r-5" fxLayout="row">
+      <ng-content select="[banner-body]"></ng-content>
+    </div>
+  </div>
+  <div fxLayout="row" fxFlexAlign="space-between">
+    <button mat-button color="accent" (click)="close()" *ngIf="!hideDismiss">Dismiss</button>
+    <span fxFlex="1 1 auto"></span>
+    <button mat-button color="accent" (click)="emitAction()">{{actionButtonText}}</button>
+  </div>
+
+</div>

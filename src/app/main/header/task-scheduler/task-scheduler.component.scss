@@ -1,0 +1,24 @@
+.task-scheduler-header-icon.material-icons{
+  margin-right: 0 !important;
+  &.progress {
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+    animation-iteration-count:infinite;
+  }
+}
+
+.menu-icon {
+  opacity: .75 !important;
+  padding: 1.25rem;
+  &:hover {
+    background: rgba(0, 0, 0, 0.18) !important;
+    border-radius: 50%;
+    opacity: 1 !important;
+    padding: 1.25rem;
+  }
+}
+
+.task-schedule-item {
+  cursor: pointer !important;
+}

@@ -1,0 +1,129 @@
+<div fxLayout="column" fxLayoutGap="1rem">
+  <div fxLayout="row" fxLayoutAlign="space-between" class="release-package--content">
+    <div fxLayout="row" fxLayoutGap="2.5rem">
+      <mc-object [direction]="'column'" [noMargin]="true" [key]="'Project'" [value]="caseObject?.projectID">
+      </mc-object>
+      <mc-object [direction]="'column'" [noMargin]="true" [key]="'ECN'" [value]="caseObject?.sourceSystemAliasID"
+        [link]="deepLinkURL+(caseObject?.sourceSystemID||'')">
+      </mc-object>
+      <mc-object [direction]="'column'" [key]="'WIP/FAT'" [value]="caseObject?.WIPFAT ? 'Yes' : 'No'"></mc-object>
+      <mc-object [direction]="'column'" [noMargin]="true" [key]="'fSAP'"
+        [value]="caseObject?.SAPChangeControl ? 'Yes' : 'No'">
+      </mc-object>
+    </div>
+    <div fxLayout="row" fxLayoutGap="2.5rem">
+      <div fxLayout="row" fxLayoutGap="2rem">
+        <aal-button-overlay-card [buttonType]="'text'" [progressBar]="progressBar"
+                                 [badgeType]="(review?.review_task_count === 0 || review?.review_task_count === null) ? 'single' : 'double'" (overlayCardOpen)="getReviewersList(review)"
+                                 (submitClick)="overlayCardSubmit(review)"
+                                 [categoryItemsCount]="review?.completed_review_task_count"
+                                 [fractionCount]="review?.review_task_count"
+                                 [referenceBadgeData]="review?.review_task_count"
+                                 [badgeData]="review?.completed_review_task_count !== null ? review?.completed_review_task_count : 0"
+                                 [footerButtonText]="'Show All'" [footerButtonColor]="'accent'"
+                                 [defaultItemIcon]="'account_circle'" [showFooterBar]="true"
+                                 [hasBadge]="true" [headerIcon]="'supervised_user_circle'"
+                                 [headerTitle]="'Reviewers'" [listItemDetails]="reviewOverlayData"
+                                 [buttonLabel]="'Reviewers'"
+                                 [itemTemplateRef]="cardSummaryRef"
+                                 fxLayoutAlign="center center"
+                                 [overlayMenuXPosition]="'before'" [overlayMenuYPosition]="'above'"
+                                 (overlayCardListItemClick)="reviewersListItemClicked($event)"
+                                 [overlayCardLoaderTemplateRef]="overlayCardLoaderTemplateRef"
+                                 [emptyStateTemplateRef]="emptyStateRefForOverlayCard"></aal-button-overlay-card>
+        <ng-template #cardSummaryRef let-item>
+          <mc-card-summary [mainDescription]="item?.assignee?.full_name"
+                           [mainDescriptionCaption]="item?.assignee?.abbreviation"
+                           [separator]="'parenthesis'"
+                           [line1Caption]="'Defects' + ' (' + item?.completed_review_entry_count + '/' + item?.review_entry_count + ')' + ' &middot; ' + item?.status_label"
+                           [line2Caption]="item?.due_date  | aalDate:'dueDate'"
+                           [iconImageTemplateRef]="imageDisplayRef1" [fontsize]="'small'"></mc-card-summary>
+          <ng-template #imageDisplayRef1>
+            <img aalLoadBlankPortrait class="aal--padding-right-r-25 image--circle-large"
+                 *ngIf="item?.assignee?.user_id"
+                 [src]="item?.assignee?.user_id | userImage" alt="no picture"/>
+          </ng-template>
+        </ng-template>
+        <ng-template #emptyStateRefForOverlayCard>
+          <aal-empty-state [title]="'No Reviewers'"
+                           [subTitle]="'Reviewers will appear here. Only ECN Executors and CS2s can add reviewers.'"
+                           [icon]="'supervised_user_circle'"></aal-empty-state>
+        </ng-template>
+        <ng-template #overlayCardLoaderTemplateRef>
+          <mc-loader *ngIf="progressBar" [count]="3" [type]="'overlay'"></mc-loader>
+        </ng-template>
+        <aal-button-overlay-card [buttonType]="'text'" [progressBar]="progressBar"
+                                 [badgeType]="(review?.review_entry_count === 0 || review?.review_entry_count === null) ? 'single' : 'double'" (overlayCardOpen)="getDefectsList(review)"
+                                 (submitClick)="overlayCardSubmit(review)"
+                                 [categoryItemsCount]="review?.completed_review_entry_count"
+                                 [fractionCount]="review?.review_entry_count"
+                                 [referenceBadgeData]="review?.review_entry_count"
+                                 [badgeData]="review?.completed_review_entry_count !== null ? review?.completed_review_entry_count : 0"
+                                 [footerButtonText]="'Show All'" [footerButtonColor]="'accent'"
+                                 [defaultItemIcon]="'account_circle'" [showFooterBar]="true"
+                                 [hasBadge]="true" [headerIcon]="'rate_review'"
+                                 [headerTitle]="'Defects'" [listItemDetails]="reviewEntriesList"
+                                 [buttonLabel]="'Defects'"
+                                 [itemTemplateRef]="cardSummaryForDefectsRef"
+                                 fxLayoutAlign="center center"
+                                 [overlayMenuXPosition]="'before'" [overlayMenuYPosition]="'above'"
+                                 (overlayCardListItemClick)="defectsListItemClicked(review)"
+                                 [overlayCardLoaderTemplateRef]="overlayCardLoaderTemplateRef"
+                                 [emptyStateTemplateRef]="emptyStateRefForDefectsOverlayCard"></aal-button-overlay-card>
+        <ng-template #cardSummaryForDefectsRef let-item>
+          <mc-card-summary [mainDescription]="(item?.classification ? item?.classification + ' &middot; ' : '') + item?.description"
+                           [separator]="'interpunct'"
+                           [line1Caption]="item?.status_label + ' &middot; ' + item?.remark"
+                           [line2Caption]="item?.solution_items"
+                           [iconImageTemplateRef]="imageDisplayRef2" [fontsize]="'small'"
+                           [actionTemplateRef]="actionRef"></mc-card-summary>
+          <ng-template #imageDisplayRef2>
+          <span fxLayout="column" fxLayoutAlign="center center">
+            <span class="aal--margin-bottom-r0 sequence-count aal--padding-right-r-5"
+                  fxLayoutAlign="end center">{{item?.sequence_number < 10 ? '0'+ item?.sequence_number : item?.sequence_number}}</span>
+          </span>
+          </ng-template>
+          <ng-template #actionRef>
+            <div fxLayout="row">
+              <mat-divider [style.height]="'2rem'" [vertical]="true"></mat-divider>
+              <mc-button-icon [ngClass]="{'hide-badge': item?.comment_count === '0'}"
+                              [icon]="'mode_comment'"
+                              [tooltip]="'Comments'"
+                              [disabled]="true"
+                              [isBadgeDisabled]="true"
+                              [badgeData]="item?.comment_count"
+                              [noCheckOnCaseAction]="true"
+                              [isGenericButton]="true"></mc-button-icon>
+            </div>
+          </ng-template>
+        </ng-template>
+        <ng-template #emptyStateRefForDefectsOverlayCard>
+          <aal-empty-state [title]="'No Defects Added'"
+                           [subTitle]="'Defects will appear here.'"
+                           [icon]="'rate_review'"></aal-empty-state>
+        </ng-template>
+        <ng-template #overlayCardLoaderTemplateRef>
+          <mc-loader *ngIf="progressBar" [count]="3" [type]="'overlay'"></mc-loader>
+        </ng-template>
+      </div>
+      <div fxLayout="row" fxLayoutGap="0.5rem">
+        <span fxLayout="column" fxLayoutAlign="center center">
+          <span *ngIf="caseObject?.totalActionsLinkedCN > 0
+                              && caseObject?.totalOpenActionsLinkedCN !== caseObject?.totalActionsLinkedCN"
+            class=" notification-badge color-magneta"></span>
+          <span fxLayoutAlign="center center" class="case-object--border case-object-icon icon--height--width ">
+            <mat-icon>assignment</mat-icon>
+          </span>
+        </span>
+        <button mat-stroked-button class="actions-stroked--button" color="accent">
+          <a [routerLink]="['/change-notices/'+ caseObject?.changeNoticeID]" [queryParams]="{ actions: 'true'}"
+            target="_blank">{{ caseObject?.totalOpenActionsLinkedCN }} /
+            {{ caseObject?.totalActionsLinkedCN }} CN Actions</a></button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <mc-object [direction]="'column'" [noMargin]="true" [key]="'Prerequisites'" [value]="''"></mc-object>
+  </div>
+  <mat-divider></mat-divider>
+</div>

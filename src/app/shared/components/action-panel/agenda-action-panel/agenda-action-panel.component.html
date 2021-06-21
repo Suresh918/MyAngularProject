@@ -1,0 +1,36 @@
+<div class="action--divider-top agenda-action--panel aal--margin-right-left-r1">
+  <mat-expansion-panel class="agenda-action--panel" [expanded]="expanded">
+    <mat-expansion-panel-header class="action-details-header">
+      <mc-action-panel-header fxFill [caseObject]="linkedCaseObject" [caseObjectType]="linkedCaseObject?.type">
+      </mc-action-panel-header>
+    </mat-expansion-panel-header>
+    <div fxLayout="row" *ngIf="agendaItemActions?.length > 0 || linkedCaseObjectActions?.length > 0"
+      class="toggle-action--container" fxLayoutAlign="end center">
+      <mat-button-toggle-group #group1="matButtonToggleGroup" [formControl]="toggleActionViewControl"
+        (change)="onListSelectionChange()">
+        <mat-button-toggle color="primary" mat-raised-button [value]="'OPEN-ACCPTED'">
+          Open / Accepted ({{ openAcceptedCount }})
+        </mat-button-toggle>
+        <mat-button-toggle color="primary" mat-raised-button [value]="'ALL'">
+          All Actions ({{ totalActionsCount }})
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div fxLayout="column" class="action-list--container" fxLayoutGap="1rem">
+      <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="agendaItemActions?.length > 0">
+        <span class="label">{{agendaItemCategory}} Actions</span>
+        <mc-action-panel-list [actionOverViewList]="agendaItemActions" [caseObjectType]="linkedCaseObject?.type">
+        </mc-action-panel-list>
+      </div>
+      <div fxLayout="column" fxLayoutGap="0.5rem" *ngIf="linkedCaseObjectActions?.length > 0">
+        <span class="label">{{linkedCaseObject?.type}} Actions</span>
+        <mc-action-panel-list [actionOverViewList]="linkedCaseObjectActions" [caseObjectType]="linkedCaseObject?.type">
+        </mc-action-panel-list>
+      </div>
+      <mc-empty-state [title]="'No Actions'"
+        [subTitle]="'No Actions are added yet. Please keep watching this space.'" [icon]="'assignment'"
+        *ngIf="agendaItemActions?.length === 0 && linkedCaseObjectActions?.length === 0">
+      </mc-empty-state>
+    </div>
+  </mat-expansion-panel>
+</div>

@@ -1,0 +1,18 @@
+<mat-card class="import-content--card">
+  <mat-card-content>
+    <div fxLayout="row" fxFlex fxLayoutAlign="start center">
+      <div fxFlex="60%" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+        <img class="user-profile-img" aalLoadBlankPortrait [src]="'' | userImage" alt="User Profile">
+        <div fxLayout="column" fxLayoutGap="0.4rem" fxFlex="100%">
+          <span class="mat-h3">PBS/AIR ID</span>
+          <span class="mat-h4 aal--margin-all-r0 label"> PBS/ AIR Name</span>
+        </div>
+      </div>
+      <div fxFlex="40%" fxLayout="row">
+        <div fxLayout="column" class="aal--margin-top-r1" fxFlex="100%">
+          <mc-mat-select></mc-mat-select>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

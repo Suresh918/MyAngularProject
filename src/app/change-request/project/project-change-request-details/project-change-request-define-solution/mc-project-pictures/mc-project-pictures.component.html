@@ -1,0 +1,97 @@
+<mc-expansion-panel [header]="'Pictures'" [isExpanded]="isExpanded">
+  <div class="inner-expansion-panel-content" expansion-panel-content fxLayout="column" fxLayoutGap="1rem">
+    <div class="aal--padding-all-r-5">
+      <mat-progress-bar *ngIf="progressBar" class="primary-btn-theme" color="primary" mode="indeterminate">
+      </mat-progress-bar>
+      <div fxLayout="row" fxLayoutGap="0.5rem">
+        <div fxFlex="50" fxLayout="column" fxLayoutGap="0.5rem">
+          <div class="mat-caption label">
+            {{ asIsControlConfiguration?.placeholder }}
+          </div>
+          <div *ngIf="!asIsState?.value?.id && !isCaseObjectInFinalState()" class="no-picture" id="pasteArea">
+            <textarea (paste)="pasteSelection($event, asIsControlConfiguration)" class="paste-section"></textarea>
+            <mc-button-icon (buttonClick)="fileInput.click();"
+                            [buttonAction]="'CREATE_DOCUMENT'"
+                            [color]="'accent'"
+                            [icon]="'add'" [tooltip]="'Add Picture'"
+                            class="bsnl-mat-icon&#45;&#45;pointer add-file"></mc-button-icon>
+          </div>
+          <div *ngIf="asIsState?.value?.id  && showImageDiv" class="picture-section" fxLayout="column">
+            <div fxLayout="row">
+              <img (click)="openImageDialog(0)" (onerror)="showImageDiv=false"
+                   *ngIf="asIsState?.value?.id  && showImageDiv"
+                   alt="As is Picture" class="asIsPicture " fxFlex="100%"
+                   [src]="asIsPictureImg">
+              <!--[src]="'data:image/PNG;base64,' + asIsState?.get('content')?.value">-->
+              <div *ngIf="!isCaseObjectInFinalState()" class="edit-section aal--elevation-1" fxLayout="row"
+                   fxLayoutAlign="end">
+
+                <mc-button-icon (buttonClick)="fileInput.click();"
+                                [buttonAction]="'UPDATE'"
+                                [color]="'accent'"
+                                [icon]="'edit'" [tooltip]="'Edit Picture'"></mc-button-icon>
+                <mc-button-icon (buttonClick)="remove(asIsState?.value?.id, asIsState)"
+                                [buttonAction]="'UPDATE'"
+                                [color]="'accent'"
+                                [icon]="'delete'"
+                                [tooltip]="'Delete Picture'"></mc-button-icon>
+              </div>
+            </div>
+            <div class="aal--padding-top-r-5" fxLayout="column">
+              <span class="mat-caption">{{ asIsState?.value?.name || name }}</span>
+              <span class="mat-caption">{{ asIsState?.value?.creator?.full_name}}</span>
+              <span class="mat-caption">{{ asIsState?.value?.created_on | date:'dd LLL yyyy ww' || lastModifiedDate | date:'dd LLL yyyy ww'}}</span>
+            </div>
+          </div>
+          <input #fileInput (change)="pictureChange(fileInput, asIsControlConfiguration)" [style.display]="'none'"
+                 accept="image/*" type="file"/>
+        </div>
+        <div fxFlex="50" fxLayout="column" fxLayoutGap="0.5rem">
+          <div class="mat-caption label">
+            {{ toBeControlConfiguration?.placeholder }}
+          </div>
+          <div *ngIf="!toBeState?.value?.id && !isCaseObjectInFinalState()" class="no-picture">
+            <textarea (paste)="pasteSelection($event, toBeControlConfiguration)" class="paste-section"></textarea>
+            <mc-button-icon (buttonClick)="fileInput1.click();"
+                            [buttonAction]="'CREATE_DOCUMENT'"
+                            [color]="'accent'"
+                            [icon]="'add'" [tooltip]="'Add Picture'"
+                            class="bsnl-mat-icon&#45;&#45;pointer add-file"></mc-button-icon>
+          </div>
+          <div *ngIf="toBeState?.value?.id  && showImageDiv" class="picture-section" fxLayout="column">
+            <div fxLayout="row">
+              <div fxLayout="column">
+                <img (click)="openImageDialog(1)" (onerror)="showImageDiv=false" [style.width]="'100%'"
+                     alt="To be Picture" class="toBePicture icon--pointer"
+                     [src]="toBePictureImg">
+                     <!--[src]="'data:image/PNG;base64,' + toBeState?.get('content')?.value">-->
+            </div>
+
+              <div *ngIf="!isCaseObjectInFinalState()" class="edit-section aal--elevation-1" fxLayout="row"
+                   fxLayoutAlign="end">
+                <mc-button-icon (buttonClick)="fileInput1.click();"
+                                [buttonAction]="'UPDATE'"
+                                [color]="'accent'"
+                                [icon]="'edit'" [tooltip]="'Edit Picture'"></mc-button-icon>
+                <mc-button-icon (buttonClick)="remove(toBeState?.value?.id, toBeState)"
+                                [buttonAction]="'UPDATE'"
+                                [color]="'accent'"
+                                [icon]="'delete'"
+                                [tooltip]="'Delete Picture'"></mc-button-icon>
+              </div>
+            </div>
+            <div class="aal--padding-top-r-5" fxLayout="column">
+              <span class="mat-caption">{{ toBeState?.value?.name }}</span>
+              <span class="mat-caption">{{ toBeState?.value?.creator?.fullName}}</span>
+              <span class="mat-caption">{{ toBeState?.value?.created_on | date:'dd LLL yyyy ww'}}</span>
+            </div>
+          </div>
+          <input #fileInput1 (change)="pictureChange(fileInput1, toBeControlConfiguration)"
+                 [style.display]="'none'"
+                 accept="image/*" type="file"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</mc-expansion-panel>
+

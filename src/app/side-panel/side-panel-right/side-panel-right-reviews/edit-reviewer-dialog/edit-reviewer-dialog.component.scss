@@ -1,0 +1,21 @@
+.mat-dialog-content {
+  padding: 1rem 12rem !important;
+}
+
+.dialog-container {
+  max-height: 60vh !important;
+  overflow-y: hidden;
+}
+
+.content-container {
+  padding: 0 5rem !important;
+}
+
+.reviewer-card {
+  max-height: 200px !important;
+  overflow-y: auto;
+}
+
+::ng-deep .mat-card-header-text {
+  margin: 0 !important;
+}

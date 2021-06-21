@@ -1,0 +1,30 @@
+<div fxLayout="row" fxLayoutGap="0.5rem" class="aal--padding-all-r-5 state-card-wrapper" *ngIf="stateCardList && stateCardList.length > 0 && caseObjectType !== 'ChangeNotice'">
+  <div *ngFor="let stateCard of stateCardList; let i = index;" fxLayout="row" [fxFlex]="100/stateCardList.length"
+    (click)="onStatusCardSelection(stateCard, i)" matRipple>
+    <mc-case-object-status-card  *ngIf="!stateCardType || stateCardType === 'CaseObjects'" [index]="i" [showActionsCount]="showActionsCount" [caseObjectType]="caseObjectType" [selectedCardIndex]="selectedCardIndex"
+      [caseObjectDetails]="stateCard" [matTooltip]="getToolTip(stateCard)"
+      [expandStatePanel]="expandStatePanel" [toolTip]="toolTip" [style.width]="'100%'">
+    </mc-case-object-status-card>
+    <mc-case-object-action-status-card *ngIf="stateCardType === 'Actions'"
+                                         [index]="i" [showActionsCount]="showActionsCount"
+                                         [caseObjectType]="caseObjectType"
+                                         [selectedCardIndex]="selectedCardIndex"
+                                         [caseObjectDetails]="stateCard"
+                                         [expandStatePanel]="expandStatePanel" [style.width]="'100%'">
+    </mc-case-object-action-status-card>
+  </div>
+</div>
+<div fxLayout="row" fxLayoutGap="0.5rem" class="aal--padding-all-r-5 state-card-wrapper" *ngIf="stateCardList && stateCardList.length > 0 && caseObjectType === 'ChangeNotice'">
+  <mc-analytics-panel fxFlex="100%"
+                      [cardCountKey]="'caseObjectsCount'"
+                      [cardLabelKey]="'caseObjectStateLabel'"
+                      [toolTipKey]="'toolTip'"
+                      [panelData]="stateCardList"
+                      [mode]="'multiple'"
+                      [panelExpanded]="expandStatePanel"
+                      (panelSelected)="panelClicked($event)"
+                      *ngIf="!isPanelDataLoading"
+                      class="notification-type-panel">
+  </mc-analytics-panel>
+</div>
+

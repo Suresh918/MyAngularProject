@@ -1,0 +1,12 @@
+<mat-expansion-panel [expanded]="isExpanded"
+                     class="section-expansion-header aal--elevation-1 expansion-panel auto-height">
+  <mat-expansion-panel-header class="expansion-panel-header auto-height">
+    <mat-panel-title class="fit-into-content">
+      <ng-content class="expansion-panel-title" select="[expansion-panel-title]"></ng-content>
+    </mat-panel-title>
+    <mat-panel-description fxLayoutAlign="end end">
+      <ng-content class="expansion-panel-description" select="[expansion-panel-description]"></ng-content>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <ng-content class="expansion-panel-content splash-screen" select="[expansion-panel-content]"></ng-content>
+</mat-expansion-panel>

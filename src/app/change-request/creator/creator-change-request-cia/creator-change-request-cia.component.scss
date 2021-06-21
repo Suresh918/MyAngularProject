@@ -1,0 +1,9 @@
+@import '../../../../themes/material/theming';
+
+::ng-deep .mat-expansion-panel .mat-expansion-panel-header .mat-expansion-panel-header-title {
+  font-size: 20px !important;
+  padding-left: 1rem !important;
+}
+::ng-deep .status-text {
+  color: $aal--mat-primary;
+}

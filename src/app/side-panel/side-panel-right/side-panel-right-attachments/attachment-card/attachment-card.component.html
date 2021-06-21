@@ -1,0 +1,45 @@
+<mat-card class="attachment-card mc-card-content" (mouseover)="highlightIcon=true" (mouseleave)="highlightIcon=false">
+  <mat-card-header fxLayout="column">
+    <div fxLayout="row" >
+      <div fxLayout="row" fxFlex="100%" class="overflow-ellipsis icon--pointer" fxLayoutGap="0.5rem">
+        <div *ngIf="!(attachment?.contentType === 'image/jpeg' || attachment?.contentType ==='image/png')" (click)="openAttachment(attachment?.document)" mat-card-avatar><mat-icon class="icon--medium">insert_drive_file</mat-icon> </div>
+        <img *ngIf="(attachment?.contentType === 'image/jpeg' || attachment?.contentType ==='image/png') && (caseObjectType !== 'ChangeRequest' && caseObjectType !== 'ReleasePackage')" alt="Pictures" class="picture-icon"
+             src="{{ pictureURL }}/{{ attachment?.document?.ID }}" (click)="openImageDialog(attachment.document)"/>
+        <img *ngIf="(attachment?.contentType === 'image/jpeg' || attachment?.contentType ==='image/png') && (caseObjectType === 'ChangeRequest' || caseObjectType === 'ReleasePackage')" alt="Pictures" class="picture-icon"
+             src="{{ pictureURL }}/{{ attachment?.document?.ID }}/{{'content'}}" (click)="openImageDialog(attachment.document)"/>
+        <div fxLayout="column" fxFlex="100%" [style.width]="'80%'" (click)="openAttachment(attachment?.document)" [style.cursor]="'pointer'">
+          <span class="overflow-ellipsis mat-body-1" [matTooltip]="attachment?.document?.name">{{attachment?.document?.name}}</span>
+          <span class="overflow-ellipsis mat-body-2 label aal--margin-bottom-r-5">{{attachment?.contentSize}}KB &middot; {{attachment?.document?.uploadedOn | aalDate : 'dueDate'}}</span>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="end" *ngIf="highlightIcon && mode==='edit'">
+        <mc-button-icon [icon]="'edit'"
+                        [tooltip]="'Edit'"
+                        [color]="'accent'"
+                        [buttonAction]="updateButtonAction"
+                        (buttonClick)="editDocument(attachment?.document)"></mc-button-icon>
+        <mc-button-icon [icon]="'delete'"
+                        [tooltip]="'Delete'"
+                        [color]="'accent'"
+                        [buttonAction]="deleteButtonAction"
+                        (buttonClick)="deleteCard(attachment?.document?.ID)"></mc-button-icon>
+      </div>
+    </div>
+    <div class="aal--margin-bottom-r-5" *ngIf="getShowPersonChip(attachment)">
+      <mc-chip [text]="attachment?.document?.uploadedBy | personName"
+               (chipPress)="openAttachment(attachment?.document?.ID)"
+               [disabled]="true"
+               [imageURL]="attachment?.document?.uploadedBy?.user_id || attachment?.document?.uploadedBy?.userID | userImage"></mc-chip>
+    </div>
+  </mat-card-header>
+  <mat-divider *ngIf="attachment?.document?.description || attachment?.note?.note" class="content-divider"></mat-divider>
+  <mat-card-content class="aal--padding-top-r-5" fxLayout="column" *ngIf="attachment?.document?.description || attachment?.note?.note" [style.cursor]="'pointer'" (click) ="toggleExpansion($event, attachment?.document)">
+    <span class="comments" [ngClass]="!attachment?.document?.expanded ? 'overflow-ellipsis' : 'expanded word-wrap--break-word'"
+          [innerHTML]="attachment?.document?.description || attachment?.note?.note">
+    </span>
+    <div class="aal--padding-top-r-5 expand" fxLayout="row" fxLayoutAlign="center center">
+      <mat-icon *ngIf="!attachment?.document?.expanded">keyboard_arrow_down</mat-icon>
+      <mat-icon *ngIf="attachment?.document?.expanded">keyboard_arrow_up</mat-icon>
+    </div>
+  </mat-card-content>
+</mat-card>

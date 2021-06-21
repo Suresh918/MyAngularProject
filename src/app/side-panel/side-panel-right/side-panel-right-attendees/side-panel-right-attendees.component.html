@@ -1,0 +1,60 @@
+<div [style.height]="'100%'">
+  <mc-right-panel-header [headerText]="'Attendees'" [itemsCount]="selectedAttendeesCount" [panelMode]="panelMode" [type]="caseObjectType"></mc-right-panel-header>
+  <div class="side-panel-right-content">
+    <div [ngStyle]="{'height': (progressBar ? '5px' : '')}">
+      <mat-progress-bar color="primary" class="primary-btn-theme" mode="indeterminate" *ngIf="progressBar">
+      </mat-progress-bar>
+    </div>
+    <mc-right-panel-add-object [tooltip]="'Add Attendee'"  (add)="onPressAddAttendee()"
+                              [buttonCaseAction]="'ADD-ATTENDEES'"></mc-right-panel-add-object>
+    <div fxLayout="column" fxLayoutGap="1rem" class="panel-data-content">
+      <mc-auto-complete-user-multiple [control]="attendeeControl" [isBusy]="progressBar"
+                                      [controlConfiguration]="attendeeFormConfiguration"
+                                      [fieldSaveNotApplicable]="true" [isHistoryEnabled]="true"
+                                      *ngIf="showAttendeeForm" (bubbledAcceptChanges)="addAttendeeToList()"
+                                      [mode]="'EDIT'"></mc-auto-complete-user-multiple>
+      <div fxLayout="row" fxLayoutAlign="end center" class="aal--padding-bottom-r-75">
+        <mat-button-toggle-group (change)="toggleAttendeesGroup($event)" [formControl]="toggleAttendeesViewControl">
+          <mat-button-toggle [value]="'CASEOBJECT'">
+            Selected ({{selectedAttendeesCount}})
+          </mat-button-toggle>
+          <mat-button-toggle [value]="'ALL'">
+            All Invited ({{allInvitedAttendeesCount}})
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <div fxLayout="row" fxLayoutGap=".5rem" fxLayoutAlign="start center" class="aal--padding-bottom-r-25" *ngIf="attendeesList?.length !== 0">
+        <mat-checkbox *ngIf="!showLoaderForSelectAll" [(ngModel)]="checked" (change)="toggleAllAttendees($event)"></mat-checkbox>
+        <span *ngIf="showLoaderForSelectAll" fxLayoutAlign="center center">
+          <mat-spinner [diameter]="20"></mat-spinner>
+        </span>
+        <mat-icon>group_add</mat-icon>
+        <span>{{CheckboxName}}</span>
+      </div>
+      <mat-divider class="aal--margin-right-left-r1"></mat-divider>
+      <mc-empty-state [title]="'No Attendees'" *ngIf="attendeesList?.length === 0"
+                      [icon]="'note'" class="aal--padding-all-r1">
+      </mc-empty-state>
+      <div *ngFor="let item of attendeesList" class="aal--margin-bottom-r-25" fxLayout="row" fxLayoutGap="4px">
+        <mat-checkbox *ngIf="!item.showLoader" [(ngModel)]="item.checked || item.isSelected" (change)="toggleAttendees($event, item)" class="marginTop"></mat-checkbox>
+        <span *ngIf="item.showLoader" fxLayoutAlign="center center">
+          <mat-spinner [diameter]="16"></mat-spinner>
+        </span>
+        <div fxLayout="column" fxLayoutGap="0.5rem" fxFlex="95%">
+            <mc-card-summary fxFlex="50%"
+                             [mainDescription]="item?.UserElement?.fullName"
+                             [mainDescriptionCaption]="item?.UserElement?.abbreviation"
+                             [line1]="item?.UserElement?.departmentName || (item?.isSpecialInvitee ? 'Special Invitee' : '')"
+                             [separator]="'parenthesis'" [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+          <ng-template #imageDisplayRef>
+            <img class="image-circle" *ngIf="item?.UserElement?.userID" [src]="item?.UserElement?.userID | userImage"
+                 alt="">
+          </ng-template>
+        </div>
+      </div>
+      <div *ngIf="!isGetMeetingsSuccessful" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="0.75rem" class="aal--padding-all-r1">
+        <span class="aal--subheading-1">Could not retrieve all attendees from outlook. You do not own the meeting.</span>
+      </div>
+    </div>
+  </div>
+</div>

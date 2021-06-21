@@ -1,0 +1,71 @@
+<div fxLayout="column"
+     class="aal--elevation-1 aal--padding-all-r1 background-white fit-into-content" [ngClass]="isItemExpanded ? 'card-border-expanded': 'card-border'" fxFlex="100%">
+  <div fxLayoutGap="1rem" fxLayout="row" fxLayoutAlign="start center"
+       class="fit-into-content">
+    <mc-card-summary fxFlex="64%" *ngIf="item?.agenda" (mainDescriptionClick)="navigateToAgenda(item?.agenda?.ID)"
+                     [separator]="'interpunct'"
+                     [line1]="item?.agendaItem?.category"
+                     [line1Caption]="item?.agenda?.plannedStartDate | aalDate"
+                     [iconImageTemplateRef]="imageDisplayRef1" [mainDescriptionLink]="item?.agenda?.generalInformation?.title" [fontsize]="'small'">
+    </mc-card-summary>
+    <ng-template #agendaLabelTemplateRef>
+      <span class="font-weight-500">{{item?.agenda?.generalInformation?.title}}</span>
+    </ng-template>
+    <ng-template #imageDisplayRef1>
+      <mat-icon class="icon--medium" [svgIcon]="'cb-icon'"></mat-icon>
+    </ng-template>
+    <mc-button-contained fxFlex="64%" *ngIf="!item?.agenda"
+                         [disabled]="item?.agendaItem?.generalInformation?.status === 'NEW'"
+                         [color]="'accent'"
+                         [buttonAction]="'COMMUNICATE-OFFLINE-DECISION'"
+                         [isLinkedItem]="true"
+                         [caseObject]="agendaItemCaseObject"
+                         (buttonClick)="onClickCommunicateDecision()"></mc-button-contained>
+    <mat-divider [vertical]="true" fxFlex="2%"></mat-divider>
+    <mc-card-summary fxFlex="15%"
+                     [label]="'Decision'"
+                     [mainDescription]="'Offline'">
+    </mc-card-summary>
+    <mc-card-summary fxFlex="15%" [labelCaption]="'Decision'"
+                     [mainDescription]="decisionStatus"
+                     [iconImageTemplateRef]="purposeRef"></mc-card-summary>
+    <ng-template #purposeRef>
+      <mat-icon [ngClass]="{'icon--medium': true, 'icon--border' : true}" *ngIf="decisionIcon !== 'help_outline'">{{decisionIcon}}</mat-icon>
+      <img *ngIf="decisionIcon === 'help_outline'"
+           [src]="'../../../../../../../assets/icons/help-icon.png'" aalLoadBlankPortrait
+           alt=""
+           class="image-circle-medium">
+    </ng-template>
+    <mc-button-icon fxFlex="4%" [icon]="'keyboard_arrow_down'" [isGenericButton]="true"
+                    (buttonClick)="toggleAgendaItemView()"
+                    [noCheckOnCaseAction]="true"
+                    [color]="'accent'"
+                    *ngIf="!isItemExpanded"></mc-button-icon>
+    <mc-button-icon fxFlex="4%" [icon]="'keyboard_arrow_up'" [isGenericButton]="true"
+                    (buttonClick)="toggleAgendaItemView()"
+                    [noCheckOnCaseAction]="true"
+                    [color]="'accent'"
+                    *ngIf="isItemExpanded"></mc-button-icon>
+  </div>
+  <div *ngIf="isItemExpanded" animationDuration="1000ms">
+    <div fxLayout="column" class="aal--padding-top-bottom-r1" fxLayoutGap="1rem">
+      <mat-divider></mat-divider>
+      <div fxLayout="row" fxLayoutGap="1rem">
+        <mc-rich-text-area fxFlex="58%" [control]="agendaItemFormGroup?.get('minutes.conclusion')"
+                           [controlConfiguration]="agendaItemConfiguration?.minutes?.conclusion"
+                           [caseObject]="agendaItemCaseObject" [hideHelp]="true"
+        ></mc-rich-text-area>
+        <mc-button-toggle-input-status-ai fxFlex="42%" [control]="agendaItemFormGroup?.get('generalInformation.status')"
+                                          [decisionIcon]="decisionIcon"
+                                          [isOfflineItem]="true"
+                                          [caseObject]="agendaItemCaseObject"
+                                          [agendaItemData]="agendaItemDetail?.agendaItem"
+                                          [controlConfiguration]="agendaItemConfiguration?.agendaItem?.offlineDecision"
+                                          (bubbledAcceptChanges)="onDecisionUpdated($event)">
+        </mc-button-toggle-input-status-ai>
+      </div>
+    </div>
+  </div>
+</div>
+
+

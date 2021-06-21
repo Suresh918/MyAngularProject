@@ -1,0 +1,70 @@
+<div class="page-body" fxLayout="column">
+  <div class="sticky-header">
+    <div class="floating-header aal--elevation-2">
+      <div class="caseobject-list-filter">
+        <mc-filter-bar [caseObjectListCount]="totalItemCount" [caseObjectFiltersConfiguration]="caseObjectFilterConfiguration" [caseObject]="filterCaseObject"
+          [title]="filterTitle" (filterUpdated)="triggerFilterChanges($event)" (filterPanelView)="filterPanelView($event)"
+          [disabledLayerClicked]="disabledLayerClicked" (statePanelView)="statePanelView($event)" [searchInProgress]="searchInProgress">
+        </mc-filter-bar>
+      </div>
+      <mc-case-object-state-panel
+        [showActionsCount]="showActionsCount"
+        [caseObjectType]="caseObjectType"
+        [filterQuery]="filterQueryString"
+        [expandStatePanel]="expandStatePanel"
+        (statePanelSelected)="statePanelSelectAction($event)"
+        [caseObjectLabel]="caseObjectLabel"
+        [caseObjectRouterPath]="caseObjectRouterPath"
+        [hidden]="(showFilterPanel || !toggleStatePanel) && !disabledLayerClicked"
+        (obsoletedCardsCountChange)="showObsoletedCardsCount($event)"
+        (isSetStateCardList)= "onIsSetStateCardList($event)">
+      </mc-case-object-state-panel>
+      <mc-loader [type]="'panel'" *ngIf="isProgressStatusList" [count]="totalStates" class="aal--padding-top-bottom-r-5"></mc-loader>
+    </div>
+  </div>
+  <div fxFlex class="scrollable-wrapper" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()"
+    (scroll)="onScroll($event)" [scrollWindow]="false" #scrollingWrapper>
+    <div fxLayout="row" fxLayoutAlign="space-between" class="aal--margin-all-r-5">
+      <div fxLayout="row" class="aal--margin-left-r1" fxLayoutAlign="start center">
+        <aal-overlay-card-help *ngIf="(caseObjectType === 'ChangeNotice') || (caseObjectType === 'ChangeRequest')" [help]="totalCountHelp"></aal-overlay-card-help>
+        <span class="mat-body-1 aal--margin-bottom-r0">Total:
+          <span>{{totalItemCount}}</span>
+        </span>
+        <mat-divider class="count-divider" [vertical]="true"></mat-divider>
+        <mc-button-icon
+          [icon]="'list'"
+          [tooltip]="'List view'"
+          [noCheckOnCaseAction]="true"
+          [buttonId]="'case_object_list_list_view'"
+          [color]="showTableView ? '#1C7DDB' : '#858585'"
+          (buttonClick)="toggleListView(true)"
+        ></mc-button-icon>
+        <mc-button-icon
+          [icon]="'view_stream'"
+          [tooltip]="'Card view'"
+          [noCheckOnCaseAction]="true"
+          [buttonId]="'case_object_list_card_view'"
+          [color]="!showTableView ? '#1C7DDB' : '#858585'"
+          (buttonClick)="toggleListView(false)"
+        ></mc-button-icon>
+      </div>
+      <div fxLayout="row" fxLayoutGap="1rem" *ngIf="!showTableView" fxFlex="300px">
+        <mc-menu-sort fxFill [matTooltip]="'Change sort order'"  [sortFromLinkedItem]="true" [sortConfiguration]="sortingConfiguration"
+          [initialSort]="overviewListActiveSort" [disableSortClear]="true" (sortChange)="triggerOverviewListSortChange($event)"></mc-menu-sort>
+      </div>
+    </div>
+    <div *ngIf="showTableView">
+      <mc-case-object-table [displayedColumns]="displayedColumns" [filterQuery$]="filterQuery$" [listSortConfiguration]="listSortConfiguration"
+        [caseObjectType]="caseObjectType" [caseObjectLabel]="caseObjectLabel" [caseObjectRouterPath]="caseObjectRouterPath"
+        (updateListSortConfiguration)="triggerListSortConfiguration($event)" (totalTableCount)="updateTotalCounter($event)" (searchInProgress)="setSearchProgress($event)">
+      </mc-case-object-table>
+    </div>
+    <div *ngIf="!showTableView">
+      <mc-case-object-card-list [caseObjectRouterPath]="caseObjectRouterPath" [filterQuery]="filterQuery$" [scrollWrapper]="listContainer?.nativeElement" [caseObjectType]="caseObjectType" [scrollUpdate]="scrollUpdate" [activeSort]="overviewListActiveSort"
+        [caseObjectLabel]="caseObjectLabel" [caseObjectListOverview]="caseObjectList"
+        (totalListCount)="updateTotalCounter($event)" (searchInProgress)="setSearchProgress($event)">
+      </mc-case-object-card-list>
+    </div>
+    <div *ngIf="showFilterPanel && !disabledLayerClicked" class="list-disable--overlay" (click)="hideFilterPanelEvent()"></div>
+  </div>
+</div>

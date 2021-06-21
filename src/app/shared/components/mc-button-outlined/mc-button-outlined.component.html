@@ -1,0 +1,7 @@
+<aal-button-outlined *ngIf="(buttonAction$ | async) || noCheckOnCaseAction"
+                     [name]="name"
+                     [tooltip]="tooltip"
+                     [color]="color"
+                     [disabled]="(!(buttonAction$ | async) && buttonDisabled) || disabled"
+                     [ID]="buttonId ? buttonId : defaultButtonID"
+                     (onClick)="onButtonClick($event)"></aal-button-outlined>

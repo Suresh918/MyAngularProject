@@ -1,0 +1,13 @@
+::ng-deep .notification-list-loader {
+  .loader {
+    margin-bottom: 0;
+  }
+}
+
+.notification-panel {
+  width: 100%;
+  height: 72px;
+  border-radius: 8px;
+  background: white;
+  z-index: 1;
+}

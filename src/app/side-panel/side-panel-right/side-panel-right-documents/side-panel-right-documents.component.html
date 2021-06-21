@@ -1,0 +1,53 @@
+<div aalDragDropFile [style.height]="'100%'"
+     (dragenterFn)="onDragFileEnter()" (dragleaveFn)="onDragFileLeave($event)">
+  <mc-right-panel-header [headerText]="'Documents'" [itemsCount]="attachmentsCount"
+                         *ngIf="!(showAddDocumentForm && highlightDropZone && !disableAddDocument)" [panelMode]="panelMode" [type]="caseObjectType"></mc-right-panel-header>
+  <div class="side-panel-right-content">
+    <div [style.height]="'5px'">
+      <mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate"
+                        *ngIf="showLoader"></mat-progress-bar>
+    </div>
+    <mc-right-panel-add-object *ngIf="!showAddDocumentForm && isAuthorizedToChangeDocuments" [tooltip]="'Add Document'"
+                               (add)="onPressAddDocument()"
+                               [buttonCaseAction]="addButtonAction"></mc-right-panel-add-object>
+
+    <div fxLayout="column" fxLayoutGap="1rem"
+         [ngClass]="{'panel-data-content': !(highlightDropZone && showAddDocumentForm && !disableAddDocument)}">
+      <mc-file-upload-form [formDataGroup]="documentForm" *ngIf="showAddDocumentForm"
+                           [documentDeleted]="documentDeleteSuccess"
+                           [formDataControlConfiguration]="addDocumentControlConfiguration"
+                           [caseObject]="caseObject"
+                           [caseObjectType]="caseObjectType"
+                           (deleteDocument)="onDeleteDocument()"
+                           (disableAdd)="onDisableAdd($event)"
+                           (saveForm)="onSaveDocument()"
+                           (cancelForm)="resetForm()" [editingForm]="editingForm"></mc-file-upload-form>
+      <mc-loader *ngIf="showLoader" [type]="'right-panel-menu-list-items'" [count]="3"></mc-loader>
+      <mc-empty-state [title]="'No Documents'"
+                      [subTitle]="'Added documents to this '+ helperService?.getCaseObjectForms(linkedItem?.type)?.abbr +' will appear here.'"
+                      [icon]="'insert_drive_file'"
+                      *ngIf="attachmentList?.length === 0 && !(highlightDropZone && showAddDocumentForm && !disableAddDocument) && !showLoader">
+      </mc-empty-state>
+      <div fxLayout="column" fxFill
+           *ngIf="!(highlightDropZone && showAddDocumentForm && !disableAddDocument) && attachmentList?.length > 0" fxLayoutGap="0.5rem">
+        <div *ngFor="let attachmentGroup of attachmentList" fxLayout="column" fxLayoutGap="1rem">
+          <div fxLayout="column" fxLayoutGap="4px">
+            <div class="mat-title" *ngIf="attachmentGroup?.category?.toLowerCase().indexOf('other') === -1">
+              {{attachmentGroup.category}}
+            </div>
+            <div fxLayout="column" fxLayoutGap="0.5rem">
+              <mc-attachment-card *ngFor="let attachment of attachmentGroup.attachments" [attachment]="attachment"
+                                  [pictureURL]="(caseObjectType === 'ChangeRequest' || caseObjectType === 'ReleasePackage') ? microServicePictureURL : pictureUrl" [mode]="'edit'"
+                                  [deleteButtonAction]="deleteButtonAction"
+                                  [updateButtonAction]="updateButtonAction"
+                                  (deleteCardEvent)="deleteCardEvent($event)"
+                                  (editCardEvent)="editDocument($event)" (attachmentClick)="documentClicked($event)"
+                                  [cardCategory]="attachmentGroup.category" [caseObjectType]="caseObjectType"
+                                  [isAuthorizedToChangeDocuments]="isAuthorizedToChangeDocuments"></mc-attachment-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,242 @@
+<div fxLayout="column" fxLayoutGap="1rem">
+<mc-expansion-panel [isExpanded]="isExpandedSelected" [header]="'Impact on Supply Chain / Factory / Field'">
+  <div fxLayout="row" expansion-panel-content fxLayoutGap="1rem"
+       class="inner-expansion-panel-content aal--padding-right-r-5">
+    <div fxLayout="column" fxFlex="50%" fxLayoutGap="0.5rem">
+      <mc-select-multiple-input [control]="changeRequestFormGroup?.get('impact_analysis.cbp_strategies')"
+                                [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.cbp_strategies_details')"
+                                [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.cbp_strategies"
+                                [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.cbp_strategies_details"
+                                [showDescriptionForOptions]="CBPStrategiesDetailsShowDescForOptions"
+                                [requestType]="'instance'"
+                                [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                                [ellipsisAfter]="120" [bubbleAcceptChanges]="true"
+                                (bubbledAcceptChanges)="changeLeadingValidation()">
+      </mc-select-multiple-input>
+
+      <mc-select-single [selectFormControl]="changeRequestFormGroup?.get('impact_analysis.calendar_dependency')"
+                        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.calendar_dependency"
+                        [bubbleAcceptChanges]="true"
+                        (bubbledAcceptChanges)="changeTargetedVCValidation($event)"
+                        [requestType]="'instance'"
+                        [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                        *ngIf="changeRequestFormGroup.get('impact_analysis.cbp_strategies')?.value?.length > 0 &&
+                        !changeRequestFormGroup.get('impact_analysis.cbp_strategies')?.value?.includes('NA')">
+      </mc-select-single>
+      <mc-select-single [selectFormControl]="changeRequestFormGroup?.get('impact_analysis.targeted_valid_configurations')"
+                        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.targeted_valid_configurations"
+                        [requestType]="'instance'"
+                        [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                        [isNullable]="true" *ngIf="changeRequestFormGroup.get('impact_analysis.cbp_strategies')?.value?.length > 0 &&
+                        !changeRequestFormGroup.get('impact_analysis.cbp_strategies')?.value?.includes('NA')">
+      </mc-select-single>
+      <mc-select-multiple-input [control]="changeRequestFormGroup?.get('impact_analysis.implementation_ranges')"
+                                [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.implementation_ranges"
+                                [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.implementation_ranges_details')"
+                                [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.implementation_ranges_details"
+                                [valuesWhereOtherOptionsDisabled]="optionDisablesOtherOptionsOfImplementationRange"
+                                [fieldSaveNotApplicable]="true"
+                                [isBusy]="implementationRangesSaveInProgress"
+                                [requestType]="'instance'"
+                                [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                                [serverError]="implementationRangesUpdateError">
+      </mc-select-multiple-input>
+      <mc-select-multiple [selectFormControl]="changeRequestFormGroup?.get('impact_analysis.fco_types')"
+                          [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.fco_types"
+                          [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                          *ngIf="showFCOField" [requestType]="'instance'"></mc-select-multiple>
+      <mc-button-toggle-input [control]="changeRequestFormGroup?.get('impact_analysis.impact_on_system_level_performance')"
+                              [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.impact_on_system_level_performance"
+                              [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.impact_on_system_level_performance_details')"
+                              [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.impact_on_system_level_performance_details"
+                              [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                              [showDescriptionForOptions]="sysLevelPerformImpactShowDesForOptions" [isNullable]="true" [requestType]="'instance'">
+      </mc-button-toggle-input>
+
+      <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('impact_analysis.multi_plant_impact')"
+                        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.multi_plant_impact"
+                        [isNullable]="true"
+                        [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                        [requestType]="'instance'">
+      </mc-button-toggle>
+      <mc-input-duration [control]="changeRequestFormGroup?.get('impact_analysis.investigation_labor_hours')"
+                         [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                         [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.investigation_labor_hours"
+                         [isHistoryEnabled]="true" [requestType]="'instance'" [durationType]="'duration'">
+      </mc-input-duration>
+      <mc-input-duration [control]="changeRequestFormGroup?.get('impact_analysis.development_labor_hours')"
+                         [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                         [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.development_labor_hours"
+                         [isHistoryEnabled]="true" [requestType]="'instance'" [durationType]="'duration'">
+      </mc-input-duration>
+    </div>
+    <div fxLayout="column" fxFlex="50%" fxLayoutGap="0.5rem">
+      <mc-button-radio-input [control]="changeRequestFormGroup?.get('impact_analysis.phase_out_spares_tools')"
+                             [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.phase_out_spares_tools"
+                             [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.phase_out_spares_tools_details')"
+                             [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.phase_out_spares_tools_details"
+                             [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                             [showDescriptionForOptions]="phaseOutSparesToolsShowDesForOptions" [isNullable]="true" [requestType]="'instance'">
+      </mc-button-radio-input>
+      <mc-button-toggle-input [control]="changeRequestFormGroup?.get('impact_analysis.impact_on_sequence')"
+                              [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.impact_on_sequence"
+                              [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.impact_on_sequence_details')"
+                              [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.impact_on_sequence_details"
+                              [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                              [showDescriptionForOptions]="impactOnSequenceShowDesForOptions" [isNullable]="true" [requestType]="'instance'">
+      </mc-button-toggle-input>
+      <mc-button-toggle-input [control]="changeRequestFormGroup?.get('impact_analysis.impact_on_availability')"
+                              [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.impact_on_availability"
+                              [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.impact_on_availability_details')"
+                              [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.impact_on_availability_details"
+                              [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                              [showDescriptionForOptions]="impactOnAvailabilityShowDesForOptions" [isNullable]="true" [requestType]="'instance'">
+      </mc-button-toggle-input>
+      <mc-button-toggle-input [control]="changeRequestFormGroup?.get('impact_analysis.impact_on_cycle_time')"
+                              [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.impact_on_cycle_time"
+                              [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.impact_on_cycle_time_details')"
+                              [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.impact_on_cycle_time_details"
+                              [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                              [showDescriptionForOptions]="impactOnCycleTimeDetailsShowDesForOptions" [isNullable]="true" [requestType]="'instance'">
+      </mc-button-toggle-input>
+    </div>
+  </div>
+</mc-expansion-panel>
+
+<div fxLayout="row" fxLayoutGap="1rem">
+  <div fxLayout="column" fxFlex fxLayoutGap="1rem">
+    <mc-expansion-panel [isExpanded]="isExpandedSelected" [header]="'Risks'">
+      <div fxLayout="column" expansion-panel-content fxLayoutGap="1rem" class="inner-expansion-panel-content aal--padding-right-r-5">
+        <mc-button-toggle-input [control]="changeRequestFormGroup?.get('impact_analysis.tech_risk_assessment_fmea')"
+                                [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_fmea"
+                                [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.tech_risk_assessment_fmea_details')"
+                                [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_fmea_details"
+                                [showDescriptionForOptions]="techRiskAssessFMEAShowDesForOptions"
+                                [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                                [isSecondaryControlValueHTML]="true" [isNullable]="true" [requestType]="'instance'">
+        </mc-button-toggle-input>
+        <mc-button-toggle-input [control]="changeRequestFormGroup?.get('impact_analysis.tech_risk_assessment_sra')"
+                                [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_sra"
+                                [descriptionControl]="changeRequestFormGroup?.get('impact_analysis.tech_risk_assessment_sra_details')"
+                                [descriptionControlConfiguration]="changeRequestConfiguration?.impact_analysis?.tech_risk_assessment_sra_details"
+                                [showDescriptionForOptions]="techRiskAssessSRShowDesForOptions"
+                                [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                                [isSecondaryControlValueHTML]="true" [isNullable]="true" [requestType]="'instance'">
+        </mc-button-toggle-input>
+      </div>
+    </mc-expansion-panel>
+  </div>
+  <div fxLayout="column" fxFlex fxLayoutGap="1rem">
+    <mc-expansion-panel [isExpanded]="isExpandedSelected" [header]="'Pre-Install Impact Analysis'">
+      <div fxLayout="column" expansion-panel-content fxLayoutGap="1rem" class="inner-expansion-panel-content aal&#45;&#45;padding-right-r-5">
+          <mc-button-toggle fxFlex="100"
+                            [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.preinstall_impact?.preinstall_impact_result"
+                            [selectFormControl]="changeRequestFormGroup.get('impact_analysis.preinstall_impact.preinstall_impact_result')"
+                            [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                            [mode]="'PROTECTED'" [requestType]="'instance'">
+          </mc-button-toggle>
+        <button mat-raised-button type="submit" [style.width]="'80px'" color="accent" (click)="openAnalysisDialog()"
+                id="piia_assessment_button">PIIA</button>
+      </div>
+    </mc-expansion-panel>
+  </div>
+</div>
+  <mc-expansion-panel [isExpanded]="isUpgradeExpanded" [header]="'Upgrade'">
+  <div fxLayout="row" expansion-panel-content fxLayoutGap="1rem" class="inner-expansion-panel-content aal--padding-right-r-5">
+    <div fxLayout="column" fxFlex="50%" fxLayoutGap="0.5rem">
+      <mc-select-multiple [selectFormControl]="changeRequestFormGroup?.get('impact_analysis.liability_risks')"
+                          [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.liability_risks"
+                          [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                          [valuesWhereOtherOptionsDisabled]="optionDisablesOtherOptionsOfLiabilityRisk" [requestType]="'instance'">
+      </mc-select-multiple>
+      <mc-rich-text-area fxFlex="70%"
+                         [control]="changeRequestFormGroup?.get('impact_analysis.upgrade_packages')"
+                         [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                         [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.upgrade_packages" [requestType]="'instance'">
+      </mc-rich-text-area>
+      <mc-rich-text-area fxFlex="70%"
+                         [control]="changeRequestFormGroup?.get('impact_analysis.pre_post_conditions')"
+                         [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                         [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.pre_post_conditions" [requestType]="'instance'">
+      </mc-rich-text-area>
+    </div>
+    <div fxLayout="column" fxFlex="50%" fxLayoutGap="0.5rem">
+      <mc-input-text-area [isHistoryEnabled]="true"
+                          [control]="changeRequestFormGroup?.get('impact_analysis.total_instances_affected')"
+                          [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+                          [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.total_instances_affected" [requestType]="'instance'">
+      </mc-input-text-area>
+      <mc-input-duration
+        [control]="changeRequestFormGroup?.get('impact_analysis.upgrade_time')"
+        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.upgrade_time"
+        [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+        [isHistoryEnabled]="true" [requestType]="'instance'" [durationType]="'duration'">
+      </mc-input-duration>
+      <mc-input-duration
+        [control]="changeRequestFormGroup?.get('impact_analysis.recovery_time')"
+        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.recovery_time"
+        [instanceId]="changeRequestFormGroup?.get('impact_analysis.id')?.value"
+        [isHistoryEnabled]="true" [requestType]="'instance'" [durationType]="'duration'">
+      </mc-input-duration>
+    </div>
+  </div>
+</mc-expansion-panel>
+<mc-expansion-panel [isExpanded]="isExpandedSelected" [header]="'Customer Uptime Payback Period'" *ngIf="implementationRangesFCOSelected"
+[headerHelp]="changeRequestConfiguration?.complete_business_case?.payback_period?.help">
+  <div fxLayout="row" expansion-panel-content fxLayoutGap="1rem"
+       class="inner-expansion-panel-content aal--padding-right-r-5">
+    <div fxLayout="column" fxFlex="50%" fxLayoutGap="0.5rem">
+      <mc-input-duration
+        [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.uptime_improvement')"
+        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_improvement"
+        [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value"
+        [isHistoryEnabled]="true" [hideHelp]="true" [requestType]="'instance'" [durationType]="'duration'">
+      </mc-input-duration>
+      <mc-input-duration
+        [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.fco_implementation')"
+        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.customer_impact?.fco_implementation"
+        [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value" [durationType]="'duration'"
+        [isHistoryEnabled]="true" [hideHelp]="true" [requestType]="'instance'">
+      </mc-input-duration>
+      <mc-input-duration
+        [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.uptime_payback')"
+        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_payback"
+        [isHistoryEnabled]="true"
+        [pattern]="pattern"
+        [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value"
+        [formatStringHint]="'Use Format: 15yr 10mo Or 15yr Or 10mo'"
+        [durationType]="'period'" [hideHelp]="true" [requestType]="'instance'">
+      </mc-input-duration>
+    </div>
+    <div fxLayout="column" fxFlex="50%" fxLayoutGap="0.5rem">
+      <mc-input-number
+        [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.uptime_improvement_availability')"
+        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_improvement_availability"
+        [isHistoryEnabled]="true"
+        [suffix]="'%'"
+        [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value"
+        [fractionDigits]="2" [hideHelp]="true" [requestType]="'instance'">
+      </mc-input-number>
+      <mc-input-number
+        [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.fco_implementation_availability')"
+        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.customer_impact?.fco_implementation_availability"
+        [isHistoryEnabled]="true"
+        [suffix]="'%'"
+        [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value"
+        [requestType]="'instance'"
+        [fractionDigits]="2" [hideHelp]="true">
+      </mc-input-number>
+      <mc-input-duration
+        [control]="changeRequestFormGroup?.get('impact_analysis.customer_impact.uptime_payback_availability')"
+        [controlConfiguration]="changeRequestConfiguration?.impact_analysis?.customer_impact?.uptime_payback_availability"
+        [isHistoryEnabled]="true"
+        [pattern]="pattern"
+        [formatStringHint]="'Use Format: 15yr 10mo Or 15yr Or 10mo'"
+        [instanceId]="changeRequestFormGroup?.get('impact_analysis.customer_impact.id')?.value"
+        [requestType]="'instance'"
+        [durationType]="'period'" [hideHelp]="true">
+      </mc-input-duration>
+    </div>
+  </div>
+</mc-expansion-panel>
+</div>

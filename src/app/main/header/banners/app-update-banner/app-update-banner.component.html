@@ -1,0 +1,16 @@
+<div class="aal--elevation-3 update--banner aal--margin-bottom-r-5" fxLayout="column"
+     fxLayoutGap="0.5rem" *ngIf="showAppUpdateBanner">
+  <div fxLayout="column">
+    <div class="mat-body-1 aal--padding-all-r1"> New Version of App Available.</div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <mc-button-text *ngIf="configurations?.showDismissInUpdateAvailable" [text]="'Dismiss'"
+                    [noCheckOnCaseAction]="true"
+                    [isGenericButton]="true"
+                    (buttonClick)="close()"></mc-button-text>
+    <mc-button-text [text]="'Update'"
+                    [noCheckOnCaseAction]="true"
+                    [isGenericButton]="true"
+                    (buttonClick)="update()"></mc-button-text>
+  </div>
+</div>

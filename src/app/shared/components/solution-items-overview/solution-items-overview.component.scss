@@ -1,0 +1,41 @@
+.list-number {
+  font-size: 28px;
+}
+
+.dragable-card {
+  padding: 0 1rem;
+}
+.dndPlaceholder {
+  background-color: rgba(0, 0, 0, .1);
+  min-height: 4rem;
+  border: 1px dashed black;
+}
+.dndDraggingSource {
+  opacity: .5;
+  transform: scale(.98);
+}
+
+.visible-on-hover {
+  visibility: hidden;
+  ::ng-deep .mat-icon-button {
+    width: 24px;
+    height: 24px;
+  }
+}
+.hide-on-hover {
+  display: block;
+}
+
+.card-item:hover {
+  .visible-on-hover {
+    visibility: visible;
+    cursor: pointer;
+  }
+  .hide-on-hover {
+    visibility: hidden;
+  }
+}
+
+.sort-button {
+  max-width: 2rem !important;
+}

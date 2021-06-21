@@ -1,0 +1,244 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0.5rem">
+    <mat-icon>edit</mat-icon>
+    <span>Define Scope</span>
+  </div>
+  <mc-button-icon [noCheckOnCaseAction]="true"
+                  [isGenericButton]="true"
+                  (buttonClick)="cancel(true)"
+                  [icon]="'close'"
+  ></mc-button-icon>
+</div>
+
+<mat-dialog-content fxLayout="column" class="aal--padding-all-r1 background--off-white"
+                    [ngClass]="enableStepper ? 'dialog-content' : 'info-dialog-content'"
+                    [style.max-height]="'77vh'">
+  <mat-horizontal-stepper [linear]="false" #stepper class="flow-stepper background--off-white"
+                          [selectedIndex]="selectedStepIndex"
+                          (selectionChange)="onStepSelection($event)" [ngClass]="{'inActiveStep': !enableStepper}">
+    <mat-step label="Define" [completed]="false">
+      <mat-divider></mat-divider>
+      <div class="stepper-content">
+        <mc-creator-define-scope-dialog-info *ngIf="!enableStepper && showInfoDialog" [formConfiguration]="defineScopeConfiguration"
+                                     (onConfirm)="onConfirmInfo()"
+                                     (onCancel)="cancel(true)"></mc-creator-define-scope-dialog-info>
+        <div *ngIf="enableStepper" fxLayout="column" class="background--off-white scope-details-content">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+            <div fxLayout="column" fxLayoutGap="0.25rem">
+              <span class="mat-title">1. {{defineScopeConfiguration?.defineScope?.define?.warning?.label}}</span>
+              <span [innerHTML]="defineScopeConfiguration?.defineScope?.define?.warning?.hint"></span>
+            </div>
+          </div>
+          <mat-divider class="aal--margin-right-left-r1 aal--margin-top-r1-5"></mat-divider>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="column" fxFlex="100%">
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.parts')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.parts"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'"
+                                [bubbleAcceptChanges]="true" (bubbledAcceptChanges)="setValidations('scope.parts', changeRequestFormGroup?.get('scope.part_detail'), 1)">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.tooling')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.tooling"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'"
+                                [bubbleAcceptChanges]="true" (bubbledAcceptChanges)="setValidations('scope.tooling', changeRequestFormGroup?.get('scope.tooling_detail'), 2)">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.packaging')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.packaging"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'"
+                                [bubbleAcceptChanges]="true" (bubbledAcceptChanges)="setValidations('scope.packaging', changeRequestFormGroup?.get('scope.packaging_detail'), 3)">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.bop')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.bop"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'">
+              </mc-button-toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step label="Parts" [completed]="false">
+      <mat-divider></mat-divider>
+      <div class="stepper-content">
+        <div fxLayout="column" class="background--off-white scope-details-content">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+            <div fxLayout="column" fxLayoutGap="0.25rem">
+              <span class="mat-title">2. {{defineScopeConfiguration?.defineScope?.parts?.warning?.label}}</span>
+              <span [innerHTML]="defineScopeConfiguration?.defineScope?.parts?.warning?.hint"></span>
+            </div>
+          </div>
+          <mat-divider class="aal--margin-right-left-r1 aal--margin-top-r1-5"></mat-divider>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="column" fxFlex="100%">
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.part_detail.machine_bom_part')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.part_detail?.machine_bom_part"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.parts', changeRequestFormGroup?.get('scope.part_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.part_detail.fco_upgrade_option_csr')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.part_detail?.fco_upgrade_option_csr"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.parts', changeRequestFormGroup?.get('scope.part_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.part_detail.service_part')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.part_detail?.service_part"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.parts', changeRequestFormGroup?.get('scope.part_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.part_detail.preinstall_part')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.part_detail?.preinstall_part"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.parts', changeRequestFormGroup?.get('scope.part_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.part_detail.test_rig_part')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.part_detail?.test_rig_part"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.parts', changeRequestFormGroup?.get('scope.part_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.part_detail.dev_bag_part')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.part_detail?.dev_bag_part"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.parts', changeRequestFormGroup?.get('scope.part_detail'))">
+              </mc-button-toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step label="Tooling" [completed]="false">
+      <mat-divider></mat-divider>
+      <div class="stepper-content">
+        <div fxLayout="column" class="background--off-white scope-details-content">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+            <div fxLayout="column" fxLayoutGap="0.25rem">
+              <span class="mat-title">3. {{defineScopeConfiguration?.defineScope?.tooling?.warning?.label}}</span>
+              <span [innerHTML]="defineScopeConfiguration?.defineScope?.tooling?.warning?.hint"></span>
+            </div>
+          </div>
+          <mat-divider class="aal--margin-right-left-r1 aal--margin-top-r1-5"></mat-divider>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="column" fxFlex="100%">
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.tooling_detail.supplier_tooling')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.tooling_detail?.supplier_tooling"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.tooling', changeRequestFormGroup?.get('scope.tooling_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.tooling_detail.manufacturing_de_tooling')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.tooling_detail?.manufacturing_de_tooling"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.tooling', changeRequestFormGroup?.get('scope.tooling_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.tooling_detail.service_tooling')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.tooling_detail?.service_tooling"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.tooling', changeRequestFormGroup?.get('scope.tooling_detail'))">
+              </mc-button-toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step label="Packaging" [completed]="false">
+      <mat-divider></mat-divider>
+      <div class="stepper-content">
+        <div fxLayout="column" class="background--off-white scope-details-content">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+            <div fxLayout="column" fxLayoutGap="0.25rem">
+              <span class="mat-title">4. {{defineScopeConfiguration?.defineScope?.packaging?.warning?.label}}</span>
+              <span [innerHTML]="defineScopeConfiguration?.defineScope?.packaging?.warning?.hint"></span>
+            </div>
+          </div>
+          <mat-divider class="aal--margin-right-left-r1 aal--margin-top-r1-5"></mat-divider>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="column" fxFlex="100%">
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.packaging_detail.supplier_packaging')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.packaging_detail?.supplier_packaging"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.packaging', changeRequestFormGroup?.get('scope.packaging_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.packaging_detail.storage_packaging')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.packaging_detail?.storage_packaging"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.packaging', changeRequestFormGroup?.get('scope.packaging_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.packaging_detail.shipping_packaging')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.packaging_detail?.shipping_packaging"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.packaging', changeRequestFormGroup?.get('scope.packaging_detail'))">
+              </mc-button-toggle>
+              <mc-button-toggle [selectFormControl]="changeRequestFormGroup?.get('scope.packaging_detail.reusable_packaging')"
+                                [controlConfiguration]="changeRequestConfiguration?.scope?.packaging_detail?.reusable_packaging"
+                                [fieldSaveNotApplicable]="true" [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [align]="'horizontal'" (bubbledAcceptChanges)="validateNextButton('scope.packaging', changeRequestFormGroup?.get('scope.packaging_detail'))">
+              </mc-button-toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step label="Complete" [completed]="false">
+      <mat-divider></mat-divider>
+      <mat-progress-bar color="primary" class="primary-btn-theme" mode="indeterminate" color="primary" *ngIf="progressBar"></mat-progress-bar>
+      <div class="stepper-content">
+        <div fxLayout="column" class="background--off-white scope-details-content">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+            <div fxLayout="column" fxLayoutGap="0.25rem">
+              <span class="mat-title">5. {{defineScopeConfiguration?.defineScope?.complete?.warning?.label}}</span>
+              <span [innerHTML]="defineScopeConfiguration?.defineScope?.complete?.warning?.hint"></span>
+            </div>
+          </div>
+          <mat-divider class="aal--margin-right-left-r1 aal--margin-top-bottom-r1-5"></mat-divider>
+          <div fxLayout="row" class="scope-details-align">
+            <mc-rich-text-area [control]="changeRequestFormGroup.get('scope.scope_details')"
+                               [controlConfiguration]="changeRequestConfiguration?.scope?.scope_details"
+                               [mode]="'EDIT'" [lockMode]="'EDIT'"
+                                [fieldSaveNotApplicable]="true"
+                               [hideConfirmationToolBar]="true"
+                               [showLengthHint]="true"></mc-rich-text-area>
+          </div>
+        </div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <mat-checkbox (change)="dontShowInfoAgain($event)" class="aal--padding-left-r2" *ngIf="!enableStepper">
+      <span [ngStyle]="{'font-weight': (checked === true ? 'bold' : '')}" class="aal--padding-left-r-5">Don't Show This Info Again</span>
+    </mat-checkbox>
+  </div>
+  <div *ngIf="enableStepper" fxLayout="row" fxLayoutGap="1rem" fxLayoutAlign="end center">
+    <mc-button-outlined [text]="'Cancel'"
+                        [noCheckOnCaseAction]="true"
+                        [isGenericButton]="true"
+                        (buttonClick)="cancel(true)"
+                        [color]="'accent'">
+    </mc-button-outlined>
+    <mc-button-outlined *ngIf="selectedStepIndex !== 0"
+                        [text]="'Back'"
+                        [noCheckOnCaseAction]="true"
+                        [isGenericButton]="true"
+                        (buttonClick)="onClickPrevious()"
+                        [color]="'accent'">
+    </mc-button-outlined>
+    <mc-button-contained *ngIf="selectedStepIndex !== 4"
+                         [text]="'Next'"
+                         [noCheckOnCaseAction]="true"
+                         [isGenericButton]="true"
+                         (buttonClick)="onClickNext()"
+                         [color]="'accent'" [disabled]="disableNext">
+    </mc-button-contained>
+    <mc-button-contained *ngIf="selectedStepIndex === 4"
+                         [text]="'Save'"
+                         [noCheckOnCaseAction]="true"
+                         [isGenericButton]="true"
+                         (buttonClick)="saveDefineScope()"
+                         [color]="'accent'"
+                         [disabled]="">
+    </mc-button-contained>
+  </div>
+</mat-dialog-actions>

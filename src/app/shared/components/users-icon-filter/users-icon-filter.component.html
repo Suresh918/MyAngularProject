@@ -1,0 +1,28 @@
+<div fxLayout="row">
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <div *ngFor="let user of displayUserList">
+      <img [src]="user?.user_id | userImage" aalLoadBlankPortrait
+           alt=""
+           [matTooltip]="'Filter on ' + user?.full_name + ' (' + user?.abbreviation + ')'" (click)="userSelected(user)"
+           class="image-circle-medium user-icon" [ngClass]="{'selected': user?.is_selected}">
+    </div>
+  </div>
+  <button mat-icon-button [matMenuTriggerFor]="menu" [matTooltip]="'See more Reviewers to filter on'" aria-label="Reviewers" class="user-icon more" *ngIf="showOverflowIcon">
+    +{{hiddenUserList.length}}
+  </button>
+</div>
+
+<mat-menu #menu="matMenu">
+    <ul class="aal--margin-top-bottom-r-5">
+      <div>Reviewers</div>
+      <li *ngFor="let reviewEntry of hiddenUserList" class="aal--padding-top-bottom-r-5" fxLayout="row">
+        <mat-checkbox (change)="userSelected(reviewEntry)">
+          <div fxLayoutAlign="start center" class="aal--margin-left-r-5">
+            <img aalLoadBlankPortrait class="aal--margin-right-r-25 image--circle-small"
+                       [src]="reviewEntry?.user_id | userImage" alt="no picture"/>
+            <span [matTooltip]="'Filter on ' + reviewEntry?.full_name + ' (' + reviewEntry?.full_name + ')'">{{reviewEntry?.full_name + ' (' + reviewEntry?.user_id + ')'}}</span>
+          </div>
+        </mat-checkbox>
+      </li>
+    </ul>
+</mat-menu>

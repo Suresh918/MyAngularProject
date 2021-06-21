@@ -1,0 +1,56 @@
+<div [style.height]="'100%'">
+  <mc-right-panel-header [headerText]="'Reviewers'" [itemsCount]="reviewersListCopy?.length" [type]="caseObjectType"
+                         [panelMode]="panelMode"></mc-right-panel-header>
+  <div class="side-panel-right-content">
+    <mc-right-panel-add-object [tooltip]="'Add Reviewer'" *ngIf="!showReviewerForm"
+                               [buttonCaseAction]="'CREATEREVIEWTASK'" [showBulkEdit]="inProgress_reviewer_count"
+                               (add)="addReviewer()" (bulkReviewersUpdate)="bulkReviewersUpdate()"
+    ></mc-right-panel-add-object>
+    <div fxLayout="column" class="panel-data-content">
+      <mc-add-reviewer [reviewerFormConfiguration]="reviewerFormConfiguration"
+                       [mode]="mode"
+                       [caseObject]="caseObject"
+                       [reviewerFormGroup]="reviewerFormGroup"
+                       (refreshReviewers)="refreshReviewers($event)"
+                       (cancel)="cancelReviewer()"
+                       *ngIf="showReviewerForm"></mc-add-reviewer>
+      <div>
+        <div class="actions-content" fxLayout="column" fxLayoutGap="1rem">
+          <!-- Reviewers toggle button section -->
+          <div fxLayout="row" fxLayoutAlign="end center">
+            <mc-button-toggle [hideLabel]="true"
+                              [isGenericField]="true"
+                              [hideHelp]="true"
+                              [mode]="'EDIT'"
+                              [lockMode]="'EDIT'"
+                              [controlConfiguration]="toggleReviewViewConfiguration"
+                              [selectFormControl]="toggleReviewViewControl"
+                              [fieldSaveNotApplicable]="true"
+                              [isNullable]="true"
+                              class="readToggleButton">
+            </mc-button-toggle>
+          </div>
+          <!--Reviewers mainn panel-->
+          <ng-container>
+            <div fxLayout="column" fxLayoutGap="1rem">
+              <div *ngIf="reviewersList?.length > 0" fxLayout="column" fxLayoutGap="4px">
+                <div fxLayout="column" fxLayoutGap="0.5rem">
+                  <div *ngFor="let reviewer of reviewersList">
+                    <mc-reviewer-overview-card [reviewer]="reviewer"
+                                               (edit)="editReviewer($event)"
+                                               (reviewerSubmit)="updateReviewer($event)"></mc-reviewer-overview-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <mc-loader *ngIf="progressBar" [type]="'right-panel-menu-list-items'" [viewType]="'review'" [count]="3"></mc-loader>
+          <mc-empty-state *ngIf="reviewersList?.length === 0 && !progressBar" [title]="'No Reviewers'"
+                          [subTitle]="'No Reviewers are added yet. Please keep watching this space.'"
+                          [icon]="'supervised_user_circle'">
+          </mc-empty-state>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

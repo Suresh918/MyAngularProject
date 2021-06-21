@@ -1,0 +1,9 @@
+@import '../../../../themes/common/theming';
+@import '../../../../themes/material/theming';
+.dialog-content{
+  //background: $aal--mat-surface-variant;
+  .overflow-section {
+    overflow-y: auto;
+    padding: 1rem;
+  }
+}

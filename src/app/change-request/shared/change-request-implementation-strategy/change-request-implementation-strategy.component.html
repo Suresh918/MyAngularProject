@@ -1,0 +1,7 @@
+<mc-project-implementation-strategy *ngIf="isProjectCR"></mc-project-implementation-strategy>
+<mc-creator-implementation-strategy *ngIf="isCreatorCR"></mc-creator-implementation-strategy>
+<div *ngIf="showLoader" class="loader-overlay" fxLayout="column" fxLayoutAlign="center">
+  <div [style.margin]="'0 auto'" fxFlex="1 1 10%">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>

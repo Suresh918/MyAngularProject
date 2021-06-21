@@ -1,0 +1,15 @@
+
+@import '../../../../../../themes/material/theming';
+
+  .caseobject-details  {
+    background: $aal--mat-surface;
+    margin-bottom: 0.1rem;
+    border-radius: 4px;
+    .caseobject-description {
+      cursor: pointer;
+    }
+  }
+  .case-object-icon {
+    height: 2.25rem;
+    width: 2.25rem;
+  }

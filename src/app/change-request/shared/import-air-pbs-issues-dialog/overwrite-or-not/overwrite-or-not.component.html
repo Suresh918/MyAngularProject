@@ -1,0 +1,18 @@
+<div fxLayout="column" fxLayoutAlign="space-between start" fxFlex="100" class="overwrite-section">
+  <div fxLayout="row" class="sub-header" fxFlex="100">
+    <mc-help [message]="importContentFormConfiguration?.action?.help"></mc-help>
+    <span *ngIf="!errorSummary && !importLoading">Select what to import from each issue</span>
+    <span *ngIf="errorSummary && !importLoading" [style.color]="'red'">{{errorSummary}}</span>
+    <span *ngIf="importLoading"> Importing {{selectedAirPbsItems.length}} issues</span>
+  </div>
+  <mat-progress-bar color="primary" class="primary-btn-theme progressBar" mode="indeterminate" *ngIf="importLoading"></mat-progress-bar>
+  <mat-divider></mat-divider>
+
+  <div fxLayout="column" [style.width]="'100%'" class="aal--padding-left-r3 aal--padding-right-r3">
+    <mat-card *ngFor="let portationFormGroup of portationFormGroupArray?.controls; let i=index;" class="overwrite-card aal--margin-bottom-r-5 aal--elevation-1">
+      <mat-card-content>
+        <mc-air-pbs-description [portationFormGroup]="portationFormGroup" [showDropDown]="true" [importContentFormConfiguration]="importContentFormConfiguration.action" [importingData]="importLoading" [listIndex]="i"></mc-air-pbs-description>
+         </mat-card-content>
+    </mat-card>
+  </div>
+</div>

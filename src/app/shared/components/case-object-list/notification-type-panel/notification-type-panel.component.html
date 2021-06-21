@@ -1,0 +1,12 @@
+<div class="aal--padding-all-r-5 state-card-wrapper" fxLayout="row" fxLayoutGap="0.5rem">
+  <div (click)="onStatusCardSelection(cardDetail)"
+       *ngFor="let cardDetail of panelData"
+       [fxFlex]="100/panelData?.length"
+       fxLayout="row" matRipple>
+    <mc-notification-type-card (cardChecked)="onStatusCardSelection(cardDetail)"
+                               [cardDetail]="cardDetail"
+                               [expandStatePanel]="expandStatePanel" [style.width]="'100%'"
+    ></mc-notification-type-card>
+
+  </div>
+</div>

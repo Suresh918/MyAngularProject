@@ -1,0 +1,144 @@
+<div [style.width]="'100%'" fxLayout="column">
+  <div
+    [ngClass]="(caseObject === 'dashboardWidget' || caseObject === 'dashboardActionWidget') ? 'aal--padding-right-left-r1-5 background-white': (caseObject === 'reviewEntry' ? 'aal--padding-right-left-r1 background-FAFAFA; border-top' : 'aal--padding-left-r2 aal--padding-right-r1')"
+    class="filter--title-bar"
+    fxLayout="row"
+    fxLayoutAlign="space-between">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+      <mat-icon *ngIf="title === 'Change Requests'" [matTooltip]="'Change Requests'" class="filter-bar--title-icon"
+                mat-list-icon
+                svgIcon="change-request"></mat-icon>
+      <mat-icon *ngIf="title === 'Change Notices'" [matTooltip]="'Change Notices'" class="filter-bar--title-icon"
+                mat-list-icon
+                svgIcon="change-notice"></mat-icon>
+      <mat-icon *ngIf="title === 'Release Packages'" [matTooltip]="'Release Packages'" class="filter-bar--title-icon"
+                mat-list-icon
+                svgIcon="release-package"></mat-icon>
+      <mat-icon *ngIf="title === 'Agendas'" [matTooltip]="'Agenda'" class="filter-bar--title-icon" mat-list-icon>event
+      </mat-icon>
+      <mat-icon *ngIf="title === 'Reviews'" [matTooltip]="'Reviews'" class="filter-bar--title-icon" mat-list-icon>
+        rate_review
+      </mat-icon>
+      <mat-icon *ngIf="title === 'Actions' && caseObject !== 'dashboardWidget' && caseObject !== 'dashboardActionWidget'" [matTooltip]="'Actions'" class="filter-bar--title-icon" mat-list-icon>
+        assignment
+      </mat-icon>
+      <mat-icon *ngIf="title === 'Decisions'" [matTooltip]="'Decisions'" class="filter-bar--title-icon" mat-list-icon>
+        gavel
+      </mat-icon>
+      <mat-icon *ngIf="title === 'myTeam Management'" [matTooltip]="'myTeam Management'" class="filter-bar--title-icon" mat-list-icon>
+        group
+      </mat-icon>
+      <mat-icon *ngIf="caseObject === 'dashboardNotificationWidget'" class="icon--small opaque-icon" mat-list-icon>
+        notifications
+      </mat-icon>
+      <mat-icon *ngIf="caseObject === 'upcomingMeetingsWidget'" class="icon--small opaque-icon" mat-list-icon>
+        calendar_today
+      </mat-icon>
+
+      <mc-card-summary *ngIf="title === 'Reviews Details'" [label]="'Executor'"
+                       [mainDescription]="executor | personName"
+                       [iconImageTemplateRef]="imageDisplayRef"></mc-card-summary>
+      <ng-template #imageDisplayRef>
+        <img aalLoadBlankPortrait *ngIf="title === 'Reviews Details'" class="image-circle-medium"
+             [src]="executor?.userID | userImage"
+             alt="">
+      </ng-template>
+
+      <div *ngIf="caseObject === 'myTeam'" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon *ngIf="secondaryCaseObjectType === 'change-requests'" class="icon--medium header-icon icon--pointer" [matTooltip]="'Change Requests'"
+                  mat-list-icon svgIcon="change-request-blue" routerLink="/{{secondaryCaseObjectType}}/{{caseObjectId}}"></mat-icon>
+        <mat-icon *ngIf="secondaryCaseObjectType === 'change-notices'" class="icon--medium header-icon icon--pointer" [matTooltip]="'Change Notices'"
+                  mat-list-icon svgIcon="change-notice-blue" routerLink="/{{secondaryCaseObjectType}}/{{caseObjectId}}"></mat-icon>
+        <mat-icon *ngIf="secondaryCaseObjectType === 'release-packages'" class="icon--medium header-icon icon--pointer" [matTooltip]="'Release Packages'"
+                  mat-list-icon svgIcon="release-package-blue" routerLink="/{{secondaryCaseObjectType}}/{{caseObjectId}}"></mat-icon>
+        <a *ngIf="caseObject === 'myTeam'" class="overflow-ellipsis mat-title aal--padding-left-r-5" routerLink="/{{secondaryCaseObjectType}}/{{caseObjectId}}">
+          {{caseObjectId}}</a>
+        <mat-icon class="icon--small aal--margin-right-left-r-5">chevron_right</mat-icon>
+        <mat-icon class="icon--medium header-icon" [ngClass]="isMyTeamHistory ? 'icon--pointer' : ''" [color]="isMyTeamHistory ? 'accent' : ''" [routerLink]="isMyTeamHistory ? ['/my-team', secondaryCaseObjectType, caseObjectId] : null">group</mat-icon>
+        <span class="overflow-ellipsis mat-title aal--padding-left-r-5" [ngClass]="isMyTeamHistory ? 'color-blue icon--pointer' : ''" [routerLink]="isMyTeamHistory ? ['/my-team', secondaryCaseObjectType, caseObjectId] : null">{{title}}</span>
+        <mc-help [message]="caseObjectConfiguration['myTeam']?.listPage?.help?.help?.message"></mc-help>
+        <mat-icon *ngIf="isMyTeamHistory" class="icon--small">chevron_right</mat-icon>
+        <span *ngIf="isMyTeamHistory" class="overflow-ellipsis mat-title aal--padding-left-r-5">History</span>
+      </div>
+
+      <span class="mat-title aal--margin-bottom-r0" *ngIf="title !== 'Reviews Details' && title !== 'myTeam'">
+        {{title}}</span>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+      <mc-chip class="filter-chip" *ngIf="selectedQuickFilter && (caseObject === 'dashboardNotificationWidget' || caseObject === 'upcomingMeetingsWidget')"
+               [removable]="true"
+               [text]="selectedQuickFilter"
+               (remove)="onRemoveQuickFilter()"></mc-chip>
+      <mc-quick-filter-panel *ngIf="caseObject !== 'dashboardWidget' && caseObject !== 'dashboardActionWidget' && caseObject !== 'reviewEntry' && caseObject !== 'myTeam'"
+                             (quickFilterAdded)="quickFilterAdded($event)"
+                             (quickFilterImported)="quickFilterImported($event)"
+                             (quickFilterSelected)="quickFilterSelected($event)"
+                             (quickFilterRemoved)="quickFilterRemoved($event)"
+                             [caseObjectFilters]="filterStateModel"
+                             [caseObject]="caseObject">
+      </mc-quick-filter-panel>
+      <button (click)="toggleFilterPanel()" [matBadge]="totalFiltersCount > 0 ? totalFiltersCount : ''" [style.cursor]="'pointer'" color="accent"
+              mat-raised-button matBadgeColor="primary" *ngIf="!hidePanel && caseObject !== 'myTeam'" id="filter_bar_button">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap=".5rem">
+          <mat-icon> filter_list</mat-icon>
+          <span>Filters</span>
+        </div>
+      </button>
+      <mc-history-quick-card *ngIf="caseObject === 'myTeam' && !isMyTeamHistory" [secondaryCaseObjectType]="secondaryCaseObjectType" [caseObjectId]="caseObjectId" [caseObjectType]="caseObject" [caseObjectIdMyTeam]="myTeamID"></mc-history-quick-card>
+      <mat-divider *ngIf="caseObject === 'myTeam' && !isMyTeamHistory" [vertical]="true" fxFlex="2%" [style.height]="'2rem'" ></mat-divider>
+      <mc-filter-panel-search (addKeyword)="triggerKeywordAddedByUser($event)"
+                              *ngIf="(caseObjectFiltersConfiguration?.keywords && caseObject !== 'upcomingMeetingsWidget') || caseObject === 'myTeam'"
+                              [caseObject]="caseObject"></mc-filter-panel-search>
+      <div
+        *ngIf="(caseObject === 'changeRequest' || caseObject === 'releasePackage' || caseObject === 'changeNotice' || caseObject === 'action' || caseObject ==='reviewEntry' || caseObject === 'review') && !panelOpened"
+        class="icon--pointer">
+        <button (click)="toggleStatePanel()" *ngIf="statePanelOpen" [matTooltip]="'Hide state panel'" color="accent"
+                mat-icon-button>
+          <mat-icon>
+            keyboard_arrow_up
+          </mat-icon>
+        </button>
+        <button (click)="toggleStatePanel()" *ngIf="!statePanelOpen" [matTooltip]="'Show state panel'" color="accent"
+                mat-icon-button>
+          <mat-icon>
+            keyboard_arrow_down
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="aal--padding-right-left-r1 background-FAFAFA" *ngIf="!hidePanel">
+    <mat-divider></mat-divider>
+  </div>
+
+  <mc-filter-panel-selected-options-container (selectedFilterRemoved)="triggerFilterOptionChanged($event)"
+                                              (selectedAllFiltersRemoved)="selectedAllFiltersRemoved($event)"
+                                              *ngIf="totalFiltersCount > 0 && !hidePanel"
+                                              [caseObject]="caseObject"
+                                              [filterFormConfiguration]="filterFormConfiguration"
+                                              [currentFilterOptions]="caseObjectCurrentFilterFormGroup?.value"
+                                              [fromFilterPanel]="false">
+  </mc-filter-panel-selected-options-container>
+  <div class="aal--margin-right-left-r1" *ngIf="!hidePanel">
+    <mat-divider *ngIf="!panelOpened && totalFiltersCount > 0"></mat-divider>
+  </div>
+  <mc-filter-panel
+    (filterPanelCancelled)=triggerPanelCancelled($event)
+    (filterPanelAccepted)="triggerFilterAccept($event)"
+    (filterPanelOptionsRemoved)="triggerFilterOptionChanged($event)"
+    *ngIf="panelOpened"
+    [filterHelp]="filterHelp"
+    [changeDetailsPanelHeader]="changeDetailsPanelHeader"
+    [filterFormConfiguration]="filterFormConfiguration"
+    [caseObjectCurrentFilterFormGroup]="caseObjectCurrentFilterFormGroup"
+    [caseObjectFilterConfiguration]="caseObjectFiltersConfiguration"
+    [caseObjectListCount]="caseObjectListCount"
+    [caseObject]="caseObject"
+    [releasePackageSourceSystemID]="releasePackageSourceSystemID"
+    [searchInProgress]="searchInProgress"
+    [secondaryCaseObjectType]="secondaryCaseObjectType"
+    [layoutType]="layoutType"
+    class="filter-panel">
+  </mc-filter-panel>
+</div>

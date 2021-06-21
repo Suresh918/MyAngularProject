@@ -1,0 +1,73 @@
+<div mat-dialog-title fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutGap="0.5rem" fxLayoutAlign="center center">
+    <mat-icon fxFlex="1 1 auto">group_add</mat-icon>
+    <span>{{data.title}} ({{currentInviteesCount}})</span>
+  </div>
+  <button mat-icon-button color="warn" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-progress-bar *ngIf="progressBar" class="primary-btn-theme" color="primary" mode="indeterminate">
+</mat-progress-bar>
+<mat-dialog-content>
+  <div fxLayout="column" fxLayoutGap="2rem">
+    <mc-auto-complete-user-multiple [control]="userSearchControl" *ngIf="showAddSection"
+                                    [controlConfiguration]="userSearchControlConfiguration"
+                                    [isHistoryEnabled]="true"
+                                    [fieldSaveNotApplicable]="true" (bubbledAcceptChanges)="onUserSelect($event)"
+                                    [mode]="userSearchControlMode"></mc-auto-complete-user-multiple>
+    <div fxLayout="column" fxLayoutAlign="center center" *ngIf="currentInvitees.length === 0 && !progressBar">
+      <mat-icon>group</mat-icon>
+      <mat-card-subtitle> No Attendees</mat-card-subtitle>
+      <span>Attendees will appear here. Note that you have to invite them in outlook as well.</span>
+    </div>
+    <div class="aal--elevation-1 aal--padding-all-r1" *ngIf="currentInvitees.length>0">
+      <div *ngFor="let invitee of currentInvitees; let index=index" class="aal--padding-all-r1" fxLayout="row"  fxLayoutAlign="space-between center">
+        <mc-card-summary fxFlex="100%"
+                         [mainDescription]="invitee?.fullName"
+                         [mainDescriptionCaption]="invitee?.abbreviation"
+                         [line1Caption]="invitee?.departmentName" [showActionButtonOnFocus]="true"
+                         [separator]="'parenthesis'" [iconImageTemplateRef]="imageDisplayRef"
+                         [actionTemplateRef]="invitee?.deleteInProgress ? '' : actionRef">
+        </mc-card-summary>
+
+        <ng-template #imageDisplayRef>
+          <img class="image-circle-medium" [src]="invitee?.userID | userImage" alt="">
+        </ng-template>
+        <ng-template #actionRef>
+          <div fxLayout="row" fxFlex="25">
+            <mc-button-icon [icon]="'delete'"
+                            [tooltip]="'remove'"
+                            [color]="'accent'"
+                            [buttonAction]="'DELETE-SPECIAL-INVITEE'"
+                            [isLinkedItem]="true"
+                            [caseObject]="caseObject"
+                            (buttonClick)="onDeleteInvitee(index)"></mc-button-icon>
+          </div>
+        </ng-template>
+        <span *ngIf="invitee?.deleteInProgress" class="spinner-wrapper" fxLayoutAlign="center center">
+          <mat-spinner [diameter]="20"></mat-spinner>
+        </span>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutGap="1rem">
+  <mc-button-icon-outlined *ngIf="!showAddSection"
+                           [buttonAction]="'ADD-SPECIAL-INVITEE'"
+                           [isLinkedItem]="true"
+                           [caseObject]="caseObject"
+                           [text]="'Add'"
+                           [icon]="'add'"
+                           (buttonClick)="onAddPress()"></mc-button-icon-outlined>
+  <span fxFlex="1 1 auto"></span>
+  <mc-button-outlined [text]="'Cancel'" (buttonClick)="close()"
+                      [isGenericButton]="true" [noCheckOnCaseAction]="true"></mc-button-outlined>
+  <mc-button-contained [text]="'Save'"
+                       [buttonAction]="'ADD-SPECIAL-INVITEE'"
+                       [isLinkedItem]="true"
+                       [caseObject]="caseObject"
+                       [disabled]="!userSearchControl?.value?.length"
+                       (buttonClick)="onSave()">
+  </mc-button-contained>
+</mat-dialog-actions>

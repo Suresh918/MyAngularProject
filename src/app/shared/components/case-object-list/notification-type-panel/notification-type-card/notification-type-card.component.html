@@ -1,0 +1,18 @@
+<div
+  [ngClass]="[
+  (cardDetail?.checked) ?'card-active': '',
+  expandStatePanel ? 'expanded' : 'collapsed'
+  ]"
+  class="card icon--pointer aal--padding-all-r-5" fxLayout="column"
+  fxLayoutGap="0.5rem">
+  <div>
+  <span class="mat-subheading-2 aal--margin-bottom-r0"
+        fxLayoutAlign="start center">
+    <mat-checkbox (change)="checked();"
+                  (click)="$event.stopPropagation();"
+                  [checked]="cardDetail?.checked">{{cardDetail?.notificationTypeLabel}}</mat-checkbox>
+    </span>
+    <span class="mat-display-4 aal--margin-bottom-r0 font-weight-100 panel-count aal--padding-right-r-5"
+          fxLayoutAlign="end center">{{cardDetail?.notificationCount}}</span>
+  </div>
+</div>

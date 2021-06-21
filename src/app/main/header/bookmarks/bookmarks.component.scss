@@ -1,0 +1,8 @@
+.bookmarks-menu--item-delete-icon {
+  display: none;
+  margin-right: 0px;
+}
+
+.bookmarks-menu--item:hover .bookmarks-menu--item-delete-icon {
+  display: block;
+}

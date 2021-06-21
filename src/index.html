@@ -11,3 +11,66 @@
   <app-root></app-root>
 </body>
 </html>
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MyAngularProject</title>
+  <base href="/">
+  <meta name="viewport"
+        content="width=device-width,height=device-height user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"/>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <meta name="theme-color" content="#1976d2">
+  <link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
+  <style type="text/css">
+    .splash-screen {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      -ms-transform: translate(-50%, -60%); /* IE 9 */
+      -webkit-transform: translate(-50%, -60%); /* Safari and Chrome */
+      -o-transform: translate(-50%, -60%); /* Opera */
+      -moz-transform: translate(-50%, -60%); /* Firefox */
+    }
+
+    .splash-screen-image {
+      -webkit-animation: spin 20s linear infinite;
+      -moz-animation: spin 20s linear infinite;
+      animation: spin 20s linear infinite;
+    }
+
+    @-moz-keyframes spin {
+      100% {
+        -moz-transform: rotate(360deg);
+      }
+    }
+
+    @-webkit-keyframes spin {
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+  </style>
+</head>
+<body class="mat-typography">
+<app-root>
+  <div class="splash-screen">
+    <img src="/assets/icons/loading-icon.jpg" class="splash-screen-image" alt="">
+  </div>
+</app-root>
+<noscript>Please enable JavaScript to continue using this application.</noscript>
+</body>
+</html>
